@@ -1,0 +1,223 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+
+const {
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = ['contacts-section', className];
+---
+
+<section
+  id="contacts"
+  class:list={classes}
+  {...attrs}
+>
+  <div class="contacts-section__container">
+    <picture class="contacts-section__image-wrapper">
+      <source
+        srcset={`${BASE}images/contacts-section/map-desktop.webp`}
+        media="(min-width: 1200px)"
+      >
+
+      <source
+        srcset={`${BASE}images/contacts-section/map-tablet.webp`}
+        media="(min-width: 768px) and (max-width: 1199.98px)"
+      >
+
+      <img
+        class="contacts-section__image"
+        src={`${BASE}images/contacts-section/map-mobile.webp`}
+        alt="фото"
+        loading="lazy"
+      >
+    </picture>
+
+    <div class="contacts-section__info">
+      <h2 class="contacts-section__title">
+        Мы на связи
+      </h2>
+
+      <div class="contacts-section__contacts">
+        <div class="contacts-section__contacts-item">
+          <div class="contacts-section__contacts-item-title">
+            Адрес
+          </div>
+          
+          <a
+            class="contacts-section__contacts-item-link"
+            href="https://yandex.com/maps/-/CPBBqNjj"
+            target="_blank"
+          >
+            г. Санкт-Петербург, Малоохтинский пр., д. 64А, БЦ&nbsp;«Плаза»
+          </a>
+        </div>
+
+        <div class="contacts-section__contacts-item">
+          <div class="contacts-section__contacts-item-title">
+            Телефон
+          </div>
+
+          <a
+            class="contacts-section__contacts-item-link"
+            href="tel:+78127095009"
+          >
+            +7 (812) 709-50-09
+          </a>
+        </div>
+
+        <div class="contacts-section__contacts-item">
+          <div class="contacts-section__contacts-item-title">
+            E-mail
+          </div>
+
+          <a
+            class="contacts-section__contacts-item-link"
+            href="mailto:info@rkestroy.ru"
+          >
+            info@rkestroy.ru
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss" is:global>
+  .contacts-section {
+    $element: &;
+
+    position: relative;
+    background-color: $light-gray;
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: rem(60);
+      background: linear-gradient(0deg, rgba($dark, 0) 0%, rgba($dark, 0.5) 73%, $dark 100%);
+
+      @media #{$tablet} {
+        height: rem(80);
+      }
+
+      @media #{$desktop} {
+        height: rem(156);
+      }
+    }
+      
+		&__container {
+      @include large-container;
+
+      position: relative;
+		}
+
+		&__image-wrapper {
+      display: block;
+      width: 100%;
+      height: rem(450);
+
+      @media #{$tablet} {
+        height: rem(578);
+      }
+
+      @media #{$desktop} {
+        height: rem(710);
+      }
+		}
+
+		&__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      @media #{$desktop} {
+        object-position: top;
+      }
+		}
+
+		&__info {
+      padding: rem(24) rem(16) rem(60);
+      background-color: $light;
+
+      @media #{$tablet} {
+        position: absolute;
+        top: 50%;
+        left: rem(20);
+        transform: translateY(-50%);
+        z-index: 2;
+        width: rem(356);
+        padding: rem(24) rem(20);
+        box-shadow: 0 rem(2) rem(63) 0 #213E472E;
+
+      }
+
+      @media #{$desktop} {
+        left: calc(50% - #{rem(700)});
+        width: auto;
+        padding: rem(24) rem(32);
+      }
+		}
+
+		&__title {
+      margin-bottom: rem(32);
+      color: $dark;
+
+      @media #{$tablet} {
+        margin-bottom: rem(52);
+      }
+
+      @media #{$desktop} {
+        margin-bottom: rem(102);
+      }
+		}
+
+		&__contacts-item {
+      margin-bottom: rem(24);
+
+      @media #{$tablet} {
+        margin-bottom: rem(32);
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+		}
+
+		&__contacts-item-title {
+      @include text2;
+
+      margin-bottom: rem(8);
+      color: $dark;
+		}
+
+		&__contacts-item-link {
+      @include reseta;
+      @include text1;
+
+      color: $dark;
+      text-decoration: underline;
+      text-decoration-style: dashed;
+      text-underline-offset: 0.32em;
+      text-decoration-thickness: 1px;
+      transition: color $default-transition;
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $primary;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $primary;
+      }
+      }
+  }
+</style>
