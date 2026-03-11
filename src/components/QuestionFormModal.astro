@@ -1,0 +1,24 @@
+---
+import BaseModal from '../ui/BaseModal.astro';
+import QuestionForm from '../components/QuestionForm.astro';
+
+const { class: className, ...attrs } = Astro.props;
+
+const classes = ['question-form-modal', className];
+---
+
+<BaseModal
+  class:list={classes}
+  name="question-form-modal"
+  {...attrs}
+>
+  <QuestionForm class="question-form-modal__content" />
+</BaseModal>
+
+<style lang="scss" is:global>
+  .question-form-modal {
+    &__content {
+      width: rem(1128);
+    }
+  }
+</style>

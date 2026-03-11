@@ -1,0 +1,135 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+import ArrowButton from '../ui/ArrowButton.astro';
+
+const {
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = ['about-section', className];
+---
+
+<section
+  id="about"
+  class:list={classes}
+  {...attrs}
+>
+  <div class="about-section__container">
+    <div class="about-section__info">
+      <h2 class="about-section__title">
+        Внедрение систем&nbsp;ERP для&nbsp;сквозного управления ресурсами
+        и&nbsp;BIM-технологий на&nbsp;всех стадиях жизненного цикла объекта
+      </h2>
+
+      <p class="about-section__text">
+        Силами руководства за&nbsp;последние
+        более&nbsp;чем&nbsp;20&nbsp;лет
+        были реализованы различные объекты
+        в&nbsp;сфере гражданского, промышленного
+        и&nbsp;инфраструктурного строительства.
+      </p>
+
+      <ArrowButton
+        class="about-section__mail-link"
+        text="написать нам"
+        href="mailto:info@rkestroy.ru"
+      />
+    </div>
+
+    <img
+      class="about-section__image"
+      src={`${BASE}images/about-section/iso.svg`}
+      alt="iso"
+    />
+  </div>
+</section>
+
+<style lang="scss" is:global>
+  .about-section {
+    $element: &;
+
+    padding: rem(60) 0;
+    background-color: $dark;
+
+    @media #{$tablet} {
+      padding: rem(80) 0;
+    }
+
+    @media #{$desktop} {
+      padding: rem(144) 0;
+    }
+
+    &__container {
+      @include base-container;
+
+      display: flex;
+      flex-direction: column;
+      gap: rem(60);
+
+      @media #{$tablet} {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: rem(56);
+      }
+
+      @media #{$desktop} {
+        gap: rem(116);
+      }
+    }
+
+		&__info {
+      @media #{$tablet} {
+        min-height: rem(320);
+      }
+		}
+
+		&__title {
+      @include h4;
+
+      margin-bottom: rem(24);
+      color: $light;
+
+      @media #{$tablet} {
+        margin-bottom: rem(32);
+      }
+
+      @media #{$desktop} {
+        margin-bottom: rem(36);
+      }
+		}
+
+		&__text {
+      color: $light;
+      margin-bottom: rem(40);
+
+      @media #{$tablet} {
+        margin-bottom: rem(52);
+        max-width: rem(450);
+      }
+
+      @media #{$desktop} {
+        margin-bottom: rem(90);
+      }
+		}
+
+    &__mail-link {
+      display: inline-flex;
+    }
+
+		&__image {
+      flex-shrink: 0;
+      width: 100%;
+
+      @media #{$tablet} {
+        width: rem(444);
+      }
+
+      @media #{$desktop} {
+        margin-right: rem(36);
+        width: rem(588);
+      }
+		}
+  }
+</style>

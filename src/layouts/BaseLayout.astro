@@ -1,0 +1,119 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+import '../styles/main.scss';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width"
+    />
+    <meta
+      name="description"
+      content="РК ЭНЕРГОСТРОЙ - Системный интегратор процессов полного цикла."
+    />
+    <meta
+      name="generator"
+      content={Astro.generator}
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href={`${BASE}favicon/favicon-96x96.png`}
+      sizes="96x96"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={`${BASE}favicon/favicon.svg`}
+    />
+    <link
+      rel="shortcut icon"
+      href={`${BASE}favicon/favicon.ico`}
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href={`${BASE}favicon/apple-touch-icon.png`}
+    />
+    <link
+      rel="manifest"
+      href={`${BASE}favicon/site.webmanifest`}
+    />
+    <link
+      rel="preload"
+      href={`${BASE}fonts/roboto/Roboto-Regular.woff2`}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={`${BASE}fonts/roboto/Roboto-SemiBold.woff2`}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={`${BASE}fonts/roboto-condensed/RobotoCondensed-Light.woff2`}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={`${BASE}fonts/roboto-condensed/RobotoCondensed-Regular.woff2`}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={`${BASE}fonts/roboto-condensed/RobotoCondensed-Medium.woff2`}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={`${BASE}fonts/roboto-condensed/RobotoCondensed-Bold.woff2`}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <title>РК ЭНЕРГОСТРОЙ</title>
+  </head>
+
+  <body>
+    <div class="page-layout">
+      <Header class="page-layout__header" />
+
+      <main class="page-layout__main">
+        <slot />
+      </main>
+
+      <Footer class="page-layout__footer" />
+    </div>
+  </body>
+</html>
+
+<style lang="scss" is:global>
+  .page-layout {
+    $element: &;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    &__main {
+      flex-grow: 1;
+      width: 100%;
+    }
+  }
+</style>

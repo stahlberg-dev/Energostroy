@@ -1,0 +1,179 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+
+const items = [
+  {
+    title: 'Публичные страницы',
+    sublist: [
+      {
+        linkText: 'Главная',
+        linkUrl: `${BASE}main.html`,
+      },
+      {
+        linkText: 'Сотрудникам',
+        linkUrl: `${BASE}employees.html`,
+      },
+      {
+        linkText: 'База знаний',
+        linkUrl: `${BASE}knowledge-base.html`,
+      },
+      {
+        linkText: 'Соцпакет и Коллективный договор',
+        linkUrl: `${BASE}social-benefits.html`,
+      },
+      {
+        linkText: 'Коллективный договор',
+        linkUrl: `${BASE}collective-agreement.html`,
+      },
+      {
+        linkText: 'Часто задаваемые вопросы',
+        linkUrl: `${BASE}faq.html`,
+      },
+      {
+        linkText: 'Новости',
+        linkUrl: `${BASE}news.html`,
+      },
+      {
+        linkText: 'Новости (детальная, без фото)',
+        linkUrl: `${BASE}news-detail.html`,
+      },
+      {
+        linkText: 'Новости (детальная, с фото)',
+        linkUrl: `${BASE}news-detail-with-photo.html`,
+      },
+      {
+        linkText: 'Поисковая выдача',
+        linkUrl: `${BASE}search-results.html`,
+      },
+      {
+        linkText: 'Пустая поисковая выдача',
+        linkUrl: `${BASE}search-results-empty.html`,
+      },
+      {
+        linkText: '404',
+        linkUrl: `${BASE}404.html`,
+      },
+      {
+        linkText: 'Портал (ЦРП)',
+        linkUrl: `${BASE}crp-main.html`,
+      },
+      {
+        linkText: 'Текстовая страница (ЦРП)',
+        linkUrl: `${BASE}crp-text.html`,
+      },
+      {
+        linkText: 'Ваши предложения (ЦРП)',
+        linkUrl: `${BASE}crp-suggestions.html`,
+      },
+      {
+        linkText: 'Организационная структура и контакты (ЦРП)',
+        linkUrl: `${BASE}crp-structure.html`,
+      },
+      {
+        linkText: 'Порядок согласования в СЭД (ЦРП)',
+        linkUrl: `${BASE}crp-coordination.html`,
+      },
+      {
+        linkText: 'Заявки (ЦРП)',
+        linkUrl: `${BASE}crp-applications.html`,
+      },
+      {
+        linkText: 'Система регистрации ошибок (ЦРП)',
+        linkUrl: `${BASE}crp-error-registration.html`,
+      },
+      {
+        linkText: 'Редактирование заявки (ЦРП)',
+        linkUrl: `${BASE}crp-edit-application.html`,
+      },
+      {
+        linkText: 'Создать обращение (ЦРП)',
+        linkUrl: `${BASE}crp-make-request.html`,
+      },
+      {
+        linkText: 'Создать предложение (ЦРП)',
+        linkUrl: `${BASE}crp-make-suggestion.html`,
+      },
+    ],
+  },
+  {
+    title: 'Технические страницы',
+    sublist: [
+      {
+        linkText: 'UI-kit',
+        linkUrl: `${BASE}ui-kit.html`,
+      },
+    ],
+  },
+];
+---
+
+<section class="page-list">
+  <div class="page-list__container">
+    <h1 class="page-list__title">Список Страниц</h1>
+
+    <ol class="page-list__items">
+      {
+        items.map(item => (
+          <li class="page-list__item">
+            <span class="page-list__item-title">{item.title}</span>
+
+            <ol class="page-list__sublist">
+              {item.sublist.map(sublistItem => (
+                <li class="page-list__sublist-item">
+                  <a
+                    class="page-list__sublist-item-link"
+                    href={sublistItem.linkUrl}
+                    target="_blank"
+                  >
+                    {sublistItem.linkText}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style lang="scss" is:global>
+  .page-list {
+    &__container {
+      @include base-container;
+
+      margin-bottom: rem(96);
+    }
+
+    &__item {
+      margin: rem(24) 0;
+    }
+
+    &__item-title {
+      @include h4;
+    }
+
+    &__sublist {
+      margin: rem(12) 0;
+      padding: 0 0 0 rem(24);
+    }
+
+    &__sublist-item-link {
+      @include reseta;
+
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+      transition: color $default-transition;
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $primary-hover;
+        }
+      }
+
+      &:active {
+        color: $primary-hover;
+      }
+    }
+  }
+</style>

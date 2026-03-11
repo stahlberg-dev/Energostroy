@@ -1,0 +1,253 @@
+---
+import BaseIcon from '../ui/BaseIcon.astro';
+
+const { class: className, 'accordion-list': accordionList, ...attrs } = Astro.props;
+
+const validAccordionList = Array.isArray(accordionList) ? accordionList : [];
+
+const classes = ['table-accordion', 'js-table-accordion', className];
+---
+
+{
+  validAccordionList.length > 0 && (
+    <div
+      class:list={classes}
+      {...attrs}
+    >
+      <div class="table-accordion__title">
+        <div class="table-accordion__title-position">Должность</div>
+
+        <div class="table-accordion__title-name">ФИО сотрудника</div>
+
+        <div class="table-accordion__title-mail">E-mail</div>
+
+        <div class="table-accordion__title-entity">Организация</div>
+
+        <div class="table-accordion__title-phone">Рабочий телефон</div>
+
+        <div class="table-accordion__title-mobile">Мобильный телефон</div>
+      </div>
+
+      {validAccordionList.map(item => (
+        <div class="table-accordion__section js-table-accordion-section">
+          <div
+            class="table-accordion__section-title js-table-accordion-section-title"
+            tabindex="0"
+          >
+            <div class="table-accordion__section-title-text">{item.title}</div>
+
+            <BaseIcon
+              class="table-accordion__section-title-icon"
+              name="right-arrow"
+            />
+          </div>
+
+          <div class="table-accordion__section-body-wrapper js-table-accordion-section-body-wrapper">
+            <div class="table-accordion__accordion-section-body js-table-accordion-section-body">
+              {item.content.map(content => (
+                <div class="table-accordion__accordion-subsection">
+                  <div class="table-accordion__accordion-subsection-position">
+                    {content.position}
+                  </div>
+
+                  <div class="table-accordion__accordion-subsection-name">{content.name}</div>
+
+                  <div
+                    class="table-accordion__accordion-subsection-mail"
+                    set:html={content.mail}
+                  />
+
+                  <div class="table-accordion__accordion-subsection-entity">{content.entity}</div>
+
+                  <div class="table-accordion__accordion-subsection-phone">{content.phone}</div>
+
+                  <div class="table-accordion__accordion-subsection-mobile">{content.mobile}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+<script>
+  import { Accordion } from '../scripts/helpers/commonAccordion.js';
+
+  function tableAccordion() {
+    const accordions = document.querySelectorAll('.js-table-accordion');
+
+    accordions.forEach(accordion => {
+      new Accordion({
+        accordionElement: accordion,
+        sectionClass: '.js-table-accordion-section',
+        activeSectionClass: '.table-accordion-section-active',
+        sectionTitleClass: '.js-table-accordion-section-title',
+        sectionContentWrapperClass: '.js-table-accordion-section-body-wrapper',
+        sectionContentClass: '.js-table-accordion-section-body',
+        showHideTime: 500,
+      }).init();
+    });
+  }
+
+  tableAccordion();
+</script>
+
+<style lang="scss" is:global>
+  .table-accordion {
+    $element: &;
+
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+
+    &__title {
+      @include label-14;
+
+      display: flex;
+      justify-content: space-between;
+      gap: rem(24);
+      padding: rem(10) rem(16);
+      color: $gray-4;
+    }
+
+    &__title-position {
+      flex: 0 0 rem(152);
+    }
+
+    &__title-name {
+      flex: 0 0 rem(220);
+    }
+
+    &__title-mail {
+      flex: 0 0 rem(144);
+    }
+
+    &__title-entity {
+      flex: 0 0 rem(152);
+    }
+
+    &__title-phone {
+      flex: 0 0 rem(144);
+    }
+
+    &__title-mobile {
+      flex: 1 1 rem(164);
+    }
+
+    &__section {
+      flex-shrink: 0;
+      color: $gray-4;
+    }
+
+    &__section-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: rem(24);
+      background-color: $gray-1;
+      cursor: pointer;
+      gap: rem(24);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    &__section-title-text {
+      @include h4;
+
+      flex-grow: 1;
+    }
+
+    &__section-title-icon {
+      position: relative;
+      flex-shrink: 0;
+      width: rem(32);
+      height: rem(32);
+      color: $gray-4;
+      transition: transform $default-transition;
+      transform: rotate(90deg);
+
+      .table-accordion-section-active & {
+        transform: rotate(-90deg);
+      }
+    }
+
+    &__accordion-section-body {
+      max-height: rem(690);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: $gray-2 transparent;
+
+      &::-webkit-scrollbar {
+        width: rem(6);
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $gray-2;
+      }
+    }
+
+    &__accordion-subsection {
+      @include label-14;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: rem(4) rem(16);
+      border-bottom: 1px solid $gray-2;
+      gap: rem(24);
+
+      &:last-child {
+        border-bottom-color: transparent;
+      }
+
+      a {
+        @include reseta;
+
+        text-decoration: underline;
+        text-underline-offset: 0.23em;
+        transition: color $default-transition;
+
+        @media #{$is-hover} {
+          &:hover {
+            color: $primary-hover;
+          }
+        }
+
+        &:active,
+        &:focus-visible {
+          color: $primary-hover;
+        }
+      }
+    }
+
+    &__accordion-subsection-position {
+      flex: 0 0 rem(152);
+    }
+
+    &__accordion-subsection-name {
+      flex: 0 0 rem(220);
+    }
+
+    &__accordion-subsection-mail {
+      flex: 0 0 rem(144);
+    }
+
+    &__accordion-subsection-entity {
+      flex: 0 0 rem(152);
+    }
+
+    &__accordion-subsection-phone {
+      flex: 0 0 rem(144);
+    }
+
+    &__accordion-subsection-mobile {
+      flex: 1 1 rem(164);
+    }
+  }
+</style>

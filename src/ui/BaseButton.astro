@@ -1,0 +1,271 @@
+---
+import BaseIcon from '../ui/BaseIcon.astro';
+
+const {
+  tag = 'button',
+  class: className,
+  href,
+  type,
+  theme = 'primary',
+  size = 'md',
+  text,
+  font = 'body-18-demi',
+  'left-icon': leftIcon,
+  'right-icon': rightIcon,
+  'icon-size': iconSize = 'md',
+  disabled,
+  ...attrs
+} = Astro.props;
+
+const ButtonTag = href ? 'a' : tag;
+
+const classes = [
+  'base-button',
+  `base-button_theme_${theme}`,
+  `base-button_size_${size}`,
+  text ? `base-button_font_${font}` : '',
+  leftIcon || rightIcon ? `base-button_icon-size_${iconSize}` : '',
+  className,
+];
+
+const buttonAttributes = {
+  class: classes.join(' '),
+  href: href || undefined,
+  type: ButtonTag === 'button' ? type || 'button' : undefined,
+  disabled: ButtonTag === 'button' && disabled ? true : undefined,
+  ['aria-disabled']: ButtonTag !== 'button' && disabled ? true : undefined,
+  ...attrs,
+};
+---
+
+<ButtonTag {...buttonAttributes}>
+  {
+    leftIcon && (
+      <BaseIcon
+        class="base-button__icon"
+        name={leftIcon}
+      />
+    )
+  }
+
+  {text && <span class="base-button__text">{text}</span>}
+
+  {
+    rightIcon && (
+      <BaseIcon
+        class="base-button__icon"
+        name={rightIcon}
+      />
+    )
+  }
+</ButtonTag>
+
+<style lang="scss" is:global>
+  .base-button {
+    $element: &;
+
+    @include resetbtn;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(8);
+    border: rem(2) solid;
+    border-radius: rem(40);
+    transition:
+      border-color $default-transition,
+      background-color $default-transition,
+      color $default-transition;
+
+    &_theme_primary {
+      border-color: $primary;
+      color: $gray-0;
+      background-color: $primary;
+
+      @media #{$is-hover} {
+        &:hover {
+          border-color: $primary-hover;
+          background-color: $primary-hover;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        border-color: $primary-hover;
+        background-color: $primary-hover;
+      }
+
+      &:disabled,
+      &[aria-disabled='true'] {
+        border-color: $gray-2;
+        color: $gray-3;
+        background-color: $gray-2;
+        pointer-events: none;
+      }
+    }
+
+    &_theme_bordered-primary {
+      border-color: $primary;
+      color: $gray-4;
+      background-color: transparent;
+
+      @media #{$is-hover} {
+        &:hover {
+          border-color: $primary-light;
+          background-color: $primary-light;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        border-color: $primary-light;
+        background-color: $primary-light;
+      }
+
+      &[aria-disabled='true'] {
+        border-color: $gray-2;
+        color: $gray-2;
+        pointer-events: none;
+      }
+    }
+
+    &_theme_bordered-gray-3 {
+      border-color: $gray-3;
+      color: $gray-4;
+      background-color: transparent;
+
+      @media #{$is-hover} {
+        &:hover {
+          border-color: $primary;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        border-color: $primary;
+      }
+
+      &[aria-disabled='true'] {
+        border-color: $gray-2;
+        color: $gray-3;
+        pointer-events: none;
+      }
+    }
+
+    &_theme_gray-0 {
+      border-color: $gray-0;
+      color: $gray-4;
+      background-color: $gray-0;
+
+      @media #{$is-hover} {
+        &:hover {
+          border-color: $gray-1;
+          background-color: $gray-1;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        border-color: $gray-1;
+        background-color: $gray-1;
+      }
+
+      &:disabled,
+      &[aria-disabled='true'] {
+        border-color: $gray-1;
+        color: $gray-2;
+        background-color: $gray-1;
+        pointer-events: none;
+      }
+    }
+
+    &_theme_transparent {
+      border-color: transparent;
+      color: $gray-4;
+      background-color: transparent;
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $primary-hover;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $primary-hover;
+      }
+
+      &:disabled,
+      &[aria-disabled='true'] {
+        color: $gray-2;
+        pointer-events: none;
+      }
+    }
+
+    &_theme_transparent-light {
+      border-color: transparent;
+      color: $gray-3;
+      background-color: transparent;
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $primary-hover;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $primary-hover;
+      }
+
+      &:disabled,
+      &[aria-disabled='true'] {
+        color: $gray-2;
+        pointer-events: none;
+      }
+    }
+
+    &_size_sm {
+      padding: 0;
+      border: none;
+      border-radius: 0;
+    }
+
+    &_size_md {
+      padding: rem(8) rem(30);
+    }
+
+    &_font_body-18-demi {
+      @include body-18-demi;
+    }
+
+    &_font_body-18 {
+      @include body-18;
+    }
+
+    &_font_label-14 {
+      @include label-14;
+    }
+
+    &__text {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+
+    &__icon {
+      flex-shrink: 0;
+
+      #{$element}_icon-size_sm & {
+        width: rem(16);
+        height: rem(16);
+      }
+
+      #{$element}_icon-size_md & {
+        width: rem(24);
+        height: rem(24);
+      }
+    }
+  }
+</style>

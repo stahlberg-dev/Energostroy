@@ -1,0 +1,167 @@
+---
+import BaseIcon from '../ui/BaseIcon.astro';
+
+const { class: className, mp4Url, webmUrl, posterUrl, title, ...attrs } = Astro.props;
+
+const classes = ['base-video', 'js-base-video-wrapper', className];
+---
+
+{
+  (mp4Url || webmUrl) && (
+    <div
+      class:list={classes}
+      {...attrs}
+    >
+      <video
+        class="base-video__video js-base-video"
+        controls
+        playsinline
+        webkit-playsinline
+      >
+        {mp4Url && (
+          <source
+            src={mp4Url}
+            type="video/mp4"
+          />
+        )}
+
+        {webmUrl && (
+          <source
+            src={webmUrl}
+            type="video/webm"
+          />
+        )}
+      </video>
+
+      <div class="base-video__preview js-base-video-preview">
+        {mp4Url && (
+          <img
+            class="base-video__preview-image"
+            src={posterUrl}
+            alt="фото"
+            loading="lazy"
+          />
+        )}
+
+        <button
+          class="base-video__play-button"
+          type="button"
+        >
+          <BaseIcon
+            class="base-video__play-icon"
+            name="play-circle"
+          />
+        </button>
+
+        {title && <div class="base-video__title">{title}</div>}
+      </div>
+    </div>
+  )
+}
+
+<script>
+  function initBaseVideo() {
+    const videoWrappers = document.querySelectorAll('.js-base-video-wrapper');
+
+    videoWrappers.forEach(videoWrapper => {
+      const video = videoWrapper.querySelector('.js-base-video');
+      const videoPreview = videoWrapper.querySelector('.js-base-video-preview');
+
+      if (!video || !videoPreview) {
+        return;
+      }
+
+      videoPreview.addEventListener('click', () => {
+        videoPreview.classList.add('preview-hidden');
+
+        setTimeout(() => {
+          video.play();
+        }, 300);
+      });
+    });
+  }
+
+  initBaseVideo();
+</script>
+
+<style lang="scss" is:global>
+  .base-video {
+    $element: &;
+
+    position: relative;
+    aspect-ratio: 16 / 9;
+
+    &__video {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__preview {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 5;
+      width: 100%;
+      height: 100%;
+      transition: opacity $default-transition;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+
+      &.preview-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    &__preview-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &__play-button {
+      @include resetbtn;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      display: block;
+      width: rem(96);
+      height: rem(96);
+      color: $gray-0;
+      transition: color $default-transition;
+      transform: translate(-50%, -50%);
+
+      @media #{$is-hover} {
+        #{$element}__preview:hover & {
+          color: $primary;
+        }
+      }
+
+      #{$element}__preview:active &,
+      #{$element}__preview:focus-visible & {
+        color: $primary;
+      }
+    }
+
+    &__play-icon {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__title {
+      @include h4;
+
+      position: absolute;
+      bottom: rem(16);
+      left: 0;
+      width: 100%;
+      padding: 0 rem(16);
+      color: $gray-0;
+      text-align: center;
+    }
+  }
+</style>

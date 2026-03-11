@@ -1,0 +1,190 @@
+---
+import BaseSection from '../ui/BaseSection.astro';
+import CommentForm from '../components/CommentForm.astro';
+
+const { class: className, title, 'comments-list': commentsList, ...attrs } = Astro.props;
+
+const validCommentsList = Array.isArray(commentsList) ? commentsList : [];
+
+const classes = ['comments-section', className];
+---
+
+<BaseSection
+  class:list={classes}
+  {...attrs}
+>
+  <h2 class="comments-section__title">{title}</h2>
+
+  <CommentForm
+    class="comments-section__main-form"
+    main={true}
+  />
+
+  {
+    validCommentsList.length > 0 && (
+      <div class="comments-section__comments">
+        {validCommentsList.map(comment => (
+          <div class="comments-section__comment-wrapper js-comment">
+            <div class="comments-section__comment-title">
+              <span class="comments-section__comment-author">{comment.author}</span>
+              <span class="comments-section__comment-date">{comment.date}</span>
+            </div>
+
+            <p class="comments-section__comment-text">
+              {comment.link && (
+                <a
+                  class="comments-section__comment-author-link"
+                  href={comment.link.url}
+                >
+                  {comment.link.text}
+                </a>
+              )}
+              {comment.text}
+            </p>
+
+            <button
+              class="comments-section__comment-reply-button js-reply-button"
+              type="button"
+            >
+              Ответить
+            </button>
+
+            <div class="comments-section__comment-form-wrapper js-comment-form-wrapper">
+              <CommentForm class="comments-section__comment-form" />
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+</BaseSection>
+
+<script>
+  function showReplyForm() {
+    const comments = document.querySelectorAll('.js-comment');
+
+    comments.forEach(comment => {
+      const replyButton = comment.querySelector('.js-reply-button');
+      const commentFormWrapper = comment.querySelector('.js-comment-form-wrapper');
+
+      if (!replyButton || !commentFormWrapper) {
+        return;
+      }
+
+      replyButton.addEventListener('click', () => {
+        comment.classList.add('form-shown');
+      });
+    });
+  }
+
+  showReplyForm();
+</script>
+
+<style lang="scss" is:global>
+  .comments-section {
+    &__title {
+      @include h2;
+      max-width: rem(744);
+
+      margin: 0 auto rem(32) 0;
+    }
+
+    &__main-form {
+      max-width: rem(744);
+      margin-right: auto;
+    }
+
+    &__comments {
+      display: flex;
+      flex-direction: column;
+      max-width: rem(744);
+      margin: rem(56) auto 0 0;
+      gap: rem(32);
+    }
+
+    &__comment-title {
+      margin-bottom: rem(12);
+    }
+
+    &__comment-author {
+      @include body-18-demi;
+
+      display: inline-block;
+      margin-right: rem(12);
+    }
+
+    &__comment-date {
+      @include label-14;
+
+      color: $gray-3;
+    }
+
+    &__comment-text {
+      margin: 0 0 rem(12);
+    }
+
+    &__comment-author-link {
+      @include reseta;
+
+      color: $primary-bright;
+      transition: color $default-transition;
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $primary-hover;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $primary-hover;
+      }
+    }
+
+    &__comment-reply-button {
+      @include resetbtn;
+      @include label-14;
+
+      display: inline-block;
+      color: $gray-3;
+      transition: color $default-transition;
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $primary-hover;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $primary-hover;
+      }
+
+      .form-shown & {
+        display: none;
+      }
+    }
+
+    &__comment-form-wrapper {
+      max-height: 0;
+      transition: max-height 0.6s ease;
+      overflow: hidden;
+
+      .form-shown & {
+        max-height: rem(312);
+      }
+    }
+
+    &__comment-form {
+      padding-top: rem(12);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+
+      .form-shown & {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+import BaseIcon from '../ui/BaseIcon.astro';
+
+const {
+  tag = 'button',
+  class: className,
+  href,
+  type,
+  text,
+  disabled,
+  ...attrs
+} = Astro.props;
+
+const ButtonTag = href ? 'a' : tag;
+
+const classes = [
+  'arrow-button',
+  className,
+];
+
+const buttonAttributes = {
+  class: classes.join(' '),
+  href: href || undefined,
+  type: ButtonTag === 'button' ? type || 'button' : undefined,
+  disabled: ButtonTag === 'button' && disabled ? true : undefined,
+  ['aria-disabled']: ButtonTag !== 'button' && disabled ? true : undefined,
+  ...attrs,
+};
+---
+
+<ButtonTag {...buttonAttributes}>
+  {text && <span class="arrow-button__text">{text}</span>}
+
+  <BaseIcon
+    class="arrow-button__icon"
+    name="long-arrow"
+  />
+</ButtonTag>
+
+<style lang="scss" is:global>
+  .arrow-button {
+    $element: &;
+
+    @include resetbtn;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(16);
+    color: $light;
+    transition: color $default-transition;
+
+    @media #{$is-hover} {
+      &:hover {
+        color: $primary;
+      }
+    }
+
+    &:active,
+    &:focus-visible {
+      color: $primary;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'] {
+      color: $dark-gray;
+      pointer-events: none;
+    }
+
+    &__text {
+      @include text2;
+    }
+
+    &__icon {
+      flex-shrink: 0;
+      width: rem(34);
+      height: rem(24);
+    }
+  }
+</style>

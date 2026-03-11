@@ -1,0 +1,116 @@
+---
+import BaseSection from '../ui/BaseSection.astro';
+import LinkCard from '../components/LinkCard.astro';
+
+const { class: className, title, 'block-list': blockList, ...attrs } = Astro.props;
+
+const validBlockList = [];
+
+if (Array.isArray(blockList)) {
+  blockList.forEach(block => {
+    if (!Array.isArray(block.cardList) || block.cardList.length < 1) {
+      return;
+    }
+
+    const validBlock = {};
+
+    const isBlockTypeValid =
+      block.blockType === '1' ||
+      block.blockType === '2' ||
+      block.blockType === '3' ||
+      block.blockType === '4';
+
+    validBlock.blockType = isBlockTypeValid ? block.blockType : '4';
+    validBlock.cardList = block.cardList;
+
+    validBlockList.push(validBlock);
+  });
+}
+
+const classes = ['knowledge-base-section', className];
+---
+
+{
+  validBlockList.length > 0 && (
+    <BaseSection
+      title={title}
+      class:list={classes}
+      {...attrs}
+    >
+      {validBlockList.map(block => (
+        <div
+          class:list={[
+            'knowledge-base-section__card-block',
+            `knowledge-base-section__card-block_type_${block.blockType}`,
+          ]}
+        >
+          {block.cardList.map(card => (
+            <LinkCard
+              class="knowledge-base-section__card"
+              link-url={card.linkUrl}
+              icon-url={card.iconUrl}
+              title={card.title}
+              caption-text={card.captionText}
+              theme="secondary"
+              shadow={true}
+              border="top"
+              disabled={card.disabled}
+            />
+          ))}
+        </div>
+      ))}
+    </BaseSection>
+  )
+}
+
+<style lang="scss" is:global>
+  .knowledge-base-section {
+    $element: &;
+
+    &__card-block {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: rem(212);
+      gap: rem(24);
+      margin-bottom: rem(24);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__card {
+      #{$element}__card-block_type_1 & {
+        &:nth-child(4n + 1) {
+          grid-row: span 2;
+        }
+
+        &:nth-child(4n + 4) {
+          grid-column: span 2;
+        }
+      }
+
+      #{$element}__card-block_type_2 & {
+        &:nth-child(4n + 2) {
+          grid-row: span 2;
+        }
+
+        &:nth-child(4n + 3) {
+          grid-row: span 2;
+        }
+      }
+
+      #{$element}__card-block_type_3 & {
+        &:nth-child(2n + 1) {
+          grid-column: span 2;
+        }
+      }
+
+      #{$element}__card-block_type_4 & {
+        &:nth-child(2n + 2) {
+          grid-column: span 2;
+        }
+      }
+    }
+  }
+</style>

@@ -1,0 +1,222 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+import BaseSection from '../ui/BaseSection.astro';
+import BaseButton from '../ui/BaseButton.astro';
+import BaseSelect from '../ui/BaseSelect.astro';
+import CalendarSelect from '../ui/CalendarSelect.astro';
+import Pagination from '../ui/Pagination.astro';
+
+const {
+  class: className,
+  'filter-list': filterList,
+  'suggestions-list': suggestionsList,
+  'pagination-list': paginationList,
+  ...attrs
+} = Astro.props;
+
+const validSuggestionsList = Array.isArray(suggestionsList) ? suggestionsList : [];
+
+const classes = ['suggestions-section', className];
+---
+
+{
+  validSuggestionsList.length > 0 && (
+    <BaseSection
+      class:list={classes}
+      {...attrs}
+    >
+      <div class="suggestions-section__header">
+        <h1 class="suggestions-section__title">Ваши предложения</h1>
+
+        <BaseButton
+          class="suggestions-section__header-button"
+          theme="bordered-gray-3"
+          text="Создать предложение"
+          href={`${BASE}crp-make-suggestion.html`}
+        />
+      </div>
+
+      <div class="suggestions-section__filters">
+        <div class="suggestions-section__filters-title">фильтры</div>
+
+        <BaseSelect
+          class="suggestions-section__filter"
+          placeholder="Автор предложения"
+          input-name="section"
+          multiselect={true}
+          items={filterList}
+        />
+
+        <CalendarSelect
+          class="suggestions-section__filter"
+          placeholder="Период создания"
+          input-name="section"
+        />
+      </div>
+
+      <div class="suggestions-section__suggestions">
+        <div class="suggestions-section__suggestions-head">
+          <span class="suggestions-section__suggestions-head-suggestion">Предложение</span>
+
+          <span class="suggestions-section__suggestions-head-answer">Ответ ЦРП</span>
+
+          <span class="suggestions-section__suggestions-head-author">Кем создано</span>
+
+          <span class="suggestions-section__suggestions-head-date">Дата создания</span>
+        </div>
+
+        <div class="suggestions-section__suggestions-body">
+          {suggestionsList.map(suggestion => (
+            <div class="suggestions-section__suggestion">
+              <span
+                class="suggestions-section__suggestion-text"
+                set:html={suggestion.text}
+              />
+
+              <span
+                class="suggestions-section__suggestion-answer"
+                set:html={suggestion.answer}
+              />
+
+              <span class="suggestions-section__suggestion-author">{suggestion.author}</span>
+
+              <span class="suggestions-section__suggestion-date">{suggestion.date}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Pagination
+        class="suggestions-section__pagination"
+        items={paginationList}
+      />
+    </BaseSection>
+  )
+}
+
+<style lang="scss" is:global>
+  .suggestions-section {
+    $element: &;
+
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: rem(64);
+      gap: rem(48);
+    }
+
+    &__title {
+      @include h2;
+
+      flex-grow: 1;
+      margin: 0;
+    }
+
+    &__header-button {
+      flex-shrink: 0;
+    }
+
+    &__filters {
+      display: flex;
+      align-items: center;
+      gap: rem(24);
+      margin-bottom: rem(32);
+    }
+
+    &__filters-title {
+      @include h5;
+
+      flex-shrink: 0;
+    }
+
+    &__filter {
+      flex-shrink: 0;
+      width: rem(230);
+    }
+
+    &__suggestions-head {
+      @include label-14;
+
+      display: flex;
+      justify-content: space-between;
+      gap: rem(48);
+      margin-bottom: rem(8);
+      padding: 0 rem(24);
+    }
+
+    &__suggestions-head-suggestion {
+      flex: 0 0 rem(324);
+    }
+
+    &__suggestions-head-answer {
+      flex: 1 1 rem(324);
+    }
+
+    &__suggestions-head-author {
+      flex: 0 0 rem(190);
+    }
+
+    &__suggestions-head-date {
+      flex: 0 0 rem(98);
+    }
+
+    &__suggestions-body {
+      display: flex;
+      flex-direction: column;
+      gap: rem(8);
+    }
+
+    &__suggestion {
+      @include label-14;
+
+      display: flex;
+      justify-content: space-between;
+      gap: rem(48);
+      padding: rem(16) rem(24);
+
+      &:nth-child(odd) {
+        background-color: $gray-1;
+      }
+
+      a {
+        @include reseta;
+
+        text-decoration: underline;
+        text-underline-offset: 0.23em;
+        transition: color $default-transition;
+
+        @media #{$is-hover} {
+          &:hover {
+            color: $primary-hover;
+          }
+        }
+
+        &:active,
+        &:focus-visible {
+          color: $primary-hover;
+        }
+      }
+    }
+
+    &__suggestion-text {
+      flex: 0 0 rem(324);
+    }
+
+    &__suggestion-answer {
+      flex: 1 1 rem(324);
+    }
+
+    &__suggestion-author {
+      flex: 0 0 rem(190);
+    }
+
+    &__suggestion-date {
+      flex: 0 0 rem(98);
+    }
+
+    &__pagination {
+      margin-top: rem(64);
+    }
+  }
+</style>

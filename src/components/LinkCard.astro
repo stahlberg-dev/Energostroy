@@ -1,0 +1,415 @@
+---
+import BaseIcon from '../ui/BaseIcon.astro';
+
+const {
+  class: className,
+  'link-url': linkUrl,
+  'icon-url': iconUrl,
+  'icon-size': iconSize = 'md',
+  title,
+  'title-position': titlePosition = 'top',
+  text,
+  'text-date': textDate,
+  'caption-text': captionText,
+  'caption-theme': captionTheme = 'text',
+  'caption-arrow': captionArrow = true,
+  theme = 'primary',
+  shadow = false,
+  border,
+  paddings = 'md',
+  background,
+  'bottom-reverse': bottomReverse = false,
+  'arrow-theme': arrowTheme = 'dark',
+  disabled = false,
+  ...attrs
+} = Astro.props;
+
+const backgroundType =
+  typeof background !== 'string' ? null : background.startsWith('/images') ? 'image' : background;
+
+const classes = [
+  'link-card',
+  `link-card_icon-size_${iconSize}`,
+  captionText ? `link-card_caption-theme_${captionTheme}` : '',
+  `link-card_theme_${theme}`,
+  shadow ? 'link-card_shadow' : '',
+  border ? `link-card_border_${border}` : '',
+  `link-card_paddings_${paddings}`,
+  backgroundType ? `link-card_background_${backgroundType}` : '',
+  bottomReverse ? 'link-card_bottom-reverse' : '',
+  `link-card_arrow-theme_${arrowTheme}`,
+  disabled ? 'link-card_disabled' : '',
+  className,
+];
+---
+
+<a
+  class:list={classes}
+  href={linkUrl}
+  {...attrs}
+>
+  {
+    backgroundType === 'image' && (
+      <img
+        class="link-card__background-image"
+        src={background}
+        alt="фоновое изображение"
+        loading="lazy"
+      />
+    )
+  }
+
+  <span class="link-card__top">
+    {
+      iconUrl && (
+        <img
+          class="link-card__top-icon"
+          src={iconUrl}
+          alt="иконка"
+          loading="lazy"
+        />
+      )
+    }
+
+    {
+      titlePosition === 'top' && (
+        <span
+          set:html={title}
+          class="link-card__title link-card__title_top"
+        />
+      )
+    }
+
+    {text && <span class="link-card__text">{text}</span>}
+
+    {textDate && <span class="link-card__text-date">{textDate}</span>}
+  </span>
+
+  <span class="link-card__bottom">
+    {
+      titlePosition === 'bottom' && (
+        <span
+          set:html={title}
+          class="link-card__title link-card__title_bottom"
+        />
+      )
+    }
+
+    <span class="link-card__captions">
+      {captionText && <span class="link-card__caption">{captionText}</span>}
+      {
+        captionArrow && (
+          <BaseIcon
+            class="link-card__bottom-icon"
+            name="right-circle-arrow-bold"
+          />
+        )
+      }
+    </span>
+  </span>
+</a>
+
+<style lang="scss" is:global>
+  .link-card {
+    $element: &;
+
+    @include reseta;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: rem(16);
+    background: $gray-0;
+    transition:
+      background-color $default-transition,
+      border-color $default-transition;
+
+    &_theme_primary {
+      --theme-border-color: #{$primary-bright};
+
+      @media #{$is-hover} {
+        &:hover {
+          --theme-border-color: #{$primary};
+
+          background-color: $primary-light;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        --theme-border-color: #{$primary};
+
+        background-color: $primary-light;
+      }
+    }
+
+    &_theme_secondary {
+      --theme-border-color: #{$secondary};
+
+      @media #{$is-hover} {
+        &:hover {
+          --theme-border-color: #{$primary};
+
+          background-color: $primary-light;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        --theme-border-color: #{$primary};
+
+        background-color: $primary-light;
+      }
+    }
+
+    &_theme_light {
+      --theme-border-color: #{$gray-2};
+
+      @media #{$is-hover} {
+        &:hover {
+          --theme-border-color: #{$primary-light};
+
+          background-color: $primary-light;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        --theme-border-color: #{$primary-light};
+
+        background-color: $primary-light;
+      }
+    }
+
+    &_shadow {
+      box-shadow: 0 rem(8) rem(16) 0 rgba(0, 0, 0, 0.1);
+    }
+
+    &_border_top {
+      border-top: 2px solid var(--theme-border-color);
+    }
+
+    &_border_all {
+      border: 1px solid var(--theme-border-color);
+    }
+
+    &_paddings_sm {
+      padding: rem(16);
+
+      &#{$element}_border_top {
+        padding-top: calc(#{rem(16)} - 2px);
+      }
+
+      &#{$element}_border_all {
+        padding: calc(#{rem(16)} - 1px);
+      }
+    }
+
+    &_paddings_md {
+      padding: rem(24);
+
+      &#{$element}_border_top {
+        padding-top: calc(#{rem(24)} - 2px);
+      }
+
+      &#{$element}_border_all {
+        padding: calc(#{rem(24)} - 1px);
+      }
+    }
+
+    &_paddings_lg {
+      padding: rem(32);
+
+      &#{$element}_border_top {
+        padding-top: calc(#{rem(32)} - 2px);
+      }
+
+      &#{$element}_border_all {
+        padding: calc(#{rem(32)} - 1px);
+      }
+    }
+
+    &_background_gradient {
+      &#{$element}_theme_primary {
+        background: linear-gradient(
+          180deg,
+          rgba($primary-bright, 0) 0%,
+          rgba($primary-bright, 0.05) 100%
+        );
+
+        @media #{$is-hover} {
+          &:hover {
+            background-color: $primary-light;
+          }
+        }
+
+        &:active,
+        &:focus-visible {
+          background-color: $primary-light;
+        }
+      }
+
+      &#{$element}_theme_secondary {
+        background: linear-gradient(180deg, rgba($secondary, 0) 0%, rgba($secondary, 0.05) 100%);
+
+        @media #{$is-hover} {
+          &:hover {
+            background-color: $primary-light;
+          }
+        }
+
+        &:active,
+        &:focus-visible {
+          background-color: $primary-light;
+        }
+      }
+    }
+
+    &_background_image {
+      background-color: $primary-light;
+
+      @media #{$is-hover} {
+        &:hover {
+          background-color: $primary-hover;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        background-color: $primary-hover;
+      }
+    }
+
+    &_disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    &__background-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &__top {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    &__top-icon {
+      display: block;
+      margin-bottom: rem(16);
+
+      #{$element}_icon-size_md & {
+        width: rem(72);
+      }
+
+      #{$element}_icon-size_sm & {
+        width: rem(48);
+      }
+    }
+
+    &__title {
+      @include h4;
+
+      display: -webkit-box;
+      margin: 0;
+      color: $gray-4;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+
+      &_bottom {
+        margin-bottom: rem(8);
+      }
+    }
+
+    &__text {
+      @include body-18;
+
+      display: -webkit-box;
+      margin-top: rem(24);
+      color: $gray-4;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+
+    &__text-date {
+      @include caption-12;
+
+      margin-top: rem(8);
+      color: $gray-4;
+    }
+
+    &__bottom {
+      flex-shrink: 0;
+    }
+
+    &__captions {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: rem(24);
+      gap: rem(16);
+
+      #{$element}_bottom-reverse & {
+        flex-direction: row-reverse;
+      }
+    }
+
+    &__caption {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+
+      #{$element}_caption-theme_text & {
+        @include body-18;
+
+        color: $gray-3;
+      }
+
+      #{$element}_caption-theme_date & {
+        @include label-14;
+
+        color: $gray-4;
+      }
+    }
+
+    &__bottom-icon {
+      flex-shrink: 0;
+      width: rem(32);
+      height: rem(32);
+      transition: color $default-transition;
+
+      #{$element}_arrow-theme_dark & {
+        color: $gray-4;
+      }
+
+      #{$element}_arrow-theme_light & {
+        color: $gray-3;
+      }
+
+      #{$element}_arrow-theme_primary & {
+        color: $primary;
+      }
+
+      #{$element}_background_image#{$element}_arrow-theme_primary:hover & {
+        @media #{$is-hover} {
+          color: $gray-0;
+        }
+      }
+
+      #{$element}_background_image#{$element}_arrow-theme_primary:active &,
+      #{$element}_background_image#{$element}_arrow-theme_primary:focus-visible & {
+        color: $gray-0;
+      }
+    }
+  }
+</style>

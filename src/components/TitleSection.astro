@@ -1,0 +1,167 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+
+const {
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = ['title-section', className];
+---
+
+<section
+  class:list={classes}
+  {...attrs}
+>
+  <div class="title-section__container">
+    <picture class="title-section__image-wrapper">
+      <source
+        srcset={`${BASE}images/title-section/title-screen-desktop.webp`}
+        media="(min-width: 1200px)"
+      >
+
+      <source
+        srcset={`${BASE}images/title-section/title-screen-tablet.webp`}
+        media="(min-width: 768px) and (max-width: 1199.98px)"
+      >
+
+      <img
+        class="title-section__image"
+        src={`${BASE}images/title-section/title-screen-mobile.webp`}
+        alt="фото"
+        loading="lazy"
+      >
+    </picture>
+
+    <div class="title-section__info">
+      <h1 class="title-section__title">
+        Системный&nbsp;интегратор процессов&nbsp;полного&nbsp;цикла
+      </h1>
+
+      <div class="title-section__info-bottom">
+        <div class="title-section__expirience">
+          20+&nbsp;лет работы
+        </div>
+
+        <p class="title-section__text">
+          Реализуем объекты в&nbsp;сфере гражданского,
+          промышленного и&nbsp;инфраструктурного строительства
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss" is:global>
+  .title-section {
+    $element: &;
+
+    background-color: $dark;
+
+    &__container {
+      @include base-container;
+
+      position: relative;
+      height: rem(815);
+
+      @media #{$tablet} {
+        height: rem(768);
+      }
+
+      @media #{$desktop} {
+        height: rem(900);
+      }
+    }
+
+    &__image-wrapper {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+		&__info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: rem(60);
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: rem(132) 0 rem(60);
+
+      @media #{$tablet} {
+        padding: rem(218) 0 rem(40);
+      }
+
+      @media #{$desktop} {
+        padding: rem(224) 0 rem(120);
+      }
+		}
+
+		&__title {
+      @include h4;
+
+      color: $light;
+
+      @media #{$tablet} {
+        max-width: rem(330);
+      }
+
+      @media #{$desktop} {
+        margin-left: rem(20);
+        max-width: rem(400);
+      }
+		}
+
+		&__info-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: rem(48);
+
+      @media #{$tablet} {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: rem(116);
+      }
+
+      @media #{$desktop} {
+        gap: rem(22);
+      }
+		}
+
+		&__expirience {
+      @include h1;
+
+      color: $primary;
+
+      @media #{$desktop} {
+        margin-left: rem(20);
+      }
+		}
+
+		&__text {
+      @include h5;
+
+      color: $light;
+
+      @media #{$tablet} {
+        align-self: flex-end;
+        max-width: rem(356);
+      }
+
+      @media #{$desktop} {
+        max-width: rem(360);
+      }
+		}
+  }
+</style>

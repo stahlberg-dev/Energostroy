@@ -1,0 +1,85 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+
+const {
+  class: className,
+  text,
+  type,
+  'file-size': fileSize,
+  'link-url': linkUrl,
+  disabled,
+  ...attrs
+} = Astro.props;
+
+const classes = ['document-link', disabled ? 'document-link_disabled' : '', className];
+---
+
+<a
+  class:list={classes}
+  href={linkUrl}
+  target="_blank"
+  {...attrs}
+>
+  <span class="document-link__text">{text}</span>
+
+  {
+    type && (
+      <img
+        class="document-link__icon"
+        src={`${BASE}images/document-types/${type}.svg`}
+        alt={type}
+        loading="lazy"
+      />
+    )
+  }
+
+  {fileSize && <span class="document-link__file-size">{fileSize}</span>}
+</a>
+
+<style lang="scss" is:global>
+  .document-link {
+    @include reseta;
+
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    color: $gray-4;
+    transition: color $default-transition;
+
+    @media #{$is-hover} {
+      &:hover {
+        color: $secondary;
+      }
+    }
+
+    &:active,
+    &:focus-visible {
+      color: $secondary;
+    }
+
+    &_disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    &__text {
+      @include body-18;
+
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+    }
+
+    &__icon {
+      flex-shrink: 0;
+      width: rem(27);
+      margin-left: rem(8);
+    }
+
+    &__file-size {
+      @include label-14;
+
+      flex-shrink: 0;
+      color: $gray-3;
+    }
+  }
+</style>

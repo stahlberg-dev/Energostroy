@@ -1,0 +1,150 @@
+---
+import BaseSelect from '../ui/BaseSelect.astro';
+import BaseInputField from '../ui/BaseInputField.astro';
+import BaseTextareaField from '../ui/BaseTextareaField.astro';
+import BaseAttachementField from '../ui/BaseAttachementField.astro';
+import BaseCheckbox from '../ui/BaseCheckbox.astro';
+import BaseButton from '../ui/BaseButton.astro';
+
+const { class: className, ...attrs } = Astro.props;
+
+const classes = ['question-form', 'js-question-form', className];
+---
+
+<form
+  class:list={classes}
+  action="#"
+  {...attrs}
+>
+  <h2 class="question-form__title">Остались вопросы?</h2>
+
+  <p class="question-form__text">
+    Если вы не нашли нужной информации — отправьте обращение через форму.
+    <br />Мы ответим или передадим запрос в профильное подразделение.
+  </p>
+
+  <BaseSelect
+    class="question-form__form-field js-form-field"
+    label-text="Тематика"
+    error-text="Необходимо выбрать тематику"
+    placeholder="Выберите из списка"
+    input-name="subject"
+    items={[
+      {
+        text: 'Вариант 1',
+        value: '1',
+      },
+      {
+        text: 'Вариант 2',
+        value: '2',
+      },
+      {
+        text: 'Вариант 3',
+        value: '3',
+      },
+      {
+        text: 'Вариант 4',
+        value: '4',
+      },
+      {
+        text: 'Вариант 5',
+        value: '5',
+      },
+      {
+        text: 'Вариант 6',
+        value: '6',
+      },
+    ]}
+    required
+  />
+
+  <BaseInputField
+    class="question-form__form-field js-form-field"
+    label-text="Тема обращения"
+    error-text="Необходимо выбрать тему обращения"
+    placeholder="Кратко опишите суть вопроса — например, «Отпуск», «Договор»"
+    input-name="theme"
+    required
+  />
+
+  <BaseTextareaField
+    class="question-form__form-field js-form-field"
+    label-text="Сообщение"
+    error-text="Необходимо описать ваш вопрос или ситуацию"
+    placeholder="Подробно опишите ваш вопрос или ситуацию. Если нужно — добавьте даты, подразделение или ФИО сотрудника, к которому обращаетесь"
+    textarea-name="message"
+    required
+  />
+
+  <BaseAttachementField
+    class="question-form__form-field js-form-field"
+    max-file-size="10"
+    max-files="10"
+    error-text="Необходимо приложить файл"
+    input-name="attachement"
+    required
+  />
+
+  <BaseCheckbox
+    class="ui-kit-section__form-element js-form-field"
+    label-text="Я ознакомлен(-а) с политикой конфиденциальности"
+    error-text="Необходимо ознакомиться с политикой конфиденциальности"
+    input-name="checkbox"
+    required
+  />
+
+  <BaseButton
+    class="question-form__submit-button"
+    theme="bordered-gray-3"
+    text="Отправить"
+    type="submit"
+  />
+</form>
+
+<script>
+  import { Form } from '../scripts/helpers/commonForm.js';
+
+  function initQuestionForm() {
+    const questionForms = document.querySelectorAll('.js-question-form');
+
+    questionForms.forEach(questionForm => {
+      new Form({
+        formElement: questionForm,
+        formFieldClass: '.js-form-field',
+        invalidFieldClass: '.invalid',
+        errorFieldClass: '.error',
+        successModalSelector: '[data-modal="success-modal"]',
+        errorModalSelector: '[data-modal="error-modal"]',
+      }).init();
+    });
+  }
+
+  initQuestionForm();
+</script>
+
+<style lang="scss" is:global>
+  .question-form {
+    $element: &;
+
+    padding: rem(40);
+    background-color: $gray-1;
+
+    &__title {
+      margin: 0;
+    }
+
+    &__text {
+      @include body-18-demi;
+
+      margin-top: rem(12);
+    }
+
+    &__form-field {
+      margin-bottom: rem(16);
+    }
+
+    #{$element} &__submit-button {
+      margin-top: rem(24);
+    }
+  }
+</style>

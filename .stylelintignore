@@ -1,0 +1,60 @@
+# ========== ДИРЕКТОРИИ СБОРКИ И ЗАВИСИМОСТЕЙ ==========
+node_modules/
+dist/
+build/
+.astro/
+.output/
+.cache/
+
+# ========== СИСТЕМНЫЕ ФАЙЛЫ ==========
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ========== ЛОГИ И ВРЕМЕННЫЕ ФАЙЛЫ ==========
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.pid
+*.seed
+*.pid.lock
+
+# ========== КОНФИГУРАЦИОННЫЕ ФАЙЛЫ ==========
+.env
+.env.*
+!.env.example
+
+# ========== ФАЙЛЫ ДОКУМЕНТАЦИИ ==========
+*.md
+*.txt
+CHANGELOG.md
+README.md
+
+# ========== ФАЙЛЫ СБОРКИ И ОПТИМИЗАЦИИ ==========
+*.min.css
+*.min.scss
+*.min.js
+coverage/
+*.lcov
+
+# ========== IDE и РАБОЧИЕ ФАЙЛЫ ==========
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ========== АСТРО СПЕЦИФИЧНЫЕ ФАЙЛЫ ==========
+*.astro.ts
+*.astro.js
+
+# ========== ПАКЕТЫ И ДИСТРИБУТИВЫ ==========
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

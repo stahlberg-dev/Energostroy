@@ -1,0 +1,100 @@
+---
+import BaseSection from '../ui/BaseSection.astro';
+
+const {
+  class: className,
+  title,
+  date,
+  'datetime-value': datetimeValue,
+  'image-url': imageUrl,
+  announcement,
+  ...attrs
+} = Astro.props;
+
+const classes = ['info-section', className];
+---
+
+<BaseSection
+  class:list={classes}
+  {...attrs}
+>
+  <h1 class="info-section__title">{title}</h1>
+
+  {
+    datetimeValue && date && (
+      <time
+        class="info-section__date"
+        datetime={datetimeValue}
+      >
+        {date}
+      </time>
+    )
+  }
+
+  {
+    imageUrl && (
+      <picture class="info-section__picture">
+        <img
+          class="info-section__image"
+          src={imageUrl}
+          alt="фото"
+          loading="lazy"
+        />
+      </picture>
+    )
+  }
+
+  {announcement && <p class="info-section__announcement">{announcement}</p>}
+
+  {
+    Astro.slots.has('details') && (
+      <div class="info-section__details">
+        <slot name="details" />
+      </div>
+    )
+  }
+</BaseSection>
+
+<style lang="scss" is:global>
+  .info-section {
+    &__title {
+      @include h2;
+
+      margin: 0;
+      text-transform: none;
+    }
+
+    &__date {
+      @include label-14;
+
+      display: block;
+      margin-top: rem(16);
+    }
+
+    &__picture {
+      display: block;
+      width: rem(744);
+      height: rem(350);
+      margin: rem(48) auto 0 0;
+    }
+
+    &__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &__announcement {
+      @include h4;
+      max-width: rem(744);
+
+      margin: rem(80) auto 0 0;
+    }
+
+    &__details {
+      max-width: rem(744);
+      margin: rem(56) auto 0 0;
+    }
+  }
+</style>

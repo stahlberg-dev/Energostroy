@@ -1,0 +1,21 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+
+const { class: className, name, ...attrs } = Astro.props;
+
+const classes = ['base-icon', className];
+---
+
+<svg
+  class:list={classes}
+  aria-hidden="true"
+  {...attrs}
+>
+  <use xlink:href={`${BASE}images/sprites/sprite.svg#${name}`}></use>
+</svg>
+
+<style lang="scss" is:global>
+  .base-icon {
+    fill: currentcolor;
+  }
+</style>

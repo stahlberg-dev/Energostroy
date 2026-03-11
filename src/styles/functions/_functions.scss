@@ -1,0 +1,44 @@
+@function em($pixels, $context: 16) {
+  @return calc($pixels / $context) * 1em;
+}
+
+@function rem($size, $context: 16) {
+  @return calc($size / $context) * 1rem;
+}
+
+// Convert px to em
+@function pxtoem($target, $context) {
+  @return calc($target / $context) + 0;
+}
+
+// Convert em to px
+@function emtopx($target, $context) {
+  @return calc($target * $context) + 0;
+}
+
+// Convert px to vw
+@function vw($target, $context) {
+  $vw-context: calc($context / 100) * 1px;
+
+  @return calc($target / $vw-context) * 1vw;
+}
+
+// Convert px to vh
+@function vh($target, $context) {
+  $vh-context: calc($context / 100) * 1px;
+
+  @return calc($target * 1px / $vh-context) * 1vh;
+}
+
+// Convert px to %
+@function percent($target, $context) {
+  @return calc($target / $context) * 100%;
+}
+
+// Value interpolation within a specified range
+@function interpolation($minValue, $maxValue, $minScreenSize, $maxScreenSize) {
+  @return calc(
+    ($minValue * 1px) + ($maxValue - $minValue) / ($maxScreenSize - $minScreenSize) *
+      (100vw - ($minScreenSize * 1px))
+  );
+}

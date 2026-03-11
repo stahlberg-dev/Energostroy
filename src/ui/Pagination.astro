@@ -1,0 +1,118 @@
+---
+import BaseButton from '../ui/BaseButton.astro';
+
+const { class: className, items, ...attrs } = Astro.props;
+
+const validItems = Array.isArray(items) ? items : [];
+
+const classes = ['pagination', className];
+---
+
+{
+  validItems.length > 0 && (
+    <div
+      class:list={classes}
+      {...attrs}
+    >
+      <BaseButton
+        class="pagination__prev-button"
+        theme="transparent"
+        size="sm"
+        right-icon="right-arrow"
+        href="#"
+        disabled={validItems[0].isCurrentPage}
+      />
+
+      <div class="pagination__items">
+        {validItems.map(item =>
+          !item.linkUrl || item.isCurrentPage ? (
+            <span
+              class:list={[
+                'pagination__item',
+                { 'pagination__item_type_current-page': item.isCurrentPage },
+              ]}
+            >
+              {item.text}
+            </span>
+          ) : (
+            <a
+              class="pagination__item pagination__item_type_link"
+              href={item.linkUrl}
+            >
+              {item.text}
+            </a>
+          )
+        )}
+      </div>
+
+      <BaseButton
+        class="pagination__next-button"
+        theme="transparent"
+        size="sm"
+        right-icon="right-arrow"
+        href="#"
+        disabled={validItems.at(-1).isCurrentPage}
+      />
+    </div>
+  )
+}
+
+<style lang="scss" is:global>
+  .pagination {
+    $element: &;
+
+    display: flex;
+    align-items: center;
+    gap: rem(16);
+
+    &__items {
+      display: flex;
+      align-items: center;
+      gap: rem(16);
+    }
+
+    &__item {
+      @include label-14;
+
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: rem(32);
+      height: rem(32);
+      color: $gray-3;
+
+      &_type_link {
+        @include reseta;
+
+        color: $gray-3;
+        transition: color $default-transition;
+
+        @media #{$is-hover} {
+          &:hover {
+            color: $primary-hover;
+          }
+        }
+
+        &:active,
+        &:focus-visible {
+          color: $primary-hover;
+        }
+      }
+
+      &_type_current-page {
+        font-weight: 450;
+        color: $gray-4;
+      }
+    }
+
+    &__prev-button,
+    &__next-button {
+      flex-shrink: 0;
+    }
+
+    &__prev-button {
+      transform: rotate(180deg);
+    }
+  }
+</style>

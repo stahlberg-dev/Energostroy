@@ -1,0 +1,50 @@
+{
+  "name": "alrosa",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "yarn svg-sprite && astro dev",
+    "build": "yarn svg-sprite && astro build",
+    "preview": "yarn svg-sprite && astro preview",
+    "astro": "astro",
+    "svg-sprite": "svg-symbol-sprite -i public/images/sprites/svg -o public/images/sprites/sprite.svg -p \"\"",
+    "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx, .astro --report-unused-disable-directives",
+    "lint:css": "stylelint \"**/*.{css,scss}\" --ignore-path .stylelintignore",
+    "lint:astro-css": "stylelint \"**/*.astro\" --custom-syntax postcss-html --ignore-path .stylelintignore",
+    "lint:format": "prettier --check . --ignore-unknown",
+    "lint": "yarn lint:js && yarn lint:css && yarn lint:astro-css && yarn lint:format",
+    "fix:js": "eslint . --ext .js,.jsx,.ts,.tsx, .astro --fix --report-unused-disable-directives",
+    "fix:css": "stylelint \"**/*.{css,scss}\" --fix --ignore-path .stylelintignore",
+    "fix:astro-css": "stylelint \"**/*.astro\" --custom-syntax postcss-html --fix --ignore-path .stylelintignore",
+    "format": "prettier --write . --ignore-unknown",
+    "fix:all": "yarn format && yarn fix:js && yarn fix:css && yarn fix:astro-css"
+  },
+  "dependencies": {
+    "astro": "^5.14.8",
+    "dropzone": "^6.0.0-beta.2",
+    "normalize.css": "^8.0.1",
+    "svg-symbol-sprite": "^1.5.2",
+    "swiper": "^12.0.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.38.0",
+    "@rollup/plugin-replace": "^6.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
+    "astro-eslint-parser": "^1.2.2",
+    "eslint": "^9.38.0",
+    "eslint-config-astro": "^1.0.8",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^1.4.0",
+    "globals": "^16.4.0",
+    "postcss-html": "^1.8.0",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "sass": "^1.93.2",
+    "stylelint": "^16.25.0",
+    "stylelint-order": "^7.0.0",
+    "stylelint-scss": "^6.12.1",
+    "typescript": "^5.9.3"
+  }
+}

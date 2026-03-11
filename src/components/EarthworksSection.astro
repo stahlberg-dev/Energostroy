@@ -1,0 +1,289 @@
+---
+import InfoCard from '../components/InfoCard.astro';
+
+const {
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = ['earthworks-section', className];
+
+const cardList = [
+  {
+    title: 'Промышленное бурение',
+    description: 'Устройство глубоких фундаментов и специальных гидрогеологических скважин',
+    details: [
+      {
+        icon: 'rotor',
+        title: 'Техническое описание',
+        description: `
+          Сооружение буронабивных (БНС) и буроинъекционных свай,
+          устройство «стены в грунте»
+        `,
+      },
+      {
+        icon: 'auger',
+        title: 'Передовые технологии',
+        description: `
+          Технология CFA (Continuous Flight Auger) — непрерывный полый шнек,
+          позволяющий одновременно бурить и подавать бетон под давлением,
+          что исключает обрушение стенок скважины даже в слабых грунтах
+        `,
+      },
+    ],
+  },
+  {
+    title: 'Разработка территории и утилизация грунта',
+    description: 'Подготовка площадки к строительству и управление земляными массами',
+    details: [
+      {
+        icon: 'excavator',
+        title: 'Техническое описание',
+        description: `
+          Выемка грунта, устройство шпунтовых ограждений котлованов,
+          планировка территории (вертикальная и горизонтальная)
+        `,
+      },
+      {
+        icon: 'qr',
+        title: 'Передовые технологии',
+        description: `
+          Автоматизированный контроль за перемещением отходов
+          с использованием электронных талонов и QR-кодов,
+          гарантирующий утилизацию строго на сертифицированных полигонах
+        `,
+      },
+    ],
+  },
+];
+---
+
+<section
+  id="earthworks"
+  class:list={classes}
+  {...attrs}
+>
+  <div class="earthworks-section__container">
+    <div class="earthworks-section__top">
+      <h2 class="earthworks-section__title">
+        Земельные работы и&nbsp;промышленное бурение
+      </h2>
+
+      <p class="earthworks-section__text">
+        Нулевой цикл — это основа долговечности любого сооружения,
+        требующая глубокого понимания механики грунтов.
+      </p>
+    </div>
+
+    <div class="earthworks-section__bottom js-earthworks-slider-container js-no-slider">
+      <div class="earthworks-section__slider swiper js-earthworks-slider">
+        <div class="earthworks-section__slider-wrapper swiper-wrapper">
+          {cardList.map(card => (
+            <div class="earthworks-section__slide swiper-slide">
+              <InfoCard
+                class="earthworks-section__info-card"
+                title={card.title}
+                description={card.description}
+                details={card.details}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="earthworks-section__slider-pagination js-earthworks-slider-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { Swiper } from 'swiper';
+  import { Pagination } from 'swiper/modules';
+  import { getMediaQueries } from '../scripts/helpers/constants.js';
+
+  function earthworksSlider() {
+    const sliderContainers = document.querySelectorAll('.js-earthworks-slider-container');
+
+    sliderContainers.forEach((sliderContainer) => {
+      const sliderElement = sliderContainer.querySelector('.js-earthworks-slider');
+      const paginationElement = sliderContainer.querySelector('.js-earthworks-slider-pagination');
+
+      if (!sliderElement || !paginationElement) {
+        return;
+      }
+
+      const mediaQueries = getMediaQueries();
+      let slider = null;
+
+      if (mediaQueries.mobile.matches) {
+        sliderContainer.classList.remove('js-no-slider');
+        initSlider();
+      }
+
+      mediaQueries.mobile.addEventListener('change', (event) => {
+        if (event.matches) {
+          sliderContainer.classList.remove('js-no-slider');
+          initSlider();
+        }
+        else {
+          destroySlider();
+          sliderContainer.classList.add('js-no-slider');
+        }
+      });
+
+      function initSlider() {
+        if (slider) {
+          return;
+        }
+
+        slider = new Swiper(sliderElement, {
+          modules: [Pagination],
+          observer: true,
+          observeParents: true,
+          observeSlideChildren: true,
+          slidesPerView: 1,
+          spaceBetween: 16,
+          watchOverflow: true,
+          speed: 500,
+          autoHeight: true,
+          grabCursor: true,
+          pagination: {
+            el: paginationElement,
+            clickable: true,
+          },
+        });
+      }
+
+      function destroySlider() {
+        if (!slider) {
+          return;
+        }
+
+        slider.destroy(false);
+        slider = null;
+      }
+    });
+  }
+
+  earthworksSlider();
+</script>
+
+<style lang="scss" is:global>
+  .earthworks-section {
+    $element: &;
+
+    padding: rem(60) 0;
+    background-color: $light;
+
+    @media #{$tablet} {
+      padding: rem(80) 0;
+    }
+
+    &__container {
+      @include base-container;
+    }
+
+		&__top {
+      display: flex;
+      flex-direction: column;
+      gap: rem(32);
+      margin-bottom: rem(56);
+
+      @media #{$tablet} {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: rem(94);
+        margin-bottom: rem(56);
+      }
+
+      @media #{$desktop} {
+        justify-content: flex-start;
+        gap: rem(20);
+        margin-bottom: rem(120);
+      }
+		}
+
+		&__title {
+      color: $dark;
+
+      @media #{$tablet} {
+        flex-shrink: 0;
+        width: rem(534);
+      }
+
+      @media #{$desktop} {
+        width: rem(690);
+      }
+		}
+
+		&__text {
+      @include text2;
+
+      color: $dark;
+      max-width: rem(330);
+
+      @media #{$desktop} {
+        max-width: rem(440);
+      }
+		}
+
+		&__bottom {
+		}
+
+		&__slider {
+		}
+
+		&__slider-wrapper {
+      height: auto;
+
+      .js-no-slider & {
+        display: flex;
+        justify-content: space-between;
+        gap: rem(20);
+      }
+		}
+
+		&__slide {
+      height: auto;
+
+      .js-no-slider & {
+        flex-shrink: 0;
+        width: calc(50% - #{rem(10)});
+      }
+		}
+
+		&__info-card {
+      height: 100%;
+		}
+
+		&__slider-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: rem(12);
+      padding-top: rem(24);
+
+      .js-no-slider & {
+        display: none;
+      }
+
+      &.swiper-pagination-horizontal.swiper-pagination-bullets
+        > .swiper-pagination-bullet {
+        margin: 0;
+        flex-shrink: 0;
+        width: rem(8);
+        height: rem(8);
+        background: $primary-50;
+        opacity: 1;
+        transition: background-color $default-transition;
+      }
+
+      &.swiper-pagination-horizontal.swiper-pagination-bullets
+        > .swiper-pagination-bullet.swiper-pagination-bullet-active {
+        background: $primary;
+        opacity: 1;
+      }
+		}
+  }
+</style>

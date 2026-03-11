@@ -1,0 +1,11 @@
+@use "../functions" as *;
+@use "../variables/" as *;
+
+@mixin base-container {
+  width: 100%;
+  max-width: 1440px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: var(--container-padding);
+  padding-left: var(--container-padding);
+}

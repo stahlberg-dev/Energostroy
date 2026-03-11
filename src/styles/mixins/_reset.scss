@@ -1,0 +1,58 @@
+@use "../functions" as *;
+@use "../variables/" as *;
+
+@mixin resetul {
+  margin: 0;
+  padding: 0;
+  font-weight: inherit;
+  line-height: inherit;
+  list-style-type: none;
+}
+
+@mixin resetli {
+  margin: 0;
+  padding: 0;
+
+  &::before {
+    display: none;
+  }
+}
+
+@mixin resetbtn {
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-decoration: none;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+@mixin resetinput {
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-decoration: none;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+@mixin reseta {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@mixin reseth {
+  margin: 0;
+  text-align: left;
+}
+
+@mixin resetp {
+  margin: 0;
+}

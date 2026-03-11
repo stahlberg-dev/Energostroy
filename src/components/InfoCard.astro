@@ -1,0 +1,162 @@
+---
+import BaseIcon from '../ui/BaseIcon.astro';
+
+const {
+  class: className,
+  title,
+  description,
+  details,
+  theme = 'light',
+  ...attrs
+} = Astro.props;
+
+const classes = [
+  'info-card',
+  `info-card_theme_${theme}`,
+  className,
+];
+---
+
+<div
+  class:list={classes}
+  {...attrs}
+>
+  {title && <h3 class="info-card__title">{title}</h3>}
+
+  {description && <div class="info-card__description">{description}</div>}
+
+  {details.map((item) => (
+    <div class="info-card__details-item">
+      <BaseIcon
+        class="info-card__details-item-icon"
+        name={item.icon}
+      />
+      <div class="info-card__details-item-info">
+        <h4 class="info-card__details-item-title">{item.title}</h4>
+        <div class="info-card__details-item-description">{item.description}</div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style lang="scss" is:global>
+  .info-card {
+    $element: &;
+
+    color: var(--text-color);
+
+    &_theme_light {
+      --text-color: #{$dark};
+      --highlight-color: #{$primary};
+
+      border: 2px solid var(--highlight-color);
+      padding: rem(30) rem(22);
+      background-color: $light;
+
+      @media #{$tablet} {
+        padding: rem(30) rem(20);
+      }
+
+      @media #{$desktop} {
+        padding: rem(38) rem(46);
+      }
+    }
+
+    &_theme_dark {
+      --text-color: #{$light};
+      --highlight-color: #{$light-gray};
+
+      border-left: 1px solid var(--highlight-color);
+      padding: rem(12) 0 rem(12) rem(16);
+      background-color: $dark;
+
+      @media #{$tablet} {
+        padding: rem(12) 0 rem(12) rem(32);
+      }
+    }
+
+    &__title {
+      @include h4;
+
+      #{$element}_theme_light & {
+        margin-bottom: rem(24);
+
+        @media #{$desktop} {
+          margin-bottom: rem(32);
+        }
+      }
+
+      #{$element}_theme_dark & {
+        margin-bottom: rem(32);
+      }
+    }
+
+    &__description {
+      @include text1;
+
+      #{$element}_theme_light & {
+        margin-bottom: rem(32);
+
+        @media #{$tablet} {
+          max-width: rem(350);
+        }
+
+        @media #{$desktop} {
+          margin-bottom: rem(48);
+        }
+      }
+
+      #{$element}_theme_dark & {
+        margin-bottom: rem(48);
+      }
+    }
+
+		&__details-item {
+      display: flex;
+      align-items: flex-start;
+      gap: rem(32);
+
+      @media #{$desktop} {
+        gap: rem(24);
+      }
+
+      #{$element}_theme_light & {
+        margin-bottom: rem(24);
+
+        @media #{$desktop} {
+          margin-bottom: rem(36);
+        }
+      }
+
+      #{$element}_theme_dark & {
+        margin-bottom: rem(36);
+      }
+
+      #{$element}_theme_light &:last-child,
+      #{$element}_theme_dark &:last-child {
+        margin-bottom: 0;
+      }
+		}
+
+		&__details-item-icon {
+      flex-shrink: 0;
+      width: rem(60);
+      height: rem(60);
+      color: var(--highlight-color);
+		}
+
+		&__details-item-title {
+      @include h5;
+
+      margin-bottom: rem(12);
+
+      @media #{$desktop} {
+        margin-bottom: rem(16);
+      }
+		}
+
+		&__details-item-description {
+      @include text1;
+		}
+  }
+</style>

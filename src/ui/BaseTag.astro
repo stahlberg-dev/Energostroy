@@ -1,0 +1,109 @@
+---
+import BaseIcon from '../ui/BaseIcon.astro';
+
+const {
+  class: className,
+  theme = 'primary',
+  size = 'md',
+  hoverable = false,
+  text,
+  icon,
+  ...attrs
+} = Astro.props;
+
+const classes = [
+  'base-tag',
+  `base-tag_theme_${theme}`,
+  `base-tag_size_${size}`,
+  hoverable ? 'base-tag_hoverable' : '',
+  className,
+];
+---
+
+<div
+  class:list={classes}
+  {...attrs}
+>
+  {text && <span class="base-tag__text">{text}</span>}
+
+  {
+    icon && (
+      <BaseIcon
+        class="base-tag__icon"
+        name={icon}
+      />
+    )
+  }
+</div>
+
+<style lang="scss" is:global>
+  .base-tag {
+    $element: &;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background-color $default-transition,
+      color $default-transition;
+
+    &_theme_primary {
+      color: $gray-0;
+      background-color: $primary;
+    }
+
+    &_theme_secondary {
+      color: $gray-0;
+      background-color: $secondary;
+    }
+
+    &_theme_primary-light {
+      color: $primary-bright;
+      background-color: $primary-light;
+    }
+
+    &_theme_gray-0 {
+      color: $gray-4;
+      background-color: $gray-0;
+    }
+
+    &_theme_gray-1 {
+      color: $gray-4;
+      background-color: $gray-1;
+    }
+
+    &_size_sm {
+      @include caption-12-demi;
+      padding: rem(2) rem(8);
+      border-radius: rem(10);
+
+      gap: rem(4);
+    }
+
+    &_size_md {
+      @include label-14-demi;
+      padding: rem(2) rem(10);
+      border-radius: rem(12);
+
+      gap: rem(6);
+    }
+
+    &_hoverable {
+      cursor: pointer;
+    }
+
+    &__icon {
+      flex-shrink: 0;
+
+      #{$element}_size_sm & {
+        width: rem(12);
+        height: rem(12);
+      }
+
+      #{$element}_size_md & {
+        width: rem(14);
+        height: rem(14);
+      }
+    }
+  }
+</style>

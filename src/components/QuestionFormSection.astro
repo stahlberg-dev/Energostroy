@@ -1,0 +1,32 @@
+---
+import BaseSection from '../ui/BaseSection.astro';
+import QuestionForm from '../components/QuestionForm.astro';
+
+const { class: className, ...attrs } = Astro.props;
+
+const classes = ['question-form-section', className];
+---
+
+<BaseSection
+  id="question-form-section"
+  class:list={classes}
+  {...attrs}
+>
+  <div class="question-form-section__content">
+    <QuestionForm />
+  </div>
+</BaseSection>
+
+<style lang="scss" is:global>
+  .question-form-section {
+    .pdf-mode & {
+      display: none;
+    }
+
+    &__content {
+      box-shadow:
+        rem(-20) rem(-20) rem(100) rem(3) rgba($primary-bright, 40%),
+        rem(20) rem(20) rem(100) rem(3) rgba($primary, 40%);
+    }
+  }
+</style>

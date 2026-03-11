@@ -1,0 +1,75 @@
+---
+import BaseTextareaField from '../ui/BaseTextareaField.astro';
+import BaseButton from '../ui/BaseButton.astro';
+
+const { class: className, main = false, ...attrs } = Astro.props;
+
+const classes = ['comment-form', 'js-comment-form', main ? 'comment-form_main' : '', className];
+---
+
+<form
+  class:list={classes}
+  action="#"
+  {...attrs}
+>
+  <BaseTextareaField
+    class="comment-form__form-field"
+    placeholder="Введите комментарий здесь"
+    textarea-name="comment"
+    counter
+  />
+
+  <BaseButton
+    class="comment-form__submit-button js-submit-comment-button"
+    text="Отправить"
+    type="submit"
+    disabled
+  />
+</form>
+
+<script>
+  function initCommentForm() {
+    const commentForms = document.querySelectorAll('.js-comment-form');
+
+    commentForms.forEach(commentForm => {
+      const textareaElement = commentForm.querySelector('textarea');
+      const submitButton = commentForm.querySelector('.js-submit-comment-button');
+
+      if (!textareaElement || !submitButton) {
+        return;
+      }
+
+      textareaElement.addEventListener('input', () => {
+        if (textareaElement.value.trim()) {
+          submitButton.removeAttribute('disabled');
+        } else {
+          submitButton.setAttribute('disabled', '');
+        }
+      });
+
+      commentForm.addEventListener('submit', event => {
+        event.preventDefault();
+
+        const commentFormData = new FormData(commentForm);
+        console.log([...commentFormData.entries()]);
+        commentForm.reset();
+      });
+    });
+  }
+
+  initCommentForm();
+</script>
+
+<style lang="scss" is:global>
+  .comment-form {
+    $element: &;
+
+    &__submit-button {
+      margin-top: rem(24);
+
+      #{$element}_main & {
+        margin-top: rem(40);
+      }
+    }
+  }
+</style>

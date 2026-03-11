@@ -1,0 +1,183 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+
+const {
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = [
+  'header',
+  className,
+];
+---
+
+<header
+  class:list={classes}
+  {...attrs}
+>
+  <div class="header__container">
+    <a
+      href={`${BASE}index.html`}
+      class="header__logo"
+    >
+      <img
+        class="header__logo-image"
+        src={`${BASE}images/header-logo.svg`}
+        alt="логотип"
+      />
+    </a>
+
+    <a
+      class="header__mail-link"
+      href="mailto:info@rkestroy.ru"
+    >
+      info@rkestroy.ru
+    </a>
+
+    <button
+      class="header__burger-button"
+      type="button"
+    >
+      <span class="header__burger-stripe header__burger-stripe_position_top"></span>
+      <span class="header__burger-stripe header__burger-stripe_position_middle"></span>
+      <span class="header__burger-stripe header__burger-stripe_position_bottom"></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  function burgerMenu() {
+    
+  }
+
+  burgerMenu();
+</script>
+
+<style lang="scss" is:global>
+  .header {
+    $element: &;
+
+    position: fixed;
+    background-color: $dark;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    width: 100%;
+
+    &__container {
+      @include base-container;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: rem(32);
+      min-height: var(--header-height);
+      padding-top: rem(16);
+      padding-bottom: rem(16);
+
+      @media #{$tablet} {
+        padding-top: rem(20);
+        padding-bottom: rem(20);
+      }
+
+      @media #{$desktop} {
+        align-items: flex-start;
+        gap: rem(60);
+        padding-top: rem(24);
+        padding-bottom: rem(16);
+      }
+    }
+
+    &__logo {
+      @include reseta;
+
+      flex-shrink: 0;
+      height: rem(28);
+      margin-right: auto;
+
+      @media #{$tablet} {
+        height: rem(40);
+      }
+    }
+
+    &__logo-image {
+      display: block;
+      height: 100%;
+    }
+
+    &__mail-link {
+      @include reseta;
+      @include text2;
+
+      display: none;
+      flex-shrink: 0;
+      text-transform: uppercase;
+      color: $primary;
+      transition: color $default-transition;
+
+      @media #{$tablet} {
+        display: block;
+      }
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $focus;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $focus;
+      }
+    }
+
+		&__burger-button {
+      @include resetbtn;
+
+      position: relative;
+      flex-shrink: 0;
+      width: rem(40);
+      height: rem(17);
+      cursor: pointer;
+
+      @media #{$tablet} {
+        width: rem(74);
+      }
+		}
+
+		&__burger-stripe {
+      display: block;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: $light;
+      transition: background-color $default-transition;
+
+      @media #{$is-hover} {
+        #{$element}__burger-button:hover & {
+          background-color: $primary;
+        }
+      }
+
+      #{$element}__burger-button:active &,
+      #{$element}__burger-button:focus-visible & {
+        background-color: $primary;
+      }
+
+			&_position_top {
+        top: 0;
+      }
+
+			&_position_middle {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+			&_position_bottom {
+        bottom: 0;
+			}
+		}
+  }
+</style>

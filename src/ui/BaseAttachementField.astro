@@ -1,0 +1,480 @@
+---
+const {
+  class: className,
+  'max-file-size': maxFileSize,
+  'max-files': maxFiles,
+  'input-name': inputName,
+  'error-text': errorText,
+  required = false,
+  error = false,
+  disabled = false,
+  ...attrs
+} = Astro.props;
+
+const classes = [
+  'base-attachement-field',
+  'js-base-attachement-field',
+  required ? 'base-attachement-field_required js-required' : '',
+  error ? 'error' : '',
+  className,
+];
+---
+
+<div
+  class:list={classes}
+  data-input-name={inputName}
+  data-max-file-size={maxFileSize}
+  data-max-files={maxFiles}
+  aria-disabled={disabled ? true : undefined}
+  {...attrs}
+>
+  <div class="base-attachement-field__dropzone js-dropzone">
+    <div class="base-attachement-field__dropzone-field">
+      <div class="base-attachement-field__dropzone-text">
+        <span class="base-attachement-field__title">
+          <span class="base-attachement-field__title-empty">Прикрепить файл</span>
+          <span class="base-attachement-field__title-filled">Прикрепить ещё</span>
+        </span>
+        <span class="base-attachement-field__file-size">(Не более {maxFileSize} Мбайт)</span>
+      </div>
+    </div>
+  </div>
+
+  {
+    errorText && (
+      <div class="base-attachement-field__error-text-wrapper">
+        <div class="base-attachement-field__error-text">{errorText}</div>
+      </div>
+    )
+  }
+</div>
+
+<script>
+  import { Dropzone } from 'dropzone';
+
+  function initAttachement() {
+    Dropzone.autoDiscover = false;
+
+    const attachementFields = document.querySelectorAll('.js-base-attachement-field');
+
+    attachementFields.forEach(attachementField => {
+      const dropzoneElement = attachementField.querySelector('.js-dropzone');
+
+      if (!dropzoneElement) {
+        return;
+      }
+
+      const inputName = attachementField.getAttribute('data-input-name');
+
+      const maxFileSizeAttrValue = attachementField.getAttribute('data-max-file-size');
+      const maxFileSizeValue = parseInt(maxFileSizeAttrValue) ? parseInt(maxFileSizeAttrValue) : 10;
+
+      const maxFilesAttrValue = attachementField.getAttribute('data-max-files');
+      const maxFilesValue = parseInt(maxFilesAttrValue) ? parseInt(maxFilesAttrValue) : 10;
+
+      const isRequired = attachementField.classList.contains('js-required');
+
+      const filePreviewTemplate = `
+        <div class="base-attachement-field__file-preview dz-preview dz-file-preview">
+          <div class="base-attachement-field__file-preview-success-mark dz-success-mark">
+            <svg
+              class="base-attachement-field__file-preview-mark-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M14 3V7C14 7.26522 14.1054 7.51957 14.2929 7.70711C14.4804 7.89464 14.7348 8 15 8H19"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path 
+                d="M17 20.9999H7.00004C6.4696 20.9999 5.5001 21 5.00006 21C5.00012 20.5 5.00004 19.5303 5.00004 18.9999V4.99989C5.00004 4.46945 5 3.5 5 2.99993C5.05652 2.94353 6.4696 2.99988 7.00004 2.99988H14L19 7.99988V18.9999C19 19.5303 19.0001 20.5 19.0001 21C18.5001 21 17.5305 20.9999 17 20.9999Z"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="base-attachement-field__file-preview-error-mark dz-error-mark">
+            <svg
+              class="base-attachement-field__file-preview-mark-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M14 3V7C14 7.26522 14.1054 7.51957 14.2929 7.70711C14.4804 7.89464 14.7348 8 15 8H19"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path 
+                d="M5 10L5.00004 5C5.00004 4.46957 4.99994 3.5 5 3.00005C5.50006 3 6.46961 3 7.00004 3H14L19 8V10"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path 
+                d="M19 19C19 19.5304 19 20.5 19 21C18.5 21 17.5305 21 17 21H7.00003C6.46959 21 5.5001 21 5.00006 21C4.99995 20.4142 5.00003 19.5304 5.00003 19"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path 
+                d="M5 16V13"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path 
+                d="M19 16V13"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="base-attachement-field__file-preview-details dz-details">
+            <div class="base-attachement-field__file-preview-filename dz-filename">
+              <span data-dz-name></span>
+            </div>
+            <div class="base-attachement-field__file-preview-size dz-size">
+              <span data-dz-size></span>
+            </div>
+
+            <div class="base-attachement-field__file-preview-error dz-error-message">
+              <span data-dz-errormessage></span>
+            </div>
+          </div>
+          <button
+            class="base-attachement-field__file-preview-remove-button"
+            type="button"
+            data-dz-remove
+          >
+            <svg
+              class="base-attachement-field__file-preview-remove-icon"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20.8606 4.59001L19.4106 3.14001L12.0006 10.54L4.59063 3.14001L3.14062 4.59001L10.5406 12L3.14062 19.41L4.59063 20.86L12.0006 13.46L19.4106 20.86L20.8606 19.41L13.4606 12L20.8606 4.59001Z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+      `;
+
+      const attachementDropzone = new Dropzone(dropzoneElement, {
+        url: '#',
+        paramName: inputName,
+        maxFilesize: maxFileSizeValue,
+        maxFiles: maxFilesValue,
+        acceptedFiles: '.pdf,.doc,.xls',
+        createImageThumbnails: false,
+        previewTemplate: filePreviewTemplate,
+        dictDefaultMessage: 'Перетащите файлы сюда или кликните',
+        dictFileTooBig: 'не удалось загрузить',
+        dictInvalidFileType: 'не удалось загрузить',
+        autoProcessQueue: false,
+        clickable: true,
+        uploadMultiple: true,
+      });
+
+      if (isRequired && !attachementDropzone.files.length) {
+        attachementField.classList.add('invalid');
+      }
+
+      attachementDropzone.on('addedfile', function (file) {
+        attachementField.classList.add('filled');
+
+        setTimeout(() => {
+          if (file.accepted) {
+            attachementField.classList.remove('error', 'invalid');
+          }
+        }, 0);
+      });
+
+      attachementDropzone.on('removedfile', function () {
+        if (!attachementDropzone.files.length) {
+          attachementField.classList.remove('filled');
+
+          if (isRequired) {
+            attachementField.classList.add('invalid');
+          }
+        }
+      });
+
+      attachementField.addEventListener('custom-reset', event => {
+        if (event.detail) {
+          const acceptedFiles = attachementDropzone.getAcceptedFiles();
+
+          acceptedFiles.forEach(file => {
+            event.detail.append('files', file);
+          });
+        }
+
+        attachementDropzone.removeAllFiles();
+        attachementDropzone.emit('reset');
+        attachementField.classList.remove('error');
+
+        if (isRequired) {
+          attachementField.classList.add('invalid');
+        }
+      });
+    });
+  }
+
+  initAttachement();
+</script>
+
+<style lang="scss" is:global>
+  .base-attachement-field {
+    $element: &;
+
+    &[aria-disabled='true'] {
+      pointer-events: none;
+    }
+
+    &__dropzone {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: rem(12);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    &__dropzone-field {
+      align-self: stretch;
+      padding: rem(17);
+      border: 1px dashed $gray-3;
+      transition: border-color $default-transition;
+      outline: none;
+      pointer-events: none;
+      -webkit-tap-highlight-color: transparent;
+
+      #{$element}__dropzone:active &,
+      #{$element}__dropzone:focus-visible & {
+        border-color: $primary-bright;
+      }
+
+      @media #{$is-hover} {
+        #{$element}__dropzone:hover & {
+          border-color: $primary-bright;
+
+          .error &,
+          .error.filled & {
+            border-color: $secondary;
+          }
+        }
+      }
+
+      #{$element}[aria-disabled='true'] & {
+        opacity: 0.5;
+      }
+
+      .filled & {
+        border-color: $primary-bright;
+      }
+
+      .error &,
+      .error.filled & {
+        border-color: $secondary;
+      }
+    }
+
+    &__dropzone-text {
+      text-align: center;
+    }
+
+    &__title {
+      @include label-14-demi;
+
+      color: $gray-4;
+      transition: color $default-transition;
+
+      #{$element}__dropzone:active &,
+      #{$element}__dropzone:focus-visible & {
+        color: $primary-bright;
+      }
+
+      @media #{$is-hover} {
+        #{$element}__dropzone:hover & {
+          color: $primary-bright;
+        }
+      }
+
+      .filled & {
+        color: $primary-bright;
+      }
+    }
+
+    &__title-empty {
+      .filled & {
+        display: none;
+      }
+    }
+
+    &__title-filled {
+      display: none;
+
+      .filled & {
+        display: inline;
+      }
+    }
+
+    &__file-size {
+      @include label-14;
+
+      color: $gray-3;
+    }
+
+    &__file-preview {
+      display: flex;
+      align-items: center;
+      padding: rem(3) rem(7) rem(3) rem(3);
+      border: 1px solid $primary-hover;
+      border-radius: rem(4);
+      cursor: auto;
+      gap: rem(8);
+
+      &.dz-error {
+        border-color: $secondary;
+      }
+    }
+
+    &__file-preview-success-mark,
+    &__file-preview-error-mark {
+      flex-shrink: 0;
+      width: rem(32);
+      height: rem(32);
+      padding: rem(4);
+      border-radius: rem(4);
+      background-color: $primary-hover;
+    }
+
+    &__file-preview-success-mark {
+      .dz-error & {
+        display: none;
+      }
+    }
+
+    &__file-preview-error-mark {
+      display: none;
+      background-color: $secondary;
+
+      .dz-error & {
+        display: block;
+      }
+    }
+
+    &__file-preview-mark-icon {
+      display: block;
+      width: rem(24);
+      height: rem(24);
+      color: $gray-0;
+    }
+
+    &__file-preview-filename {
+      @include caption-12-demi;
+
+      display: -webkit-box;
+      color: $gray-4;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+
+    &__file-preview-size {
+      @include caption-12;
+
+      color: $gray-3;
+
+      strong {
+        @include caption-12;
+      }
+
+      .dz-error & {
+        display: none;
+      }
+    }
+
+    &__file-preview-error {
+      @include caption-12;
+
+      display: none;
+
+      .dz-error & {
+        display: block;
+        color: $secondary;
+      }
+    }
+
+    &__file-preview-remove-button {
+      @include resetbtn;
+
+      flex-shrink: 0;
+      width: rem(24);
+      height: rem(24);
+      margin-left: auto;
+      color: $gray-3;
+      transition: color $default-transition;
+      cursor: pointer;
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $primary-hover;
+
+          .dz-error & {
+            color: $secondary;
+          }
+        }
+      }
+
+      &:focus-visible {
+        color: $primary-hover;
+
+        .dz-error & {
+          color: $secondary;
+        }
+      }
+    }
+
+    &__file-preview-remove-icon {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__error-text-wrapper {
+      max-height: 0;
+      opacity: 0;
+      transition:
+        max-height 0.5s ease,
+        opacity 0.5s ease;
+
+      .error & {
+        max-height: rem(36);
+        opacity: 1;
+      }
+    }
+
+    &__error-text {
+      @include caption-12;
+
+      padding-top: rem(4);
+      color: $secondary;
+      pointer-events: none;
+    }
+  }
+</style>

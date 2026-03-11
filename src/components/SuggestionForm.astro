@@ -1,0 +1,77 @@
+---
+import BaseTextareaField from '../ui/BaseTextareaField.astro';
+import BaseButton from '../ui/BaseButton.astro';
+
+const { class: className, ...attrs } = Astro.props;
+
+const classes = ['suggestion-form', 'js-suggestion-form', className];
+---
+
+<form
+  class:list={classes}
+  action="#"
+  {...attrs}
+>
+  <BaseTextareaField
+    class="suggestion-form__form-field js-form-field"
+    label-text="Текст предложения"
+    error-text="Необходимо описать предлложение"
+    placeholder="Опишите предложение здесь"
+    textarea-name="suggestion"
+    required
+  />
+
+  <div class="suggestion-form__buttons">
+    <BaseButton
+      class="suggestion-form__button"
+      text="Отправить"
+      type="submit"
+    />
+
+    <BaseButton
+      class="suggestion-form__button"
+      theme="bordered-gray-3"
+      text="Отменить"
+      type="reset"
+    />
+  </div>
+</form>
+
+<script>
+  import { Form } from '../scripts/helpers/commonForm.js';
+
+  function initSuggestionForm() {
+    const suggestionForms = document.querySelectorAll('.js-suggestion-form');
+
+    suggestionForms.forEach(suggestionForm => {
+      new Form({
+        formElement: suggestionForm,
+        formFieldClass: '.js-form-field',
+        invalidFieldClass: '.invalid',
+        errorFieldClass: '.error',
+        successModalSelector: '[data-modal="success-modal"]',
+        errorModalSelector: '[data-modal="error-modal"]',
+      }).init();
+    });
+  }
+
+  initSuggestionForm();
+</script>
+
+<style lang="scss" is:global>
+  .suggestion-form {
+    $element: &;
+
+    max-width: rem(744);
+
+    &__buttons {
+      display: flex;
+      gap: rem(12);
+      margin-top: rem(40);
+    }
+
+    &__button {
+      flex-shrink: 0;
+    }
+  }
+</style>

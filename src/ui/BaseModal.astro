@@ -1,0 +1,148 @@
+---
+import BaseButton from '../ui/BaseButton.astro';
+
+const { name, class: className, ...attrs } = Astro.props;
+
+const classes = ['base-modal', className];
+---
+
+<div
+  class:list={classes}
+  data-modal={name}
+  {...attrs}
+>
+  <div class="base-modal__container-wrapper">
+    <div class="base-modal__container">
+      <BaseButton
+        class="base-modal__close-button"
+        theme="transparent"
+        size="sm"
+        right-icon="close"
+        data-modal-close={name}
+      />
+      <slot />
+    </div>
+  </div>
+</div>
+
+<script>
+  import { Popup } from '../scripts/helpers/commonPopup.js';
+
+  function baseModalInit(
+    modalAttributeName,
+    invokerAttributeName,
+    closerAttributeName,
+    modalAnimationTime
+  ) {
+    const modals = document.querySelectorAll(`[${modalAttributeName}]`);
+
+    if (!modals.length) {
+      return;
+    }
+
+    const modalHandler = new Popup({
+      animationTime: modalAnimationTime,
+    });
+
+    function resetForms(modalElement) {
+      const modalForms = modalElement?.querySelectorAll('form') ?? [];
+
+      setTimeout(() => {
+        modalForms.forEach(modalForm => {
+          modalForm.reset();
+        });
+      }, modalAnimationTime);
+    }
+
+    modals.forEach(modal => {
+      const modalName = modal.getAttribute(modalAttributeName);
+
+      if (!modalName) {
+        return;
+      }
+
+      const invokers = document.querySelectorAll(`[${invokerAttributeName}="${modalName}"]`);
+      const closers = document.querySelectorAll(`[${closerAttributeName}="${modalName}"]`);
+
+      invokers.forEach(invoker => {
+        invoker.addEventListener('click', () => {
+          modalHandler.open(modal);
+        });
+      });
+
+      closers.forEach(closer => {
+        closer.addEventListener('click', () => {
+          modalHandler.close(modal, () => resetForms(modal));
+        });
+      });
+
+      modal.addEventListener('click', event => {
+        if (event.target?.parentElement === modal) {
+          modalHandler.close(modal, () => resetForms(modal));
+        }
+      });
+
+      modal.addEventListener('open-modal', () => {
+        modalHandler.open(modal);
+      });
+
+      modal.addEventListener('close-modal', () => {
+        modalHandler.close(modal, () => resetForms(modal));
+      });
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') {
+        return;
+      }
+
+      modals.forEach(modal => {
+        modalHandler.close(modal, () => resetForms(modal));
+      });
+    });
+  }
+
+  baseModalInit('data-modal', 'data-modal-open', 'data-modal-close', 300);
+</script>
+
+<style lang="scss" is:global>
+  .base-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background-color: $gray-4-60;
+    opacity: 0;
+    transition: opacity $default-transition;
+    overflow-y: scroll;
+    pointer-events: none;
+
+    &.popup-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    &__container-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 100%;
+      padding: rem(48);
+    }
+
+    &__container {
+      position: relative;
+      width: min-content;
+    }
+
+    &__close-button {
+      position: absolute;
+      top: rem(40);
+      right: rem(40);
+      z-index: 10;
+    }
+  }
+</style>

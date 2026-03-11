@@ -1,0 +1,101 @@
+---
+import BaseSection from '../ui/BaseSection.astro';
+import BaseSelect from '../ui/BaseSelect.astro';
+import CalendarSelect from '../ui/CalendarSelect.astro';
+import LinkCard from '../components/LinkCard.astro';
+import Pagination from '../ui/Pagination.astro';
+
+const {
+  class: className,
+  'filter-list': filterList,
+  'card-list': cardList,
+  'pagination-list': paginationList,
+  ...attrs
+} = Astro.props;
+
+const validCardList = Array.isArray(cardList) ? cardList : [];
+
+const classes = ['news-section', className];
+---
+
+{
+  validCardList.length > 0 && (
+    <BaseSection
+      class:list={classes}
+      {...attrs}
+    >
+      <div class="news-section__filters">
+        <div class="news-section__filters-title">фильтры</div>
+
+        <BaseSelect
+          class="news-section__filter"
+          placeholder="Выберите раздел"
+          input-name="section"
+          multiselect={true}
+          items={filterList}
+        />
+
+        <CalendarSelect
+          class="news-section__filter"
+          placeholder="Выберите период"
+          input-name="section"
+        />
+      </div>
+
+      <div class="news-section__cards">
+        {cardList.map(card => (
+          <LinkCard
+            class="news-section__card"
+            link-url={card.linkUrl}
+            title={card.title}
+            caption-text={card.captionText}
+            caption-theme="date"
+            shadow={true}
+            border="top"
+            paddings="sm"
+          />
+        ))}
+      </div>
+
+      <Pagination
+        class="news-section__pagination"
+        items={paginationList}
+      />
+    </BaseSection>
+  )
+}
+
+<style lang="scss" is:global>
+  .news-section {
+    $element: &;
+
+    &__filters {
+      display: flex;
+      align-items: center;
+      gap: rem(24);
+      margin-bottom: rem(32);
+    }
+
+    &__filters-title {
+      @include h5;
+
+      flex-shrink: 0;
+    }
+
+    &__filter {
+      flex-shrink: 0;
+      width: rem(230);
+    }
+
+    &__cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: rem(212);
+      gap: rem(24);
+    }
+
+    &__pagination {
+      margin-top: rem(64);
+    }
+  }
+</style>

@@ -1,0 +1,121 @@
+---
+import BaseSection from '../ui/BaseSection.astro';
+import BaseButton from '../ui/BaseButton.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+
+const {
+  class: className,
+  title,
+  'title-link-url': titleLinkUrl,
+  'title-link-text': titleLinkText = 'Все вопросы',
+  filter,
+  'faq-list': faqList,
+  ...attrs
+} = Astro.props;
+
+const validFilter = Array.isArray(filter) ? filter : [];
+
+const classes = ['faq-section', className];
+---
+
+<BaseSection
+  class:list={classes}
+  {...attrs}
+>
+  {
+    title && (
+      <div class="faq-section__header">
+        <h2 class="faq-section__title">{title}</h2>
+
+        {titleLinkUrl && (
+          <BaseButton
+            class="faq-section__header-button"
+            theme="transparent"
+            size="sm"
+            text={titleLinkText}
+            href={titleLinkUrl}
+            right-icon="right-arrow"
+          />
+        )}
+      </div>
+    )
+  }
+
+  {
+    validFilter.length > 0 && (
+      <div class="faq-section__filter">
+        {validFilter.map(item => (
+          <a
+            class:list={[
+              'faq-section__filter-item',
+              { 'faq-section__filter-item_chosen': item.isChosen },
+            ]}
+            href={item.linkUrl}
+          >
+            {item.text}
+          </a>
+        ))}
+      </div>
+    )
+  }
+
+  <FaqAccordion
+    class="faq-section__accordion"
+    accordion-list={faqList}
+  />
+</BaseSection>
+
+<style lang="scss" is:global>
+  .faq-section {
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: rem(32);
+      gap: rem(40);
+    }
+
+    &__title {
+      flex-grow: 1;
+      margin: 0;
+    }
+
+    &__header-button {
+      flex-shrink: 0;
+    }
+
+    &__filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(16);
+      margin-bottom: rem(32);
+    }
+
+    &__filter-item {
+      @include reseta;
+      @include body-18;
+
+      flex-shrink: 0;
+      height: rem(34);
+      border-bottom: 2px solid transparent;
+      transition: border-color $default-transition;
+
+      @media #{$is-hover} {
+        &:hover {
+          border-color: $secondary;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        border-color: $secondary;
+      }
+
+      &_chosen {
+        border-color: $secondary;
+        font-weight: 450;
+        pointer-events: none;
+      }
+    }
+  }
+</style>

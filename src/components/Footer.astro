@@ -1,0 +1,129 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+
+const { class: className, ...attrs } = Astro.props;
+
+const classes = ['footer', className];
+---
+
+<footer
+  class:list={classes}
+  {...attrs}
+>
+  <div class="footer__container">
+    <div class="footer__top">
+      <a
+        href={`${BASE}index.html`}
+        class="footer__logo"
+      >
+        <img
+          class="footer__logo-image"
+          src={`${BASE}images/footer-logo.svg`}
+          alt="логотип"
+        />
+      </a>
+    </div>
+
+    <div class="footer__bottom">
+      <div class="footer__bottom-left">
+        <span class="js-this-year">2026</span> © ООО РК Энергострой
+      </div>
+
+      <div class="footer__bottom-right">
+        Сделано в 
+        <a
+          class="footer__artw-link"
+          href="https://www.artw.ru/"
+          target="_blank"
+        >
+          АРТВ
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function setYear() {
+    const yearElement = document.querySelector('.js-this-year');
+
+    if (!yearElement) {
+      return;
+    }
+
+    yearElement.textContent = String(new Date().getFullYear());
+  }
+
+  setYear();
+</script>
+
+<style lang="scss" is:global>
+  .footer {
+    $element: &;
+    
+    background-color: $light-gray;
+
+    &__container {
+      @include base-container;    
+    }
+    
+    &__top {
+      border-bottom: 1px solid $dark-gray;
+      padding: rem(32) 0;
+    }
+
+		&__logo {
+      @include reseta;
+
+      display: block;
+      margin: 0 auto;
+      width: rem(282);
+
+      @media #{$desktop} {
+        width: rem(436);
+      }
+		}
+
+		&__logo-image {
+      display: block;
+      width: 100%;
+		}
+
+		&__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: rem(32);
+      padding: rem(24) 0 rem(32);
+		}
+
+		&__bottom-left {
+      @include text3;
+		}
+
+		&__bottom-right {
+      @include text3;
+
+      flex-shrink: 0;
+		}
+
+		&__artw-link {
+      @include reseta;
+
+      text-decoration: underline;
+      color: $primary;
+      transition: color $default-transition;
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $dark;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $dark;
+      }
+		}
+  }
+</style>

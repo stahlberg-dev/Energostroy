@@ -1,0 +1,227 @@
+@use "../functions" as *;
+@use "../variables/" as *;
+
+
+@mixin h1-base {
+  font-family: $ff-accent;
+  font-weight: 500;
+  text-transform: none;
+}
+
+@mixin h1-mobile {
+  @include h1-base;
+
+  font-size: rem(52);
+  line-height: rem(52);
+}
+
+@mixin h1-desktop {
+  @include h1-base;
+
+  font-size: rem(90);
+  line-height: rem(90);
+}
+
+@mixin h1 {
+  @include h1-mobile;
+
+  @media #{$desktop} {
+    @include h1-desktop;
+  }
+}
+
+@mixin h2-base {
+  font-family: $ff-accent;
+  font-weight: 500;
+  text-transform: none;
+}
+
+@mixin h2-mobile {
+  @include h2-base;
+
+  font-size: rem(48);
+  line-height: rem(54);
+}
+
+@mixin h2-desktop {
+  @include h2-base;
+
+  font-size: rem(66);
+  line-height: rem(64);
+}
+
+@mixin h2 {
+  @include h2-mobile;
+
+  @media #{$desktop} {
+    @include h2-desktop;
+  }
+}
+
+@mixin h3-base {
+  font-family: $ff-accent;
+  font-weight: 400;
+  text-transform: none;
+}
+
+@mixin h3-mobile {
+  @include h3-base;
+
+  font-size: rem(24);
+  line-height: rem(36);
+}
+
+@mixin h3-desktop {
+  @include h3-base;
+
+  font-size: rem(28);
+  line-height: rem(36);
+}
+
+@mixin h3 {
+  @include h3-mobile;
+
+  @media #{$desktop} {
+    @include h3-desktop;
+  }
+}
+
+@mixin h4-base {
+  font-family: $ff-accent;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+@mixin h4-mobile {
+  @include h4-base;
+
+  font-size: rem(20);
+  line-height: rem(30);
+}
+
+@mixin h4-desktop {
+  @include h4-base;
+
+  font-size: rem(24);
+  line-height: rem(32);
+}
+
+@mixin h4 {
+  @include h4-mobile;
+
+  @media #{$desktop} {
+    @include h4-desktop;
+  }
+}
+
+@mixin h5-base {
+  font-family: $ff-accent;
+  font-weight: 400;
+  text-transform: none;
+}
+
+@mixin h5-mobile {
+  @include h5-base;
+
+  font-size: rem(18);
+  line-height: rem(24);
+}
+
+@mixin h5-desktop {
+  @include h5-base;
+
+  font-size: rem(20);
+  line-height: rem(26);
+}
+
+@mixin h5 {
+  @include h5-mobile;
+
+  @media #{$desktop} {
+    @include h5-desktop;
+  }
+}
+
+@mixin text1-base {
+  font-family: $ff-accent;
+  font-weight: 300;
+  text-transform: none;
+}
+
+@mixin text1-mobile {
+  @include text1-base;
+
+  font-size: rem(14);
+  line-height: rem(24);
+}
+
+@mixin text1-desktop {
+  @include text1-base;
+
+  font-size: rem(16);
+  line-height: rem(24);
+}
+
+@mixin text1 {
+  @include text1-mobile;
+
+  @media #{$desktop} {
+    @include text1-desktop;
+  }
+}
+
+@mixin text2-base {
+  font-family: $ff-default;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+@mixin text2-mobile {
+  @include text2-base;
+
+  font-size: rem(14);
+  line-height: rem(24);
+}
+
+@mixin text2-desktop {
+  @include text2-base;
+
+  font-size: rem(16);
+  line-height: rem(24);
+}
+
+@mixin text2 {
+  @include text2-mobile;
+
+  @media #{$desktop} {
+    @include text2-desktop;
+  }
+}
+
+@mixin text3-base {
+  font-family: $ff-default;
+  font-weight: 400;
+  text-transform: none;
+}
+
+@mixin text3-mobile {
+  @include text3-base;
+
+  font-size: rem(12);
+  line-height: rem(18);
+}
+
+@mixin text3-desktop {
+  @include text3-base;
+
+  font-size: rem(14);
+  line-height: rem(20);
+}
+
+@mixin text3 {
+  @include text3-mobile;
+
+  @media #{$desktop} {
+    @include text3-desktop;
+  }
+}
