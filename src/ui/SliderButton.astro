@@ -1,0 +1,84 @@
+---
+import BaseIcon from '../ui/BaseIcon.astro';
+
+const {
+  class: className,
+  direction = 'right',
+  'hover-theme': hoverTheme = 'primary',
+  ...attrs
+} = Astro.props;
+
+const classes = [
+  'slider-button',
+  `slider-button_direction_${direction}`,
+  `slider-button_hover-theme_${hoverTheme}`,
+  className,
+];
+---
+
+<button
+  class:list={classes}
+  type="button"
+  {...attrs}
+>
+  <BaseIcon
+    class="slider-button__icon"
+    name="slider-arrow"
+  />
+</button>
+
+<style lang="scss" is:global>
+  .slider-button {
+    $element: &;
+
+    @include resetbtn;
+
+    display: block;
+    width: rem(32);
+    height: rem(32);
+    background-color: transparent;
+    color: $light;
+    transition: color $default-transition;
+
+    &_hover-theme_primary {
+      @media #{$is-hover} {
+        &:hover {
+          color: $primary;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $primary;
+      }
+    }
+
+    &_hover-theme_dark {
+      @media #{$is-hover} {
+        &:hover {
+          color: $dark;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $dark;
+      }
+    }
+
+    &:disabled {
+      color: $dark-gray;
+      pointer-events: none;
+    }
+
+    &__icon {
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      #{$element}_direction_left & {
+        transform: rotate(180deg);
+      }
+    }
+  }
+</style>

@@ -1,0 +1,248 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+import InfoCard from '../components/InfoCard.astro';
+
+const {
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = ['linear-constructions-section', className];
+
+const cardList = [
+  {
+    title: 'Дорожное строительство',
+    description: `
+      Возведение автомобильных дорог всех категорий — от внутриквартальных
+      проездов до федеральных трасс.
+    `,
+    details: [
+      {
+        icon: 'road',
+        title: 'Техническое описание',
+        description: `
+          Устройство многослойных дорожных одежд,
+          установка водопропускных труб и систем водоотвода.
+        `,
+      },
+      {
+        icon: 'bulldozer',
+        title: 'Передовые технологии',
+        description: `
+          Применение 3D-систем автоматического нивелирования
+          на автогрейдерах и асфальтоукладчиках, обеспечивающих
+          точность профиля по GPS/ГЛОНАСС. Использование геосинтетических
+          материалов (георешетки, геотекстиль)
+          для армирования основания и предотвращения колейности.
+        `,
+      },
+    ],
+  },
+  {
+    title: 'Прокладка инженерных коммуникаций',
+    description: 'Монтаж сетей водоснабжения, канализации, теплоснабжения и кабельных линий.',
+    details: [
+      {
+        icon: 'pipes',
+        title: 'Техническое описание',
+        description: `
+          Устройство траншей, монтаж трубопроводов из ВЧШГ,
+          ПНД или стали, строительство камер и колодцев.
+        `,
+      },
+      {
+        icon: 'rotor',
+        title: 'Передовые технологии',
+        description: `
+          Использование метода ГНБ (горизонтально-направленного бурения)
+          для бестраншейной прокладки под дорогами и водными преградами,
+          что исключает разрушение ландшафта. Применение предизолированных
+          труб (ППУ) с системой оперативного
+          дистанционного контроля (СОДК) для минимизации теплопотерь.
+        `,
+      },
+    ],
+  },
+];
+---
+
+<section
+  id="linear-constructions"
+  class:list={classes}
+  {...attrs}
+>
+  <img
+    class="linear-constructions-section__image"
+    src={`${BASE}images/linear-constructions-section/pipes.webp`}
+    alt="фото"
+  />
+
+  <div class="linear-constructions-section__container">
+    <h2 class="linear-constructions-section__title">
+      Строительно-монтажные работы линейных сооружений
+    </h2>
+
+    <div class="linear-constructions-section__bottom js-linear-constructions-slider-container js-no-slider">
+      <div class="linear-constructions-section__slider swiper js-linear-constructions-slider">
+        <div class="linear-constructions-section__slider-wrapper swiper-wrapper">
+          {cardList.map(card => (
+            <div class="linear-constructions-section__slide swiper-slide">
+              <InfoCard
+                class="linear-constructions-section__info-card"
+                theme="dark"
+                title={card.title}
+                description={card.description}
+                details={card.details}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { Swiper } from 'swiper';
+  import { Pagination } from 'swiper/modules';
+  import { getMediaQueries } from '../scripts/helpers/constants.js';
+
+  function linearConstructionsSlider() {
+    const sliderContainers = document.querySelectorAll('.js-linear-constructions-slider-container');
+
+    sliderContainers.forEach((sliderContainer) => {
+      const sliderElement = sliderContainer.querySelector('.js-linear-constructions-slider');
+
+      if (!sliderElement) {
+        return;
+      }
+
+      const mediaQueries = getMediaQueries();
+      let slider = null;
+
+      if (mediaQueries.mobile.matches) {
+        sliderContainer.classList.remove('js-no-slider');
+        initSlider();
+      }
+
+      mediaQueries.mobile.addEventListener('change', (event) => {
+        if (event.matches) {
+          sliderContainer.classList.remove('js-no-slider');
+          initSlider();
+        }
+        else {
+          destroySlider();
+          sliderContainer.classList.add('js-no-slider');
+        }
+      });
+
+      function initSlider() {
+        if (slider) {
+          return;
+        }
+
+        slider = new Swiper(sliderElement, {
+          modules: [Pagination],
+          observer: true,
+          observeParents: true,
+          observeSlideChildren: true,
+          slidesPerView: 1,
+          spaceBetween: 16,
+          watchOverflow: true,
+          speed: 500,
+          autoHeight: true,
+          grabCursor: true,
+        });
+      }
+
+      function destroySlider() {
+        if (!slider) {
+          return;
+        }
+
+        slider.destroy(false);
+        slider = null;
+      }
+    });
+  }
+
+  linearConstructionsSlider();
+</script>
+
+<style lang="scss" is:global>
+  .linear-constructions-section {
+    $element: &;
+
+    position: relative;
+    padding: rem(60) 0;
+    background-color: $dark;
+
+    @media #{$tablet} {
+      padding: rem(80) 0;
+    }
+
+    @media #{$desktop} {
+      overflow: hidden;
+    }
+
+    &__image {
+      display: none;
+
+      @media #{$desktop} {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(#{rem(-8)});
+        width: rem(1480);
+        max-width: none;
+        max-height: none;
+        filter: grayscale(40);
+      }
+    }
+
+    &__container {
+      @include base-container;
+
+      position: relative;
+      z-index: 1;
+    }
+
+		&__title {
+      margin-bottom: rem(52);
+      color: $light;
+
+      @media #{$tablet} {
+        width: rem(800);
+      }
+
+      @media #{$desktop} {
+        margin-bottom: rem(120);
+        width: rem(940);
+      }
+		}
+
+		&__slider-wrapper {
+      height: auto;
+
+      .js-no-slider & {
+        display: flex;
+        justify-content: space-between;
+        gap: rem(20);
+      }
+		}
+
+		&__slide {
+      height: auto;
+
+      .js-no-slider & {
+        flex-shrink: 0;
+        width: calc(50% - #{rem(10)});
+      }
+		}
+
+		&__info-card {
+      height: 100%;
+		}
+  }
+</style>

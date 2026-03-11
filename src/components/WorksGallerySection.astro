@@ -1,0 +1,335 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+import SliderButton from '../ui/SliderButton.astro';
+
+const {
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = ['works-gallery-section', 'js-gallery-slider-section', className];
+
+const worksList = [
+  {
+    imageUrl: `${BASE}images/works-gallery-section/slide-8.webp`,
+    title: 'Армирование фундаментов верхней части',
+    captionText: 'Строительство дата центров в Московской области',
+  },
+  {
+    imageUrl: `${BASE}images/works-gallery-section/slide-1.webp`,
+    title: 'Бурение в процессе монтажа электросетей и коммуникаций на участке постройки автодороги',
+  },
+  {
+    imageUrl: `${BASE}images/works-gallery-section/slide-2.webp`,
+    title: 'Устройство монолитно-армированных конструкций',
+    captionText: 'Газпром Арена, г. Санкт-Петербург',
+  },
+  {
+    imageUrl: `${BASE}images/works-gallery-section/slide-3.webp`,
+    title: 'Строительство СКА Арены, г. Санкт-Петербург',
+  },
+  {
+    imageUrl: `${BASE}images/works-gallery-section/slide-4.webp`,
+    title: 'Заливка плиты кабельного канала',
+    captionText: 'Строительство дата центров в Московской области',
+  },
+  {
+    imageUrl: `${BASE}images/works-gallery-section/slide-5.webp`,
+    title: 'Монолитные работы сектора С и Энергоцентра',
+    captionText: 'СКА Арена, г. Санкт-Петербург',
+  },
+  {
+    imageUrl: `${BASE}images/works-gallery-section/slide-6.webp`,
+    title: `
+      Изыскания гребного канала с использованием понтонов для последующей
+      разработки проекта расчистки дна с целью восполнения Волховского водохранилища
+    `,
+    captionText: 'г. Великий Новгород',
+  },
+  {
+    imageUrl: `${BASE}images/works-gallery-section/slide-7.webp`,
+    title: 'Ось Г В/1-8  выполнена обратная засыпка',
+    captionText: 'Строительство дата центров в Московской области',
+  },
+];
+---
+
+<section
+  id="works-gallery"
+  class:list={classes}
+  {...attrs}
+>
+  <div class="works-gallery-section__header">
+    <h2 class="works-gallery-section__title">Примеры наших&nbsp;работ</h2>
+
+    <div class="works-gallery-section__controls">
+      <SliderButton
+        class="works-gallery-section__prev-button js-gallery-slider-prev"
+        direction="left"
+      />
+      <SliderButton
+        class="works-gallery-section__next-button js-gallery-slider-next"
+      />
+    </div>
+  </div>
+
+  <div class="works-gallery-section__slider-container">
+    <div class="works-gallery-section__slider swiper js-gallery-slider">
+      <div class="works-gallery-section__slider-wrapper swiper-wrapper">
+        {worksList.map((item) => (
+          <div class="works-gallery-section__slide swiper-slide">
+            <div class="works-gallery-section__slide-image-wrapper">
+              <img
+                class="works-gallery-section__slide-image"
+                src={item.imageUrl}
+                alt="фото"
+                loading="lazy"
+              >
+            </div>
+
+            {item.title && <div class="works-gallery-section__slide-title">{item.title}</div>}
+
+            {item.captionText && <div class="works-gallery-section__slide-caption">{item.captionText}</div>}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="works-gallery-section__slider-pagination js-gallery-slider-pagination"></div>
+  </div>
+</section>
+
+<script>
+  import { Swiper } from 'swiper';
+  import { Navigation, Pagination } from 'swiper/modules';
+
+  function gallerySlider() {
+    const gallerySliderSections = document.querySelectorAll('.js-gallery-slider-section');
+
+    gallerySliderSections.forEach(gallerySliderSection => {
+      const sliderElement = gallerySliderSection.querySelector('.js-gallery-slider');
+      const prevButton = gallerySliderSection.querySelector('.js-gallery-slider-prev');
+      const nextButton = gallerySliderSection.querySelector('.js-gallery-slider-next');
+      const paginationElement = gallerySliderSection.querySelector('.js-gallery-slider-pagination');
+
+      if (!sliderElement || !prevButton || !nextButton || !paginationElement) {
+        return;
+      }
+
+      new Swiper(sliderElement, {
+        modules: [Navigation, Pagination],
+        observer: true,
+        observeParents: true,
+        observeSlideChildren: true,
+        watchOverflow: true,
+        slidesPerView: 1,
+        spaceBetween: 16,
+        speed: 500,
+        grabCursor: true,
+        autoHeight: true,
+        loop: true,
+        navigation: {
+          nextEl: nextButton,
+          prevEl: prevButton,
+        },
+        pagination: {
+          el: paginationElement,
+          clickable: true,
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 0,
+            autoHeight: false,
+          },
+        },
+      });
+    });
+  }
+
+  gallerySlider();
+</script>
+
+<style lang="scss" is:global>
+  .works-gallery-section {
+    $element: &;
+
+    padding: rem(60) 0;
+    background-color: $dark;
+
+    @media #{$tablet} {
+      padding: rem(80) 0;
+    }
+
+    &__header {
+      @include base-container;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: rem(32);
+      margin-bottom: rem(52);
+
+      @media #{$desktop} {
+        margin-bottom: rem(80);
+      }
+    }
+
+    &__title {
+      color: $light;
+    }
+
+    &__controls {
+      display: none;
+
+      @media #{$tablet} {
+        display: flex;
+        flex-direction: flex-end;
+        flex-shrink: 0;
+        align-items: center;
+        gap: rem(16);
+      }
+    }
+
+    &__prev-button,
+    &__next-button {
+      flex-shrink: 0;
+    }
+
+    &__slider-container {
+      margin-right: var(--container-padding);
+      margin-left: var(--container-padding);
+      overflow: hidden;
+
+      @media #{$desktop-lg} {
+        max-width: rem(1880);
+        margin-right: auto;
+        margin-left: auto;
+      }
+    }
+
+    &__slider {
+      @media #{$tablet} {
+        width: rem(1508);
+        transform: translateX(#{rem(-524)});
+      }
+
+      @media #{$desktop} {
+        width: rem(1900);
+        transform: translateX(calc(100vw - #{rem(1940)}));
+      }
+
+      @media #{$desktop-lg} {
+        transform: translateX(#{rem(-20)});  
+      }
+    }
+
+    &__slider-wrapper {
+      height: auto;
+    }
+
+    &__slide {
+      height: auto;
+
+      @media #{$tablet} {
+        width: rem(754);
+        padding: 0 0 0 rem(20);
+      }
+
+      @media #{$desktop} {
+        width: rem(950);
+      }
+    }
+
+		&__slide-image-wrapper {
+      position: relative;
+      width: 100%;
+      height: rem(186);
+
+      @media #{$tablet} {
+        height: rem(384);
+      }
+
+      @media #{$desktop} {
+        height: rem(484);
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(180deg, rgba($dark, 0) 0%, rgba($dark, 0.5) 73%, $dark 100%);
+      }
+		}
+
+		&__slide-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+		}
+
+		&__slide-title {
+      @include h5;
+
+      margin-top: rem(32);
+      color: $light;
+
+      @media #{$tablet} {
+        margin-top: rem(52);
+        max-width: rem(484);
+      }
+
+      @media #{$desktop} {
+        margin-top: rem(48);
+      }
+		}
+
+		&__slide-caption {
+      @include text1;
+
+      margin-top: rem(12);
+      color: $light;
+
+      @media #{$tablet} {
+        max-width: rem(484);
+      }
+
+      @media #{$desktop} {
+        margin-top: rem(16);
+      }    
+		}
+
+    &__slider-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: rem(12);
+      padding-top: rem(24);
+
+      @media #{$tablet} {
+        display: none;
+      }
+
+      &.swiper-pagination-horizontal.swiper-pagination-bullets
+        > .swiper-pagination-bullet {
+        margin: 0;
+        flex-shrink: 0;
+        width: rem(8);
+        height: rem(8);
+        background: $light-gray;
+        opacity: 1;
+        transition: background-color $default-transition;
+      }
+
+      &.swiper-pagination-horizontal.swiper-pagination-bullets
+        > .swiper-pagination-bullet.swiper-pagination-bullet-active {
+        background: $primary;
+        opacity: 1;
+      }
+		}
+  }
+</style>
