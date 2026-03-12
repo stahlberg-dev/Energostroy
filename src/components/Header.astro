@@ -8,6 +8,7 @@ const {
 
 const classes = [
   'header',
+  'js-fixed-element',
   className,
 ];
 ---
@@ -38,6 +39,7 @@ const classes = [
     <button
       class="header__burger-button"
       type="button"
+      data-modal-open="burger-menu"
     >
       <span class="header__burger-stripe header__burger-stripe_position_top"></span>
       <span class="header__burger-stripe header__burger-stripe_position_middle"></span>
@@ -45,14 +47,6 @@ const classes = [
     </button>
   </div>
 </header>
-
-<script>
-  function burgerMenu() {
-    
-  }
-
-  burgerMenu();
-</script>
 
 <style lang="scss" is:global>
   .header {

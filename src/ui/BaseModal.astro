@@ -1,9 +1,16 @@
 ---
-import BaseButton from '../ui/BaseButton.astro';
+import BaseIcon from '../ui/BaseIcon.astro';
 
-const { name, class: className, ...attrs } = Astro.props;
+const { 
+  class: className,
+  name,
+  ...attrs
+} = Astro.props;
 
-const classes = ['base-modal', className];
+const classes = [
+  'base-modal',
+  className,
+];
 ---
 
 <div
@@ -11,15 +18,18 @@ const classes = ['base-modal', className];
   data-modal={name}
   {...attrs}
 >
-  <div class="base-modal__container-wrapper">
-    <div class="base-modal__container">
-      <BaseButton
+  <div class="base-modal__container">
+    <div class="base-modal__wrapper">
+      <button
         class="base-modal__close-button"
-        theme="transparent"
-        size="sm"
-        right-icon="close"
+        type="button"
         data-modal-close={name}
-      />
+      >
+        <BaseIcon
+          class="base-modal__close-button-icon"
+          name="close"
+        />
+      </button>
       <slot />
     </div>
   </div>
@@ -77,7 +87,7 @@ const classes = ['base-modal', className];
       });
 
       modal.addEventListener('click', event => {
-        if (event.target?.parentElement === modal) {
+        if (event.target === modal) {
           modalHandler.close(modal, () => resetForms(modal));
         }
       });
@@ -107,42 +117,111 @@ const classes = ['base-modal', className];
 
 <style lang="scss" is:global>
   .base-modal {
+    $element: &;
+
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
     width: 100vw;
     height: 100vh;
-    background-color: $gray-4-60;
+    background: linear-gradient(180deg, rgba($dark, 0) 0%, rgba($dark, 0.5) 73%, $dark 100%);
     opacity: 0;
-    transition: opacity $default-transition;
     overflow-y: scroll;
     pointer-events: none;
+    transition: opacity 0.3s ease 0.15s;
 
     &.popup-active {
       opacity: 1;
       pointer-events: auto;
-    }
-
-    &__container-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 100%;
-      padding: rem(48);
+      transition: opacity $default-transition;
     }
 
     &__container {
-      position: relative;
-      width: min-content;
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translateX(105%);
+      height: 100%;
+      width: 100%;
+      background-color: $dark-40;
+      backdrop-filter: blur(32px);
+      transition: transform $default-transition;
+
+      @media #{$tablet} {
+        width: min-content;
+      }
+
+      .popup-active & {
+        transform: translateX(0);
+        transition: transform 0.3s ease 0.15s;
+      }
+    }
+
+    &__wrapper {
+      height: 100%;
+      overflow-y: auto;
+      margin-right: rem(8);
+
+      @media #{$tablet} {
+        width: min-content;
+        margin-right: rem(10);
+      }
+
+      &::-webkit-scrollbar {
+        width: rem(6);
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: linear-gradient(180deg, rgba($dark, 0) 0%, rgba($dark, 0.5) 73%, $dark 100%);
+        box-shadow: 0 rem(2) rem(4) 0 rgba($light, 0.2) inset;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 0;
+        background-color: $light;
+      }
     }
 
     &__close-button {
+      @include resetbtn;
+
       position: absolute;
-      top: rem(40);
-      right: rem(40);
+      top: rem(32);
+      right: rem(16);
       z-index: 10;
+      width: rem(60);
+      height: rem(60);
+      color: $light;
+      transition: color $default-transition;
+
+      @media #{$tablet} {
+        top: rem(32);
+        right: rem(20);
+      }
+
+      @media #{$desktop} {
+        top: rem(24);
+        right: rem(20);
+      }
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $primary;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $primary;
+      }
+    }
+
+    &__close-button-icon {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
   }
 </style>

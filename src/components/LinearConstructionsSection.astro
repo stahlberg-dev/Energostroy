@@ -1,6 +1,7 @@
 ---
 import { BASE } from '../scripts/helpers/constants.js';
 import InfoCard from '../components/InfoCard.astro';
+import BaseIcon from '../ui/BaseIcon.astro';
 
 const {
   class: className,
@@ -98,13 +99,39 @@ const cardList = [
           ))}
         </div>
       </div>
+
+      <div class="linear-constructions-section__controls">
+        <button
+          class="linear-constructions-section__prev-button js-linear-constructions-prev js-hidden"
+          type="button"
+        >
+          <span class="linear-constructions-section__button-text">Назад</span>
+
+          <BaseIcon
+            class="linear-constructions-section__button-icon"
+            name="slider-arrow"
+          />
+        </button>
+
+        <button
+          class="linear-constructions-section__next-button js-linear-constructions-next"
+          type="button"
+        >
+          <span class="linear-constructions-section__button-text">Далее</span>
+
+          <BaseIcon
+            class="linear-constructions-section__button-icon"
+            name="slider-arrow"
+          />
+        </button>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
   import { Swiper } from 'swiper';
-  import { Pagination } from 'swiper/modules';
+  import { Navigation, Pagination } from 'swiper/modules';
   import { getMediaQueries } from '../scripts/helpers/constants.js';
 
   function linearConstructionsSlider() {
@@ -112,8 +139,10 @@ const cardList = [
 
     sliderContainers.forEach((sliderContainer) => {
       const sliderElement = sliderContainer.querySelector('.js-linear-constructions-slider');
+      const prevButton = sliderContainer.querySelector('.js-linear-constructions-prev');
+      const nextButton = sliderContainer.querySelector('.js-linear-constructions-next');
 
-      if (!sliderElement) {
+      if (!sliderElement || !prevButton || !nextButton) {
         return;
       }
 
@@ -142,7 +171,7 @@ const cardList = [
         }
 
         slider = new Swiper(sliderElement, {
-          modules: [Pagination],
+          modules: [Navigation, Pagination],
           observer: true,
           observeParents: true,
           observeSlideChildren: true,
@@ -152,6 +181,20 @@ const cardList = [
           speed: 500,
           autoHeight: true,
           grabCursor: true,
+          navigation: {
+            nextEl: nextButton,
+            prevEl: prevButton,
+          },
+          on: {
+            reachEnd: function() {
+              prevButton.classList.remove('js-hidden');
+              nextButton.classList.add('js-hidden');
+            },
+            reachBeginning: function() {
+              nextButton.classList.remove('js-hidden');
+              prevButton.classList.add('js-hidden');
+            },
+          }
         });
       }
 
@@ -243,6 +286,67 @@ const cardList = [
 
 		&__info-card {
       height: 100%;
+		}
+
+		&__controls {
+      margin-top: rem(52);
+      width: 100%;
+
+      .js-no-slider & {
+        display: none;
+      }
+		}
+
+		&__prev-button,
+    &__next-button {
+      @include resetbtn;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: rem(10);
+      border: 1px solid $light;
+      width: 100%;
+      padding: rem(15);
+      color: $light;
+      transition:
+        border-color $default-transition,
+        color $default-transition;
+
+      @media #{$is-hover} {
+        &:hover {
+          border-color: $primary;
+          color: $primary;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        border-color: $primary;
+        color: $primary;
+      }
+
+      &.js-hidden {
+        display: none;
+      }
+		}
+
+    &__prev-button {
+      flex-direction: row-reverse;
+		}
+
+		&__button-text {
+      @include h5;
+		}
+
+		&__button-icon {
+      display: block;
+      width: rem(24);
+      height: rem(24);
+
+      #{$element}__prev-button & {
+        transform: rotate(180deg);
+      }
 		}
   }
 </style>

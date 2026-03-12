@@ -1,0 +1,192 @@
+---
+import BaseModal from '../ui/BaseModal.astro';
+
+const {
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = ['burger-menu', className];
+---
+
+<BaseModal
+  class:list={classes}
+  name="burger-menu"
+  {...attrs}
+>
+  <div class="burger-menu__content">
+    <ul class="burger-menu__list">
+      <li class="burger-menu__list-item">
+        <a
+          class="burger-menu__link"
+          href="#about"
+          data-modal-close="burger-menu"
+        >
+          О компании
+        </a>
+      </li>
+
+      <li class="burger-menu__list-item">
+        <a
+          class="burger-menu__link"
+          href="#сapital-structures"
+          data-modal-close="burger-menu"
+        >
+          Строительно-монтажные работы:<br>Капитальные объекты
+        </a>
+      </li>
+
+      <li class="burger-menu__list-item">
+        <a
+          class="burger-menu__link"
+          href="#designing"
+          data-modal-close="burger-menu"
+        >
+          Проектирование объектов<br>капитального строительства
+        </a>
+      </li>
+
+      <li class="burger-menu__list-item">
+        <a
+          class="burger-menu__link"
+          href="#linear-constructions"
+          data-modal-close="burger-menu"
+        >
+          Строительно-монтажные работы<br>линейных сооружений
+        </a>
+      </li>
+
+      <li class="burger-menu__list-item">
+        <a
+          class="burger-menu__link"
+          href="#earthworks"
+          data-modal-close="burger-menu"
+        >
+          Земельные работы и&nbsp;промышленное бурение
+        </a>
+      </li>
+
+      <li class="burger-menu__list-item">
+        <a
+          class="burger-menu__link"
+          href="#contacts"
+          data-modal-close="burger-menu"
+        >
+          контакты
+        </a>
+      </li>
+    </ul>
+
+    <div class="burger-menu__mail">
+      <div class="burger-menu__mail-title">
+        E-mail
+      </div>
+
+      <a
+        class="burger-menu__mail-link"
+        href="mailto:info@rkestroy.ru"
+      >
+        info@rkestroy.ru
+      </a>
+    </div>
+  </div>
+</BaseModal>
+
+<style lang="scss" is:global>
+  .burger-menu {
+    $element: &;
+
+    &__content {
+      padding: rem(62) rem(8) rem(32) rem(16);
+      
+      @media #{$tablet} {
+        width: rem(512);
+        padding: rem(144) rem(10) rem(64) rem(20);
+      }
+
+      @media #{$desktop} {
+        width: rem(482);
+        padding: rem(136) rem(10) rem(64) rem(20);
+      }
+    }
+
+		&__list {
+      @include resetul;
+
+      display: flex;
+      flex-direction: column;
+      gap: rem(48);
+      margin-bottom: rem(48);
+
+      @media #{$tablet} {
+        gap: rem(52);
+        margin-bottom: 0;
+      }
+
+      @media #{$desktop} {
+        gap: rem(48);
+      }
+		}
+
+		&__list-item {
+      @include resetli;
+		}
+
+		&__link {
+      @include reseta;
+      @include h4;
+
+      color: $light;
+      transition: color $default-transition;
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $primary;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $primary;
+      }
+		}
+
+		&__mail {
+      border-top: 1px solid $light;
+      padding-top: rem(48);
+
+      @media #{$tablet} {
+        display: none;
+      }
+		}
+
+		&__mail-title {
+      @include text2;
+
+      margin-bottom: rem(4);
+      color: $light;
+		}
+
+		&__mail-link {
+      @include reseta;
+      @include text2;
+
+      display: block;
+      text-decoration: underline;
+      text-underline-offset: 0.3em;
+      color: $primary;
+      transition: color $default-transition;
+
+      @media #{$is-hover} {
+        &:hover {
+          color: $focus;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        color: $focus;
+      }
+		}
+  }
+</style>

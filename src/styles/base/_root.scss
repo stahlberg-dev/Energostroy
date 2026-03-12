@@ -26,6 +26,7 @@
 html {
   min-height: 100vh;
   scroll-behavior: smooth;
+  scroll-padding: var(--header-height);
   font-size: 4.10256vw;
 
   @media #{$tablet} {
