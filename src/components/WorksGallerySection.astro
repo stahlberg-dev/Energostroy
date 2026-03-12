@@ -12,44 +12,35 @@ const classes = ['works-gallery-section', 'js-gallery-slider-section', className
 const worksList = [
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-8.webp`,
-    title: 'Армирование фундаментов верхней части',
-    captionText: 'Строительство дата центров в Московской области',
+    title: 'Армирование фундаментов верхней части. Строительство дата центров в Московской области.',
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-1.webp`,
-    title: 'Бурение в процессе монтажа электросетей и коммуникаций на участке постройки автодороги',
+    title: 'Бурение в процессе монтажа электросетей и коммуникаций на участке постройки автодороги.',
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-2.webp`,
-    title: 'Устройство монолитно-армированных конструкций',
-    captionText: 'Газпром Арена, г. Санкт-Петербург',
+    title: 'Устройство монолитно-армированных конструкций. Газпром Арена, г. Санкт-Петербург.',
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-3.webp`,
-    title: 'Строительство СКА Арены, г. Санкт-Петербург',
+    title: 'Строительство СКА Арены, г. Санкт-Петербург.',
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-4.webp`,
-    title: 'Заливка плиты кабельного канала',
-    captionText: 'Строительство дата центров в Московской области',
+    title: 'Заливка плиты кабельного канала. Строительство дата центров в Московской области.',
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-5.webp`,
-    title: 'Монолитные работы сектора С и Энергоцентра',
-    captionText: 'СКА Арена, г. Санкт-Петербург',
+    title: 'Монолитные работы сектора С и Энергоцентра. СКА Арена, г. Санкт-Петербург.',
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-6.webp`,
-    title: `
-      Изыскания гребного канала с использованием понтонов для последующей
-      разработки проекта расчистки дна с целью восполнения Волховского водохранилища
-    `,
-    captionText: 'г. Великий Новгород',
+    title: 'Изыскания гребного канала с использованием понтонов для расчистки дна Волховского водохранилища.',
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-7.webp`,
-    title: 'Ось Г В/1-8  выполнена обратная засыпка',
-    captionText: 'Строительство дата центров в Московской области',
+    title: 'Ось Г В/1-8  выполнена обратная засыпка. Строительство дата центров в Московской области.',
   },
 ];
 ---
@@ -88,8 +79,6 @@ const worksList = [
             </div>
 
             {item.title && <div class="works-gallery-section__slide-title">{item.title}</div>}
-
-            {item.captionText && <div class="works-gallery-section__slide-caption">{item.captionText}</div>}
           </div>
         ))}
       </div>
@@ -126,7 +115,6 @@ const worksList = [
         spaceBetween: 16,
         speed: 500,
         grabCursor: true,
-        autoHeight: true,
         loop: true,
         navigation: {
           nextEl: nextButton,
@@ -286,21 +274,6 @@ const worksList = [
       @media #{$desktop} {
         margin-top: rem(48);
       }
-		}
-
-		&__slide-caption {
-      @include text1;
-
-      margin-top: rem(12);
-      color: $light;
-
-      @media #{$tablet} {
-        max-width: rem(484);
-      }
-
-      @media #{$desktop} {
-        margin-top: rem(16);
-      }    
 		}
 
     &__slider-pagination {
