@@ -465,17 +465,19 @@ const modalList = [
 
       position: absolute;
       bottom: rem(32);
-      left: rem(16);
+      right: rem(16);
       z-index: 1;
       width: calc(100% - rem(32));
       color: $light;
 
       @media #{$tablet} {
-        left: rem(20);
+        right: rem(20);
         width: calc(100% - rem(40));
       }
 
       @media #{$desktop} {
+        right: rem(20);
+        width: rem(670);
         bottom: rem(46);
       }
     }

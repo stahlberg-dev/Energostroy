@@ -1,6 +1,6 @@
 ---
 import { BASE } from '../scripts/helpers/constants.js';
-import ArrowButton from '../ui/ArrowButton.astro';
+import SliderButton from '../ui/SliderButton.astro';
 
 const {
   class: className,
@@ -333,7 +333,7 @@ const tabList = [
 ---
 
 <section
-  id="capital-structures"
+  id="сapital-structures"
   class:list={classes}
   {...attrs}
 >
@@ -358,49 +358,91 @@ const tabList = [
   </div>
 
   <div class="capital-structures-section__bottom js-tabs-content-wrapper">
-    {tabList.map((item, index) => (
-      <div
-        class:list={['capital-structures-section__tab-content', { 'visible': index === 0 }]}
-        data-tab-content={item.tabName}
-      >
-        <div class="capital-structures-section__tab-content-top">
-          <div class="capital-structures-section__tab-content-info">
-            <h3 class="capital-structures-section__tab-content-title">
-              {item.tabText}
-            </h3>
-
-            <p class="capital-structures-section__tab-content-text">
-              {item.tabContent.text}
-            </p>
-
-            <div class="capital-structures-section__tab-content-descriptions">
-              {item.tabContent.descriptions.map((description) => (
-                <div class="capital-structures-section__tab-content-description">
-                  <h4 class="capital-structures-section__tab-content-description-title">
-                    {description.title}
-                  </h4>
-
-                  <p class="capital-structures-section__tab-content-description-text">
-                    {description.text}
-                  </p>
+    {
+      tabList.map((item, index) => (
+        <div
+          class:list={['capital-structures-section__tab-content', { 'visible': index === 0 }]}
+          data-tab-content={item.tabName}
+        >
+          <div class="capital-structures-section__tab-content-top">
+            <div class="capital-structures-section__tab-content-top-inner">
+              <div class="capital-structures-section__tab-content-info">
+                <h3 class="capital-structures-section__tab-content-title">
+                  {item.tabText}
+                </h3>
+                <p class="capital-structures-section__tab-content-text">
+                  {item.tabContent.text}
+                </p>
+                <div class="capital-structures-section__tab-content-descriptions">
+                  {item.tabContent.descriptions.map((description) => (
+                    <div class="capital-structures-section__tab-content-description">
+                      <h4 class="capital-structures-section__tab-content-description-title">
+                        {description.title}
+                      </h4>
+                      <p class="capital-structures-section__tab-content-description-text">
+                        {description.text}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+              <div class="capital-structures-section__tab-image-wrapper">
+                <img
+                  class="capital-structures-section__tab-image"
+                  src={item.tabContent.imageSrc}
+                  alt={item.tabText}
+                />
+              </div>
             </div>
           </div>
-          <div class="capital-structures-section__tab-image-wrapper">
-            <img
-              class="capital-structures-section__tab-image"
-              src={item.tabContent.imageSrc}
-              alt={item.tabText}
-            />
+
+          <div class="capital-structures-section__stages js-stages-container">
+            <div class="capital-structures-section__stages-header">
+              <h3 class="capital-structures-section__stages-title">Основные этапы работ</h3>
+
+              <div class="capital-structures-section__stages-controls">
+                <SliderButton
+                  class="capital-structures-section__stages-prev-button js-stages-slider-prev"
+                  hover-theme="dark"
+                  direction="left"
+                />
+                <SliderButton
+                  class="capital-structures-section__stages-next-button js-stages-slider-next"
+                  hover-theme="dark"
+                />
+              </div>
+            </div>
+
+            <div class="capital-structures-section__stages-slider swiper js-stages-slider">
+              <div class="capital-structures-section__stages-slider-wrapper swiper-wrapper">
+                {item.tabContent.stages.map((stage, stageIndex) => (
+                  <div class="capital-structures-section__stages-slide swiper-slide">
+                    <div class="capital-structures-section__stage-slide-top">
+                      {stageIndex + 1}
+                    </div>
+                    
+                    <div class="capital-structures-section__stage-title">
+                      {stage.title}
+                    </div>
+
+                    <p class="capital-structures-section__stage-text">
+                      {stage.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    ))}
+      ))
+    }
   </div>
 </section>
 
 <script>
+  import { Swiper } from 'swiper';
+  import { FreeMode, Navigation} from 'swiper/modules';
+
   function tabSwitcher() {
     const tabContainers = document.querySelectorAll('.js-tabs-container');
 
@@ -440,6 +482,41 @@ const tabList = [
   }
 
   tabSwitcher();
+
+  function stagesSlider() {
+    const stagesSliderContainers = document.querySelectorAll('.js-stages-container');
+
+    stagesSliderContainers.forEach(stagesSliderContainer => {
+      const sliderElement = stagesSliderContainer.querySelector('.js-stages-slider');
+      const prevButton = stagesSliderContainer.querySelector('.js-stages-slider-prev');
+      const nextButton = stagesSliderContainer.querySelector('.js-stages-slider-next');
+
+      if (!sliderElement || !prevButton || !nextButton) {
+        return;
+      }
+
+      new Swiper(sliderElement, {
+        modules: [FreeMode, Navigation],
+        observer: true,
+        observeParents: true,
+        observeSlideChildren: true,
+        watchOverflow: true,
+        slidesPerView: 'auto',
+        speed: 500,
+        grabCursor: true,
+        navigation: {
+          nextEl: nextButton,
+          prevEl: prevButton,
+        },
+        freeMode: {
+          enabled: true,
+          sticky: true,
+        },
+      });
+    });
+  }
+
+  stagesSlider();
 </script>
 
 <style lang="scss" is:global>
@@ -536,8 +613,6 @@ const tabList = [
     }
 
 		&__tab-content {
-      @include base-container;
-
       display: none;
 
       &.visible {
@@ -546,12 +621,16 @@ const tabList = [
     }
 
 		&__tab-content-top {
+      @include base-container;
+    }
+    
+    &__tab-content-top-inner {
       display: flex;
       flex-direction: column;
       gap: rem(32);
       margin-bottom: rem(52);
       padding-top: rem(52);
-
+  
       @media #{$tablet} {
         flex-direction: row;
         justify-content: space-between;
@@ -559,7 +638,7 @@ const tabList = [
         gap: rem(20);
         margin-right: calc(-1 * var(--container-padding));
       }
-
+  
       @media #{$desktop} {
         margin-bottom: rem(80);
         margin-right: 0;
@@ -674,6 +753,92 @@ const tabList = [
         position: static;
         width: 100%;
       }
+		}
+
+		&__stages {
+      @include large-container;
+
+      padding: rem(32) 0 rem(32) var(--container-padding);
+      background-color: $primary;
+
+      @media #{$tablet} {
+        padding: rem(36) 0 rem(36) var(--container-padding);
+      }
+		}
+
+		&__stages-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: rem(32);
+      margin-bottom: rem(32);
+
+      @media #{$tablet} {
+        margin-bottom: rem(52);
+      }
+
+      @media #{$desktop} {
+        margin-bottom: rem(60);
+      }
+		}
+
+		&__stages-title {
+      color: $light;
+		}
+
+		&__stages-controls {
+      display: none;
+
+      @media #{$tablet} {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: rem(16);
+        flex-shrink: 0;
+        padding-right: var(--container-padding);
+      }
+		}
+
+		&__stages-prev-button,
+    &__stages-next-button {
+      flex-shrink: 0;
+		}
+
+		&__stages-slide {
+      height: auto;
+      width: rem(264);
+      padding-right: rem(20);
+
+      @media #{$tablet} {
+        width: rem(358);
+      }
+
+      @media #{$desktop} {
+        width: rem(446);
+        padding-right: rem(60);
+      }
+		}
+
+		&__stage-slide-top {
+      @include h3;
+
+      margin-bottom: rem(32);
+      border-bottom: 1px solid $light;
+      padding-bottom: rem(7);
+      color: $light;
+		}
+
+		&__stage-title {
+      @include text2;
+
+      margin-bottom: rem(12);
+      color: $light;
+		}
+
+		&__stage-text {
+      @include text1;
+
+      color: $light;
 		}
   }
 </style>
