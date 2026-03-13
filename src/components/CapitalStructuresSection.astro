@@ -1,0 +1,362 @@
+---
+import { BASE } from '../scripts/helpers/constants.js';
+import ArrowButton from '../ui/ArrowButton.astro';
+
+const {
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = ['capital-structures-section', 'js-tabs-container', className];
+
+const tabList = [
+  {
+    tabName: 'monolithic-works',
+    tabText: 'Монолитные работы',
+    tabContent: {
+      text: `
+        Это технология возведения несущих конструкций зданий
+        и сооружений из бетона, заливаемого непосредственно
+        на объекте в единую форму (опалубку). В отличие от
+        сборного железобетона, монолит позволяет создавать
+        цельные конструкции без стыков, обеспечивая повышенную
+        прочность и гибкость архитектурных решений. Этот метод
+        широко применяется в капитальном строительстве многоэтажных жилых домов,
+        коммерческих комплексов, мостов и промышленных объектов.
+      `,
+      imageSrc: `${BASE}images/capital-structures-section/monolithic-works.webp`,
+    }
+  },
+  {
+    tabName: 'masonry-works',
+    tabText: 'Кладочные работы',
+    tabContent: {
+      text: `
+        Процесс возведения вертикальных ограждающих и несущих
+        конструкций (стен, перегородок, колонн) путем укладки
+        штучных строительных материалов на связующий раствор.
+        В отличие от монолитных технологий, кладка обеспечивает
+        высокие показатели паропроницаемости («дышащие стены»)
+        и не требует сложной опалубочной системы. Данный метод
+        является эталонным при строительстве жилых комплексов бизнес-класса,
+        индивидуальных жилых домов и реконструкции исторических объектов.
+      `,
+      imageSrc: `${BASE}images/capital-structures-section/masonry-works.webp`,
+    }
+  },
+  {
+    tabName: 'metal-structures',
+    tabText: 'Металлоконструкции',
+    tabContent: {
+      text: `
+        Это технология создания силового каркаса зданий
+        и сооружений из стальных элементов (балок, колонн, ферм),
+        соединяемых с помощью сварки или высокопрочных
+        болтовых соединений. Этот метод является
+        безальтернативным для промышленного строительства,
+        возведения логистических хабов, стадионов 
+        и большепролетных торговых центров.
+      `,
+      imageSrc: `${BASE}images/capital-structures-section/metal-structures.webp`,
+    }
+  },
+  {
+    tabName: 'wood-plastic-structures',
+    tabText: 'Конструкции из дерева и пластмасс',
+    tabContent: {
+      text: `
+        Данный блок охватывает применение инновационных
+        композитов и инженерной древесины в
+        специфических условиях эксплуатации, где традиционные
+        бетон или сталь подвержены коррозии или имеют избыточный вес.
+      `,
+      imageSrc: `${BASE}images/capital-structures-section/wood-plastic-structures.webp`,
+    }
+  },
+];
+---
+
+<section
+  id="capital-structures"
+  class:list={classes}
+  {...attrs}
+>
+  <div class="capital-structures-section__top">
+    <h2 class="capital-structures-section__title">
+      Строительно-монтажные работы:<br>Капитальные объекты
+    </h2>
+
+    <div class="capital-structures-section__tabs-container">
+      <div class="capital-structures-section__tabs">
+        {tabList.map((item, index) => (
+          <button
+            class:list={['capital-structures-section__tab', { 'active': index === 0 }]}
+            type="button"
+            data-tab={item.tabName}
+          >
+            {item.tabText}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="capital-structures-section__bottom js-tabs-content-wrapper">
+    {tabList.map((item, index) => (
+      <div
+        class:list={['capital-structures-section__tab-content', { 'visible': index === 0 }]}
+        data-tab-content={item.tabName}
+      >
+        <div class="capital-structures-section__tab-content-top">
+          <div class="capital-structures-section__tab-content-info">
+            <h3 class="capital-structures-section__tab-content-title">
+              {item.tabText}
+            </h3>
+            <p class="capital-structures-section__content-text">
+              {item.tabContent.text}
+            </p>
+          </div>
+          <div class="capital-structures-section__tab-image-wrapper">
+            <img
+              class="capital-structures-section__tab-image"
+              src={item.tabContent.imageSrc}
+              alt={item.tabText}
+            />
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  function tabSwitcher() {
+    const tabContainers = document.querySelectorAll('.js-tabs-container');
+
+    tabContainers.forEach((tabContainer) => {
+      const tabs = tabContainer.querySelectorAll('[data-tab]');
+      const tabsContentWrapper = tabContainer.querySelector('.js-tabs-content-wrapper');
+
+      if (!tabsContentWrapper || !tabs.length) {
+        return;
+      }
+
+      const tabContents = tabsContentWrapper.querySelectorAll('[data-tab-content]');
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          tabs.forEach((item) => {
+            item.classList.remove('active');
+          });
+
+          tabContents.forEach((content) => {
+            content.classList.remove('visible');
+          });
+
+          const currentTabName = tab.getAttribute('data-tab');
+          const currentTabContent = tabsContentWrapper.querySelector(`[data-tab-content="${currentTabName}"]`);
+
+          tab.classList.add('active');
+
+          if (!currentTabContent) {
+            return;
+          }
+
+          currentTabContent.classList.add('visible');
+        });
+      });
+    });
+  }
+
+  tabSwitcher();
+</script>
+
+<style lang="scss" is:global>
+  .capital-structures-section {
+    $element: &;
+
+    padding: rem(60) 0;
+    background-color: $light;
+
+    @media #{$tablet} {
+      padding: rem(80) 0;
+    }
+
+		&__top {
+      @include base-container;
+		}
+
+		&__title {
+      margin-bottom: rem(52);
+      color: $dark;
+
+      @media #{$desktop} {
+        margin-bottom: rem(80);
+      }
+		}
+
+		&__tabs-container {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 2px;
+        background-color: $primary;
+      }
+		}
+
+		&__tabs {
+      position: relative;
+      display: flex;
+      gap: rem(16);
+      z-index: 1;
+      overflow-x: auto;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+		}
+
+		&__tab {
+      @include resetbtn;
+      @include text2;
+
+      flex-shrink: 0;
+      padding: rem(8) rem(12);
+      color: $dark-gray;
+      cursor: pointer;
+      transition:
+        background-color $default-transition,
+        color $default-transition;
+
+      @media #{$desktop} {
+        padding: rem(12) rem(16);
+      }
+
+      @media #{$is-hover} {
+        &:hover {
+          background-color: $primary-50;
+          color: $light;
+        }
+      }
+
+      &:active,
+      &:focus-visible {
+        background-color: $primary-50;
+        color: $light;
+      }
+
+      &.active {
+        background-color: $primary;
+        color: $light;
+        pointer-events: none;
+      }
+		}
+
+    &__bottom {
+      position: relative;
+      overflow: hidden;
+      transition: height $default-transition;
+    }
+
+		&__tab-content {
+      @include base-container;
+
+      display: none;
+
+      &.visible {
+        display: block;
+      }
+    }
+
+		&__tab-content-top {
+      display: flex;
+      flex-direction: column;
+      gap: rem(32);
+      padding-top: rem(52);
+
+      @media #{$tablet} {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: rem(20);
+        margin-right: calc(-1 * var(--container-padding));
+      }
+
+      @media #{$desktop} {
+        margin-right: 0;
+        padding-top: 0;
+      }
+    }
+
+		&__tab-content-info {
+      @media #{$tablet} {
+        flex-grow: 1;
+      }
+
+      @media #{$desktop} {
+        padding-top: rem(52);
+      }
+		}
+
+		&__tab-content-title {
+      margin-bottom: rem(32);
+      text-transform: uppercase;
+      color: $dark;
+		}
+
+		&__content-text {
+      @include text1;
+
+      margin-bottom: rem(32);
+      color: $dark;
+
+      @media #{$tablet} {
+        margin-bottom: rem(52);
+      }
+
+      @media #{$desktop} {
+        margin-bottom: rem(66);
+        max-width: rem(580);
+      }
+		}
+
+		&__tab-image-wrapper {
+      position: relative;
+
+      @media #{$tablet} {
+        flex-shrink: 0;
+        width: rem(502);
+        height: rem(607);
+        overflow: hidden ;
+      }
+
+      @media #{$desktop} {
+        width: rem(690);
+      }
+		}
+
+		&__tab-image {
+      display: block;
+      max-width: none;
+      max-height: none;
+
+      @media #{$tablet} {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: rem(690);
+      }
+
+      @media #{$desktop} {
+        position: static;
+        width: 100%;
+      }
+		}
+  }
+</style>

@@ -83,7 +83,7 @@ export class Accordion {
   
             activeSection.classList.remove( activeSectionClass.slice(1) );
   
-            activeSectionContentWrapper.style.maxHeight = activeSectionContent.offsetHeight + 'px';
+            activeSectionContentWrapper.style.maxHeight = `${activeSectionContent.offsetHeight}px`;
   
             setTimeout(() => {
                 activeSectionContentWrapper.style.maxHeight = '0px';
