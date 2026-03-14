@@ -670,7 +670,18 @@ const tabList = [
         return;
       }
 
-      new Swiper(sliderElement, {
+      const checkNavigation = function() {
+        if (this.isEnd && this.isBeginning) {
+          prevButton.classList.add('hidden');
+          nextButton.classList.add('hidden');
+        } 
+        else {
+          prevButton.classList.remove('hidden');
+          nextButton.classList.remove('hidden');
+        }
+      };
+
+      const stagesSliderObject = new Swiper(sliderElement, {
         modules: [FreeMode, Navigation],
         observer: true,
         observeParents: true,
@@ -686,6 +697,11 @@ const tabList = [
         freeMode: {
           enabled: true,
           sticky: true,
+        },
+        on: {
+          init: checkNavigation,
+          resize: checkNavigation,
+          update: checkNavigation,
         },
       });
     });
@@ -977,6 +993,10 @@ const tabList = [
 		&__stages-prev-button,
     &__stages-next-button {
       flex-shrink: 0;
+
+      &.hidden {
+        display: none;
+      }
 		}
 
 		&__stages-slide {
