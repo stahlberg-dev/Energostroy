@@ -10,7 +10,7 @@ export class Accordion {
     this.onLoadActiveSectionNums = config.onLoadActiveSectionNums;
   }
 
-  onLoad({ 
+  onLoad({
     accordionElement,
     sectionClass,
     activeSectionClass,
@@ -33,16 +33,16 @@ export class Accordion {
       sectionContent.style.display = 'none';
     });
 
-    onLoadActiveSectionNums?.forEach((num) => {
-      if (!(sections?.[num])) return;
+    onLoadActiveSectionNums?.forEach(num => {
+      if (!sections?.[num]) return;
 
       const contentWrapper = sections[num].querySelector(sectionContentWrapperClass);
       const content = sections[num].querySelector(sectionContentClass);
 
-      sections[num].classList.add( activeSectionClass.slice(1) );
+      sections[num].classList.add(activeSectionClass.slice(1));
       content.style.display = 'block';
       contentWrapper.style.maxHeight = '';
-    } );
+    });
   }
 
   onClick({
@@ -64,7 +64,7 @@ export class Accordion {
           return;
         }
 
-        const activeSections = document.querySelectorAll(activeSectionClass);               
+        const activeSections = document.querySelectorAll(activeSectionClass);
         const isActive = closestSection.classList.contains(activeSectionClass.slice(1));
 
         accordionElement.style.pointerEvents = 'none';
@@ -72,26 +72,30 @@ export class Accordion {
         setTimeout(() => {
           accordionElement.style.pointerEvents = 'auto';
         }, showHideTime);
-        
-        const closestSectionContentWrapper = closestSection.querySelector(sectionContentWrapperClass);
+
+        const closestSectionContentWrapper = closestSection.querySelector(
+          sectionContentWrapperClass
+        );
         const closestSectionContent = closestSection.querySelector(sectionContentClass);
-        
+
         if (!isActive) {
-          activeSections.forEach((activeSection) => {
-            const activeSectionContentWrapper = activeSection.querySelector(sectionContentWrapperClass);
+          activeSections.forEach(activeSection => {
+            const activeSectionContentWrapper = activeSection.querySelector(
+              sectionContentWrapperClass
+            );
             const activeSectionContent = activeSection.querySelector(sectionContentClass);
-  
-            activeSection.classList.remove( activeSectionClass.slice(1) );
-  
+
+            activeSection.classList.remove(activeSectionClass.slice(1));
+
             activeSectionContentWrapper.style.maxHeight = `${activeSectionContent.offsetHeight}px`;
-  
+
             setTimeout(() => {
-                activeSectionContentWrapper.style.maxHeight = '0px';
+              activeSectionContentWrapper.style.maxHeight = '0px';
             }, 0);
-  
+
             setTimeout(() => {
-                activeSectionContent.style.display = 'none';
-            }, showHideTime);               
+              activeSectionContent.style.display = 'none';
+            }, showHideTime);
           });
 
           closestSection.classList.add(activeSectionClass.slice(1));

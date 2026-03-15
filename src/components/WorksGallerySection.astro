@@ -2,21 +2,20 @@
 import { BASE } from '../scripts/helpers/constants.js';
 import SliderButton from '../ui/SliderButton.astro';
 
-const {
-  class: className,
-  ...attrs
-} = Astro.props;
+const { class: className, ...attrs } = Astro.props;
 
 const classes = ['works-gallery-section', 'js-gallery-slider-section', className];
 
 const worksList = [
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-8.webp`,
-    title: 'Армирование фундаментов верхней части. Строительство дата центров в Московской области.',
+    title:
+      'Армирование фундаментов верхней части. Строительство дата центров в Московской области.',
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-1.webp`,
-    title: 'Бурение в процессе монтажа электросетей и коммуникаций на участке постройки автодороги.',
+    title:
+      'Бурение в процессе монтажа электросетей и коммуникаций на участке постройки автодороги.',
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-2.webp`,
@@ -36,11 +35,13 @@ const worksList = [
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-6.webp`,
-    title: 'Изыскания гребного канала с использованием понтонов для расчистки дна Волховского водохранилища.',
+    title:
+      'Изыскания гребного канала с использованием понтонов для расчистки дна Волховского водохранилища.',
   },
   {
     imageUrl: `${BASE}images/works-gallery-section/slide-7.webp`,
-    title: 'Ось Г В/1-8  выполнена обратная засыпка. Строительство дата центров в Московской области.',
+    title:
+      'Ось Г В/1-8  выполнена обратная засыпка. Строительство дата центров в Московской области.',
   },
 ];
 ---
@@ -58,29 +59,29 @@ const worksList = [
         class="works-gallery-section__prev-button js-gallery-slider-prev"
         direction="left"
       />
-      <SliderButton
-        class="works-gallery-section__next-button js-gallery-slider-next"
-      />
+      <SliderButton class="works-gallery-section__next-button js-gallery-slider-next" />
     </div>
   </div>
 
   <div class="works-gallery-section__slider-container">
     <div class="works-gallery-section__slider swiper js-gallery-slider">
       <div class="works-gallery-section__slider-wrapper swiper-wrapper">
-        {worksList.map((item) => (
-          <div class="works-gallery-section__slide swiper-slide">
-            <div class="works-gallery-section__slide-image-wrapper">
-              <img
-                class="works-gallery-section__slide-image"
-                src={item.imageUrl}
-                alt="фото"
-                loading="lazy"
-              >
-            </div>
+        {
+          worksList.map(item => (
+            <div class="works-gallery-section__slide swiper-slide">
+              <div class="works-gallery-section__slide-image-wrapper">
+                <img
+                  class="works-gallery-section__slide-image"
+                  src={item.imageUrl}
+                  alt="фото"
+                  loading="lazy"
+                />
+              </div>
 
-            {item.title && <div class="works-gallery-section__slide-title">{item.title}</div>}
-          </div>
-        ))}
+              {item.title && <div class="works-gallery-section__slide-title">{item.title}</div>}
+            </div>
+          ))
+        }
       </div>
     </div>
 
@@ -208,7 +209,7 @@ const worksList = [
       }
 
       @media #{$desktop-lg} {
-        transform: translateX(#{rem(-20)});  
+        transform: translateX(#{rem(-20)});
       }
     }
 
@@ -229,7 +230,7 @@ const worksList = [
       }
     }
 
-		&__slide-image-wrapper {
+    &__slide-image-wrapper {
       position: relative;
       width: 100%;
       height: rem(186);
@@ -243,56 +244,55 @@ const worksList = [
       }
 
       &::after {
-        content: '';
         position: absolute;
         bottom: -2px;
         left: 0;
         width: 100%;
         height: 50%;
         background: linear-gradient(180deg, rgba($dark, 0) 0%, rgba($dark, 0.5) 73%, $dark 100%);
+        content: '';
       }
-		}
+    }
 
-		&__slide-image {
+    &__slide-image {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
-		}
+    }
 
-		&__slide-title {
+    &__slide-title {
       @include h5;
 
       margin-top: rem(32);
       color: $light;
 
       @media #{$tablet} {
-        margin-top: rem(52);
         max-width: rem(484);
+        margin-top: rem(52);
       }
 
       @media #{$desktop} {
         margin-top: rem(48);
       }
-		}
+    }
 
     &__slider-pagination {
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: rem(12);
+      justify-content: center;
       padding-top: rem(24);
+      gap: rem(12);
 
       @media #{$tablet} {
         display: none;
       }
 
-      &.swiper-pagination-horizontal.swiper-pagination-bullets
-        > .swiper-pagination-bullet {
-        margin: 0;
+      &.swiper-pagination-horizontal.swiper-pagination-bullets > .swiper-pagination-bullet {
         flex-shrink: 0;
         width: rem(8);
         height: rem(8);
+        margin: 0;
         background: $light-gray;
         opacity: 1;
         transition: background-color $default-transition;
@@ -303,6 +303,6 @@ const worksList = [
         background: $primary;
         opacity: 1;
       }
-		}
+    }
   }
 </style>

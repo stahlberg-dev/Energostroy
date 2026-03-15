@@ -12,6 +12,8 @@ export const BREAKPOINTS_MIN = {
 
 export const getMediaQueries = () => ({
   desktop: window.matchMedia(`(min-width: ${BREAKPOINTS_MIN.DESKTOP}px)`),
-  tablet: window.matchMedia(`(min-width: ${BREAKPOINTS_MIN.TABLET}px) and (max-width: ${BREAKPOINTS_MAX.TABLET}px)`),
+  tablet: window.matchMedia(
+    `(min-width: ${BREAKPOINTS_MIN.TABLET}px) and (max-width: ${BREAKPOINTS_MAX.TABLET}px)`
+  ),
   mobile: window.matchMedia(`(max-width: ${BREAKPOINTS_MAX.MOBILE}px)`),
 });

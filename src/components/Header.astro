@@ -1,16 +1,9 @@
 ---
 import { BASE } from '../scripts/helpers/constants.js';
 
-const {
-  class: className,
-  ...attrs
-} = Astro.props;
+const { class: className, ...attrs } = Astro.props;
 
-const classes = [
-  'header',
-  'js-fixed-element',
-  className,
-];
+const classes = ['header', 'js-fixed-element', className];
 ---
 
 <header
@@ -53,11 +46,11 @@ const classes = [
     $element: &;
 
     position: fixed;
-    background-color: $dark;
     top: 0;
     left: 0;
     z-index: 50;
     width: 100%;
+    background-color: $dark;
 
     &__container {
       @include base-container;
@@ -106,8 +99,8 @@ const classes = [
 
       display: none;
       flex-shrink: 0;
-      text-transform: uppercase;
       color: $primary;
+      text-transform: uppercase;
       transition: color $default-transition;
 
       @media #{$tablet} {
@@ -126,7 +119,7 @@ const classes = [
       }
     }
 
-		&__burger-button {
+    &__burger-button {
       @include resetbtn;
 
       position: relative;
@@ -138,12 +131,12 @@ const classes = [
       @media #{$tablet} {
         width: rem(74);
       }
-		}
+    }
 
-		&__burger-stripe {
-      display: block;
+    &__burger-stripe {
       position: absolute;
       left: 0;
+      display: block;
       width: 100%;
       height: 1px;
       background-color: $light;
@@ -160,17 +153,17 @@ const classes = [
         background-color: $primary;
       }
 
-			&_position_top {
+      &_position_top {
         top: 0;
       }
 
-			&_position_middle {
+      &_position_middle {
         top: rem(8);
       }
 
-			&_position_bottom {
+      &_position_bottom {
         bottom: 0;
-			}
-		}
+      }
+    }
   }
 </style>

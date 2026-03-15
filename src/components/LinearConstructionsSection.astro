@@ -3,10 +3,7 @@ import { BASE } from '../scripts/helpers/constants.js';
 import InfoCard from '../components/InfoCard.astro';
 import BaseIcon from '../ui/BaseIcon.astro';
 
-const {
-  class: className,
-  ...attrs
-} = Astro.props;
+const { class: className, ...attrs } = Astro.props;
 
 const classes = ['linear-constructions-section', className];
 
@@ -83,20 +80,24 @@ const cardList = [
       Строительно-монтажные работы линейных сооружений
     </h2>
 
-    <div class="linear-constructions-section__bottom js-linear-constructions-slider-container js-no-slider">
+    <div
+      class="linear-constructions-section__bottom js-linear-constructions-slider-container js-no-slider"
+    >
       <div class="linear-constructions-section__slider swiper js-linear-constructions-slider">
         <div class="linear-constructions-section__slider-wrapper swiper-wrapper">
-          {cardList.map(card => (
-            <div class="linear-constructions-section__slide swiper-slide">
-              <InfoCard
-                class="linear-constructions-section__info-card"
-                theme="dark"
-                title={card.title}
-                description={card.description}
-                details={card.details}
-              />
-            </div>
-          ))}
+          {
+            cardList.map(card => (
+              <div class="linear-constructions-section__slide swiper-slide">
+                <InfoCard
+                  class="linear-constructions-section__info-card"
+                  theme="dark"
+                  title={card.title}
+                  description={card.description}
+                  details={card.details}
+                />
+              </div>
+            ))
+          }
         </div>
       </div>
 
@@ -137,7 +138,7 @@ const cardList = [
   function linearConstructionsSlider() {
     const sliderContainers = document.querySelectorAll('.js-linear-constructions-slider-container');
 
-    sliderContainers.forEach((sliderContainer) => {
+    sliderContainers.forEach(sliderContainer => {
       const sliderElement = sliderContainer.querySelector('.js-linear-constructions-slider');
       const prevButton = sliderContainer.querySelector('.js-linear-constructions-prev');
       const nextButton = sliderContainer.querySelector('.js-linear-constructions-next');
@@ -154,12 +155,11 @@ const cardList = [
         initSlider();
       }
 
-      mediaQueries.mobile.addEventListener('change', (event) => {
+      mediaQueries.mobile.addEventListener('change', event => {
         if (event.matches) {
           sliderContainer.classList.remove('js-no-slider');
           initSlider();
-        }
-        else {
+        } else {
           destroySlider();
           sliderContainer.classList.add('js-no-slider');
         }
@@ -185,15 +185,15 @@ const cardList = [
             prevEl: prevButton,
           },
           on: {
-            reachEnd: function() {
+            reachEnd: function () {
               prevButton.classList.remove('js-hidden');
               nextButton.classList.add('js-hidden');
             },
-            reachBeginning: function() {
+            reachBeginning: function () {
               nextButton.classList.remove('js-hidden');
               prevButton.classList.add('js-hidden');
             },
-          }
+          },
         });
       }
 
@@ -231,15 +231,15 @@ const cardList = [
       display: none;
 
       @media #{$desktop} {
-        display: block;
         position: absolute;
         top: 0;
         left: 50%;
-        transform: translateX(#{rem(-8)});
+        display: block;
         width: rem(1480);
         max-width: none;
         max-height: none;
         filter: grayscale(40);
+        transform: translateX(#{rem(-8)});
       }
     }
 
@@ -250,7 +250,7 @@ const cardList = [
       z-index: 1;
     }
 
-		&__title {
+    &__title {
       margin-bottom: rem(52);
       color: $light;
 
@@ -259,12 +259,12 @@ const cardList = [
       }
 
       @media #{$desktop} {
-        margin-bottom: rem(120);
         width: rem(940);
+        margin-bottom: rem(120);
       }
-		}
+    }
 
-		&__slider-wrapper {
+    &__slider-wrapper {
       height: auto;
 
       .js-no-slider & {
@@ -272,45 +272,49 @@ const cardList = [
         justify-content: space-between;
         gap: rem(20);
       }
-		}
+    }
 
-		&__slide {
+    &__slide {
       height: auto;
 
       .js-no-slider & {
         flex-shrink: 0;
         width: calc(50% - #{rem(10)});
       }
-		}
+    }
 
-		&__info-card {
+    &__info-card {
       height: 100%;
-		}
+    }
 
-		&__controls {
-      margin-top: rem(52);
+    &__controls {
       width: 100%;
+      margin-top: rem(52);
 
       .js-no-slider & {
         display: none;
       }
-		}
+    }
 
-		&__prev-button,
+    &__prev-button {
+      flex-direction: row-reverse;
+    }
+
+    &__prev-button,
     &__next-button {
       @include resetbtn;
 
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: rem(10);
-      border: 1px solid $light;
+      justify-content: center;
       width: 100%;
       padding: rem(15);
+      border: 1px solid $light;
       color: $light;
       transition:
         border-color $default-transition,
         color $default-transition;
+      gap: rem(10);
 
       @media #{$is-hover} {
         &:hover {
@@ -328,17 +332,13 @@ const cardList = [
       &.js-hidden {
         display: none;
       }
-		}
+    }
 
-    &__prev-button {
-      flex-direction: row-reverse;
-		}
-
-		&__button-text {
+    &__button-text {
       @include h5;
-		}
+    }
 
-		&__button-icon {
+    &__button-icon {
       display: block;
       width: rem(24);
       height: rem(24);
@@ -346,6 +346,6 @@ const cardList = [
       #{$element}__prev-button & {
         transform: rotate(180deg);
       }
-		}
+    }
   }
 </style>

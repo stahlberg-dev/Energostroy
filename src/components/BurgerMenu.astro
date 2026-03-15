@@ -1,10 +1,7 @@
 ---
 import BaseModal from '../ui/BaseModal.astro';
 
-const {
-  class: className,
-  ...attrs
-} = Astro.props;
+const { class: className, ...attrs } = Astro.props;
 
 const classes = ['burger-menu', className];
 ---
@@ -32,7 +29,7 @@ const classes = ['burger-menu', className];
           href="#сapital-structures"
           data-modal-close="burger-menu"
         >
-          Строительно-монтажные работы:<br>Капитальные объекты
+          Строительно-монтажные работы:<br />Капитальные объекты
         </a>
       </li>
 
@@ -42,7 +39,7 @@ const classes = ['burger-menu', className];
           href="#designing"
           data-modal-close="burger-menu"
         >
-          Проектирование объектов<br>капитального строительства
+          Проектирование объектов<br />капитального строительства
         </a>
       </li>
 
@@ -52,7 +49,7 @@ const classes = ['burger-menu', className];
           href="#linear-constructions"
           data-modal-close="burger-menu"
         >
-          Строительно-монтажные работы<br>линейных сооружений
+          Строительно-монтажные работы<br />линейных сооружений
         </a>
       </li>
 
@@ -78,9 +75,7 @@ const classes = ['burger-menu', className];
     </ul>
 
     <div class="burger-menu__mail">
-      <div class="burger-menu__mail-title">
-        E-mail
-      </div>
+      <div class="burger-menu__mail-title">E-mail</div>
 
       <a
         class="burger-menu__mail-link"
@@ -98,7 +93,7 @@ const classes = ['burger-menu', className];
 
     &__content {
       padding: rem(62) rem(8) rem(32) rem(16);
-      
+
       @media #{$tablet} {
         width: rem(512);
         padding: rem(144) rem(10) rem(64) rem(20);
@@ -110,7 +105,7 @@ const classes = ['burger-menu', className];
       }
     }
 
-		&__list {
+    &__list {
       @include resetul;
 
       display: flex;
@@ -126,13 +121,13 @@ const classes = ['burger-menu', className];
       @media #{$desktop} {
         gap: rem(48);
       }
-		}
+    }
 
-		&__list-item {
+    &__list-item {
       @include resetli;
-		}
+    }
 
-		&__link {
+    &__link {
       @include reseta;
       @include h4;
 
@@ -149,33 +144,33 @@ const classes = ['burger-menu', className];
       &:focus-visible {
         color: $primary;
       }
-		}
+    }
 
-		&__mail {
-      border-top: 1px solid $light;
+    &__mail {
       padding-top: rem(48);
+      border-top: 1px solid $light;
 
       @media #{$tablet} {
         display: none;
       }
-		}
+    }
 
-		&__mail-title {
+    &__mail-title {
       @include text2;
 
       margin-bottom: rem(4);
       color: $light;
-		}
+    }
 
-		&__mail-link {
+    &__mail-link {
       @include reseta;
       @include text2;
 
       display: block;
-      text-decoration: underline;
-      text-underline-offset: 0.3em;
       color: $primary;
+      text-decoration: underline;
       transition: color $default-transition;
+      text-underline-offset: 0.3em;
 
       @media #{$is-hover} {
         &:hover {
@@ -187,6 +182,6 @@ const classes = ['burger-menu', className];
       &:focus-visible {
         color: $focus;
       }
-		}
+    }
   }
 </style>

@@ -1,10 +1,7 @@
 ---
 import { BASE } from '../scripts/helpers/constants.js';
 
-const {
-  class: className,
-  ...attrs
-} = Astro.props;
+const { class: className, ...attrs } = Astro.props;
 
 const classes = ['contacts-section', className];
 ---
@@ -19,32 +16,28 @@ const classes = ['contacts-section', className];
       <source
         srcset={`${BASE}images/contacts-section/map-desktop.webp`}
         media="(min-width: 1200px)"
-      >
+      />
 
       <source
         srcset={`${BASE}images/contacts-section/map-tablet.webp`}
         media="(min-width: 768px) and (max-width: 1199.98px)"
-      >
+      />
 
       <img
         class="contacts-section__image"
         src={`${BASE}images/contacts-section/map-mobile.webp`}
         alt="фото"
         loading="lazy"
-      >
+      />
     </picture>
 
     <div class="contacts-section__info">
-      <h2 class="contacts-section__title">
-        Мы на связи
-      </h2>
+      <h2 class="contacts-section__title">Мы на связи</h2>
 
       <div class="contacts-section__contacts">
         <div class="contacts-section__contacts-item">
-          <div class="contacts-section__contacts-item-title">
-            Адрес
-          </div>
-          
+          <div class="contacts-section__contacts-item-title">Адрес</div>
+
           <a
             class="contacts-section__contacts-item-link"
             href="https://yandex.com/maps/-/CPBBqNjj"
@@ -55,9 +48,7 @@ const classes = ['contacts-section', className];
         </div>
 
         <div class="contacts-section__contacts-item">
-          <div class="contacts-section__contacts-item-title">
-            Телефон
-          </div>
+          <div class="contacts-section__contacts-item-title">Телефон</div>
 
           <a
             class="contacts-section__contacts-item-link"
@@ -68,9 +59,7 @@ const classes = ['contacts-section', className];
         </div>
 
         <div class="contacts-section__contacts-item">
-          <div class="contacts-section__contacts-item-title">
-            E-mail
-          </div>
+          <div class="contacts-section__contacts-item-title">E-mail</div>
 
           <a
             class="contacts-section__contacts-item-link"
@@ -92,15 +81,15 @@ const classes = ['contacts-section', className];
     background-color: $light-gray;
 
     &::after {
-      content: '';
-      display: block;
       position: absolute;
       top: -2px;
       left: 0;
       z-index: 1;
+      display: block;
       width: 100%;
       height: rem(60);
       background: linear-gradient(0deg, rgba($dark, 0) 0%, rgba($dark, 0.5) 73%, $dark 100%);
+      content: '';
 
       @media #{$tablet} {
         height: rem(80);
@@ -110,14 +99,14 @@ const classes = ['contacts-section', className];
         height: rem(156);
       }
     }
-      
-		&__container {
+
+    &__container {
       @include large-container;
 
       position: relative;
-		}
+    }
 
-		&__image-wrapper {
+    &__image-wrapper {
       display: block;
       width: 100%;
       height: rem(450);
@@ -129,9 +118,9 @@ const classes = ['contacts-section', className];
       @media #{$desktop} {
         height: rem(710);
       }
-		}
+    }
 
-		&__image {
+    &__image {
       display: block;
       width: 100%;
       height: 100%;
@@ -140,9 +129,9 @@ const classes = ['contacts-section', className];
       @media #{$desktop} {
         object-position: top;
       }
-		}
+    }
 
-		&__info {
+    &__info {
       padding: rem(24) rem(16) rem(60);
       background-color: $light;
 
@@ -150,12 +139,11 @@ const classes = ['contacts-section', className];
         position: absolute;
         top: 50%;
         left: rem(20);
-        transform: translateY(-50%);
         z-index: 2;
         width: rem(356);
         padding: rem(24) rem(20);
-        box-shadow: 0 rem(2) rem(63) 0 #213E472E;
-
+        box-shadow: 0 rem(2) rem(63) 0 #213e472e;
+        transform: translateY(-50%);
       }
 
       @media #{$desktop} {
@@ -163,9 +151,9 @@ const classes = ['contacts-section', className];
         width: auto;
         padding: rem(24) rem(32);
       }
-		}
+    }
 
-		&__title {
+    &__title {
       margin-bottom: rem(32);
       color: $dark;
 
@@ -176,9 +164,9 @@ const classes = ['contacts-section', className];
       @media #{$desktop} {
         margin-bottom: rem(102);
       }
-		}
+    }
 
-		&__contacts-item {
+    &__contacts-item {
       margin-bottom: rem(24);
 
       @media #{$tablet} {
@@ -188,16 +176,16 @@ const classes = ['contacts-section', className];
       &:last-child {
         margin-bottom: 0;
       }
-		}
+    }
 
-		&__contacts-item-title {
+    &__contacts-item-title {
       @include text2;
 
       margin-bottom: rem(8);
       color: $dark;
-		}
+    }
 
-		&__contacts-item-link {
+    &__contacts-item-link {
       @include reseta;
       @include text1;
 
@@ -218,6 +206,6 @@ const classes = ['contacts-section', className];
       &:focus-visible {
         color: $primary;
       }
-      }
+    }
   }
 </style>

@@ -6,7 +6,7 @@
   --container-padding: #{rem(16)};
   --header-height: #{rem(60)};
 
-  @media #{$tablet}{
+  @media #{$tablet} {
     --container-padding: #{rem(20)};
     --header-height: #{rem(80)};
   }

@@ -1,20 +1,9 @@
 ---
 import BaseIcon from '../ui/BaseIcon.astro';
 
-const {
-  class: className,
-  title,
-  description,
-  details,
-  theme = 'light',
-  ...attrs
-} = Astro.props;
+const { class: className, title, description, details, theme = 'light', ...attrs } = Astro.props;
 
-const classes = [
-  'info-card',
-  `info-card_theme_${theme}`,
-  className,
-];
+const classes = ['info-card', `info-card_theme_${theme}`, className];
 ---
 
 <div
@@ -25,33 +14,35 @@ const classes = [
 
   {description && <div class="info-card__description">{description}</div>}
 
-  {details.map((item) => (
-    <div class="info-card__details-item">
-      <BaseIcon
-        class="info-card__details-item-icon"
-        name={item.icon}
-      />
-      <div class="info-card__details-item-info">
-        <h4 class="info-card__details-item-title">{item.title}</h4>
-        <div class="info-card__details-item-description">{item.description}</div>
+  {
+    details.map(item => (
+      <div class="info-card__details-item">
+        <BaseIcon
+          class="info-card__details-item-icon"
+          name={item.icon}
+        />
+        <div class="info-card__details-item-info">
+          <h4 class="info-card__details-item-title">{item.title}</h4>
+          <div class="info-card__details-item-description">{item.description}</div>
+        </div>
       </div>
-    </div>
-  ))}
+    ))
+  }
 </div>
 
 <style lang="scss" is:global>
   .info-card {
     $element: &;
+    color: var(--text-color);
 
     background-color: transparent;
-    color: var(--text-color);
 
     &_theme_light {
       --text-color: #{$dark};
       --highlight-color: #{$primary};
+      padding: rem(30) rem(22);
 
       border: 2px solid var(--highlight-color);
-      padding: rem(30) rem(22);
 
       @media #{$tablet} {
         padding: rem(30) rem(20);
@@ -65,9 +56,9 @@ const classes = [
     &_theme_dark {
       --text-color: #{$light};
       --highlight-color: #{$light-gray};
+      padding: rem(12) 0 rem(12) rem(16);
 
       border-left: 1px solid var(--highlight-color);
-      padding: rem(12) 0 rem(12) rem(16);
 
       @media #{$tablet} {
         padding: rem(12) 0 rem(12) rem(32);
@@ -114,7 +105,7 @@ const classes = [
       }
     }
 
-		&__details-item {
+    &__details-item {
       display: flex;
       align-items: flex-start;
       gap: rem(32);
@@ -139,16 +130,16 @@ const classes = [
       #{$element}_theme_dark &:last-child {
         margin-bottom: 0;
       }
-		}
+    }
 
-		&__details-item-icon {
+    &__details-item-icon {
       flex-shrink: 0;
       width: rem(60);
       height: rem(60);
       color: var(--highlight-color);
-		}
+    }
 
-		&__details-item-title {
+    &__details-item-title {
       @include h5;
 
       margin-bottom: rem(12);
@@ -156,10 +147,10 @@ const classes = [
       @media #{$desktop} {
         margin-bottom: rem(16);
       }
-		}
+    }
 
-		&__details-item-description {
+    &__details-item-description {
       @include text1;
-		}
+    }
   }
 </style>

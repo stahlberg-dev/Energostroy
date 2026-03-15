@@ -1,7 +1,6 @@
 @use "../functions" as *;
 @use "../variables/" as *;
 
-
 @mixin h1-base {
   font-family: $ff-accent;
   font-weight: 500;

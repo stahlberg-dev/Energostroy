@@ -1,10 +1,7 @@
 ---
 import InfoCard from '../components/InfoCard.astro';
 
-const {
-  class: className,
-  ...attrs
-} = Astro.props;
+const { class: className, ...attrs } = Astro.props;
 
 const classes = ['earthworks-section', className];
 
@@ -65,29 +62,29 @@ const cardList = [
 >
   <div class="earthworks-section__container">
     <div class="earthworks-section__top">
-      <h2 class="earthworks-section__title">
-        Земельные работы и&nbsp;промышленное бурение
-      </h2>
+      <h2 class="earthworks-section__title">Земельные работы и&nbsp;промышленное бурение</h2>
 
       <p class="earthworks-section__text">
-        Нулевой цикл — это основа долговечности любого сооружения,
-        требующая глубокого понимания механики грунтов.
+        Нулевой цикл — это основа долговечности любого сооружения, требующая глубокого понимания
+        механики грунтов.
       </p>
     </div>
 
     <div class="earthworks-section__bottom js-earthworks-slider-container js-no-slider">
       <div class="earthworks-section__slider swiper js-earthworks-slider">
         <div class="earthworks-section__slider-wrapper swiper-wrapper">
-          {cardList.map(card => (
-            <div class="earthworks-section__slide swiper-slide">
-              <InfoCard
-                class="earthworks-section__info-card"
-                title={card.title}
-                description={card.description}
-                details={card.details}
-              />
-            </div>
-          ))}
+          {
+            cardList.map(card => (
+              <div class="earthworks-section__slide swiper-slide">
+                <InfoCard
+                  class="earthworks-section__info-card"
+                  title={card.title}
+                  description={card.description}
+                  details={card.details}
+                />
+              </div>
+            ))
+          }
         </div>
       </div>
 
@@ -104,7 +101,7 @@ const cardList = [
   function earthworksSlider() {
     const sliderContainers = document.querySelectorAll('.js-earthworks-slider-container');
 
-    sliderContainers.forEach((sliderContainer) => {
+    sliderContainers.forEach(sliderContainer => {
       const sliderElement = sliderContainer.querySelector('.js-earthworks-slider');
       const paginationElement = sliderContainer.querySelector('.js-earthworks-slider-pagination');
 
@@ -120,12 +117,11 @@ const cardList = [
         initSlider();
       }
 
-      mediaQueries.mobile.addEventListener('change', (event) => {
+      mediaQueries.mobile.addEventListener('change', event => {
         if (event.matches) {
           sliderContainer.classList.remove('js-no-slider');
           initSlider();
-        }
-        else {
+        } else {
           destroySlider();
           sliderContainer.classList.add('js-no-slider');
         }
@@ -182,7 +178,7 @@ const cardList = [
       @include base-container;
     }
 
-		&__top {
+    &__top {
       display: flex;
       flex-direction: column;
       gap: rem(32);
@@ -190,10 +186,10 @@ const cardList = [
 
       @media #{$tablet} {
         flex-direction: row;
-        justify-content: space-between;
         align-items: flex-end;
-        gap: rem(94);
+        justify-content: space-between;
         margin-bottom: rem(56);
+        gap: rem(94);
       }
 
       @media #{$desktop} {
@@ -201,9 +197,9 @@ const cardList = [
         gap: rem(20);
         margin-bottom: rem(120);
       }
-		}
+    }
 
-		&__title {
+    &__title {
       color: $dark;
 
       @media #{$tablet} {
@@ -214,20 +210,20 @@ const cardList = [
       @media #{$desktop} {
         width: rem(690);
       }
-		}
+    }
 
-		&__text {
+    &__text {
       @include text2;
+      max-width: rem(330);
 
       color: $dark;
-      max-width: rem(330);
 
       @media #{$desktop} {
         max-width: rem(440);
       }
-		}
+    }
 
-		&__slider-wrapper {
+    &__slider-wrapper {
       height: auto;
 
       .js-no-slider & {
@@ -235,38 +231,37 @@ const cardList = [
         justify-content: space-between;
         gap: rem(20);
       }
-		}
+    }
 
-		&__slide {
+    &__slide {
       height: auto;
 
       .js-no-slider & {
         flex-shrink: 0;
         width: calc(50% - #{rem(10)});
       }
-		}
+    }
 
-		&__info-card {
+    &__info-card {
       height: 100%;
-		}
+    }
 
-		&__slider-pagination {
+    &__slider-pagination {
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: rem(12);
+      justify-content: center;
       padding-top: rem(24);
+      gap: rem(12);
 
       .js-no-slider & {
         display: none;
       }
 
-      &.swiper-pagination-horizontal.swiper-pagination-bullets
-        > .swiper-pagination-bullet {
-        margin: 0;
+      &.swiper-pagination-horizontal.swiper-pagination-bullets > .swiper-pagination-bullet {
         flex-shrink: 0;
         width: rem(8);
         height: rem(8);
+        margin: 0;
         background: $primary-50;
         opacity: 1;
         transition: background-color $default-transition;
@@ -277,6 +272,6 @@ const cardList = [
         background: $primary;
         opacity: 1;
       }
-		}
+    }
   }
 </style>

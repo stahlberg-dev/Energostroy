@@ -4,10 +4,7 @@ import ArrowButton from '../ui/ArrowButton.astro';
 import BaseModal from '../ui/BaseModal.astro';
 import BaseIcon from '../ui/BaseIcon.astro';
 
-const {
-  class: className,
-  ...attrs
-} = Astro.props;
+const { class: className, ...attrs } = Astro.props;
 
 const classes = ['designing-section', className];
 
@@ -273,80 +270,72 @@ const modalList = [
         alt="фото"
       />
 
-      <h2 class="designing-section__title">
-        Проектирование и&nbsp;инженерные изыскания
-      </h2>
+      <h2 class="designing-section__title">Проектирование и&nbsp;инженерные изыскания</h2>
     </div>
 
     <div class="designing-section__accordion-block js-designing-accordion">
-      {accordionList.map((item) => (
-        <div class="designing-section__accordion-section js-designing-accordion-section">
-          <div
-            class="designing-section__accordion-section-title js-designing-accordion-section-title"
-            tabindex="0"
-          >
-            <div class="designing-section__accordion-section-title-text">{item.title}</div>
-          </div>
+      {
+        accordionList.map(item => (
+          <div class="designing-section__accordion-section js-designing-accordion-section">
+            <div
+              class="designing-section__accordion-section-title js-designing-accordion-section-title"
+              tabindex="0"
+            >
+              <div class="designing-section__accordion-section-title-text">{item.title}</div>
+            </div>
 
-          <div class="designing-section__accordion-section-body-wrapper js-designing-accordion-section-body-wrapper">
-            <div class="designing-section__accordion-section-body js-designing-accordion-section-body">
-              <p class="designing-section__accordion-section-body-text">{item.text}</p>
+            <div class="designing-section__accordion-section-body-wrapper js-designing-accordion-section-body-wrapper">
+              <div class="designing-section__accordion-section-body js-designing-accordion-section-body">
+                <p class="designing-section__accordion-section-body-text">{item.text}</p>
 
-              <ArrowButton
-                class="designing-section__accordion-section-body--link"
-                text="подробнее"
-                data-modal-open={item.modalName}
-              />
+                <ArrowButton
+                  class="designing-section__accordion-section-body--link"
+                  text="подробнее"
+                  data-modal-open={item.modalName}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 
-  {modalList.map((modal) => (
-    <BaseModal
-      class="designing-section__modal"
-      name={modal.modalName}
-    >
-      <div class="designing-section__modal-content">
-        <h2 class="designing-section__modal-title">
-          {modal.title}
-        </h2>
+  {
+    modalList.map(modal => (
+      <BaseModal
+        class="designing-section__modal"
+        name={modal.modalName}
+      >
+        <div class="designing-section__modal-content">
+          <h2 class="designing-section__modal-title">{modal.title}</h2>
 
-        <p class="designing-section__modal-text">
-          {modal.text}
-        </p>
+          <p class="designing-section__modal-text">{modal.text}</p>
 
-        {
-          modal.descriptions?.length > 0 && (
+          {modal.descriptions?.length > 0 && (
             <div class="designing-section__modal-descriptions">
-              {modal.descriptions.map((item) => (
+              {modal.descriptions.map(item => (
                 <div class="designing-section__modal-description">
                   <h4 class="designing-section__modal-description-title">{item.title}</h4>
                   <p class="designing-section__modal-description-text">{item.text}</p>
                 </div>
               ))}
             </div>
-          )
-        }
+          )}
 
-        {
-          modal.paragraphs?.length > 0 && (
+          {modal.paragraphs?.length > 0 && (
             <div class="designing-section__modal-paragraphs">
-              {modal.paragraphs.map((item) => (
+              {modal.paragraphs.map(item => (
                 <p class="designing-section__modal-paragraph">{item.text}</p>
               ))}
             </div>
-          )
-        }
+          )}
 
-        {
-          modal.technologies?.length > 0 && (
+          {modal.technologies?.length > 0 && (
             <div class="designing-section__modal-technologies">
               <h3 class="designing-section__modal-technologies-header">Технологии</h3>
 
-              {modal.technologies.map((item) => (
+              {modal.technologies.map(item => (
                 <div class="designing-section__modal-technology">
                   <BaseIcon
                     class="designing-section__modal-technology-icon"
@@ -360,15 +349,13 @@ const modalList = [
                 </div>
               ))}
             </div>
-          )
-        }
+          )}
 
-        {
-          modal.objects?.length > 0 && (
+          {modal.objects?.length > 0 && (
             <div class="designing-section__modal-objects">
               <h3 class="designing-section__modal-objects-header">Основные объекты</h3>
 
-              {modal.objects.map((item) => (
+              {modal.objects.map(item => (
                 <div class="designing-section__modal-object">
                   <img
                     class="designing-section__modal-object-icon"
@@ -383,11 +370,11 @@ const modalList = [
                 </div>
               ))}
             </div>
-          )
-        }
-      </div>
-    </BaseModal>
-  ))}
+          )}
+        </div>
+      </BaseModal>
+    ))
+  }
 </section>
 
 <script>
@@ -396,7 +383,7 @@ const modalList = [
   function designingAccordion() {
     const accordions = document.querySelectorAll('.js-designing-accordion');
 
-    accordions.forEach((accordion) => {
+    accordions.forEach(accordion => {
       new Accordion({
         accordionElement: accordion,
         sectionClass: '.js-designing-accordion-section',
@@ -442,14 +429,14 @@ const modalList = [
       }
 
       &::after {
-        content: '';
-        display: block;
         position: absolute;
         top: 0;
         left: 0;
+        display: block;
         width: 100%;
         height: 100%;
         background: linear-gradient(180deg, rgba($dark, 0) 0%, rgba($dark, 0.5) 73%, $dark 100%);
+        content: '';
       }
     }
 
@@ -464,8 +451,8 @@ const modalList = [
       @include h2;
 
       position: absolute;
-      bottom: rem(32);
       right: rem(16);
+      bottom: rem(32);
       z-index: 1;
       width: calc(100% - rem(32));
       color: $light;
@@ -477,8 +464,8 @@ const modalList = [
 
       @media #{$desktop} {
         right: rem(20);
-        width: rem(670);
         bottom: rem(46);
+        width: rem(670);
       }
     }
 
@@ -490,9 +477,9 @@ const modalList = [
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
+        width: calc(50% + #{rem(12)});
         border-top: none;
         border-left: 1px solid $light-gray;
-        width: calc(50% + #{rem(12)});
       }
 
       @media #{$desktop} {
@@ -501,12 +488,12 @@ const modalList = [
     }
 
     &__accordion-section {
-      border-bottom: 1px solid $light-gray;
       padding: 0 rem(16);
+      border-bottom: 1px solid $light-gray;
 
       @media #{$tablet} {
-        flex-shrink: 0;
         flex-grow: 0;
+        flex-shrink: 0;
         padding: 0 rem(20);
         transition: flex-grow $default-transition;
       }
@@ -556,15 +543,15 @@ const modalList = [
 
       margin-bottom: rem(32);
       color: $light;
-      
+
       @media #{$desktop} {
         max-width: rem(580);
       }
     }
 
-		&__modal-content {
+    &__modal-content {
       padding: rem(32) rem(8) rem(32) rem(20);
-      
+
       @media #{$tablet} {
         width: rem(862);
         padding: rem(32) rem(10) rem(32) rem(20);
@@ -574,11 +561,11 @@ const modalList = [
         width: rem(714);
         padding: rem(24) rem(10) rem(24) rem(20);
       }
-		}
+    }
 
-		&__modal-title {
-      margin-bottom: rem(32);
+    &__modal-title {
       max-width: rem(274);
+      margin-bottom: rem(32);
       color: $light;
 
       @media #{$tablet} {
@@ -588,9 +575,9 @@ const modalList = [
       @media #{$desktop} {
         max-width: rem(600);
       }
-		}
+    }
 
-		&__modal-text {
+    &__modal-text {
       @include text2;
 
       margin-bottom: rem(52);
@@ -601,7 +588,7 @@ const modalList = [
       }
     }
 
-		&__modal-descriptions {
+    &__modal-descriptions {
       margin-bottom: rem(52);
 
       @media #{$desktop} {
@@ -611,9 +598,9 @@ const modalList = [
           max-width: rem(580);
         }
       }
-		}
+    }
 
-		&__modal-description {
+    &__modal-description {
       margin-bottom: rem(32);
 
       @media #{$desktop} {
@@ -623,9 +610,9 @@ const modalList = [
       &:last-child {
         margin-bottom: 0;
       }
-		}
+    }
 
-		&__modal-description-title {
+    &__modal-description-title {
       @include h5;
 
       margin-bottom: rem(12);
@@ -634,13 +621,13 @@ const modalList = [
       @media #{$desktop} {
         margin-bottom: rem(16);
       }
-		}
+    }
 
-		&__modal-description-text {
+    &__modal-description-text {
       @include text1;
 
       color: $light;
-		}
+    }
 
     &__modal-paragraphs {
       margin-bottom: rem(52);
@@ -656,8 +643,39 @@ const modalList = [
 
     &__modal-paragraph {
       @include text1;
+      margin-bottom: rem(32);
 
       color: $light;
+
+      @media #{$desktop} {
+        margin-bottom: rem(36);
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__modal-technologies {
+      margin-bottom: rem(52);
+
+      @media #{$desktop} {
+        max-width: rem(630);
+        margin-bottom: rem(64);
+      }
+    }
+
+    &__modal-technologies-header {
+      @include h4;
+
+      margin-bottom: rem(44);
+      color: $light;
+    }
+
+    &__modal-technology {
+      display: flex;
+      align-items: flex-start;
+      gap: rem(36);
       margin-bottom: rem(32);
 
       @media #{$desktop} {
@@ -669,23 +687,44 @@ const modalList = [
       }
     }
 
-		&__modal-technologies {
-      margin-bottom: rem(52);
+    &__modal-technology-icon {
+      flex-shrink: 0;
+      width: rem(60);
+      height: rem(60);
+      color: $light-gray;
+    }
 
+    &__modal-technology-info {
+      flex-grow: 1;
+    }
+
+    &__modal-technology-title {
+      @include h5;
+
+      margin-bottom: rem(16);
+      color: $light;
+    }
+
+    &__modal-technology-text {
+      @include text1;
+
+      color: $light;
+    }
+
+    &__modal-objects {
       @media #{$desktop} {
-        margin-bottom: rem(64);
         max-width: rem(630);
       }
-		}
+    }
 
-		&__modal-technologies-header {
+    &__modal-objects-header {
       @include h4;
 
       margin-bottom: rem(44);
       color: $light;
-		}
-    
-		&__modal-technology {
+    }
+
+    &__modal-object {
       display: flex;
       align-items: flex-start;
       gap: rem(36);
@@ -698,82 +737,30 @@ const modalList = [
       &:last-child {
         margin-bottom: 0;
       }
-		}
+    }
 
-		&__modal-technology-icon {
+    &__modal-object-icon {
       flex-shrink: 0;
       width: rem(60);
       height: rem(60);
       color: $light-gray;
-		}
+    }
 
-		&__modal-technology-info {
+    &__modal-object-info {
       flex-grow: 1;
-		}
+    }
 
-		&__modal-technology-title {
+    &__modal-object-title {
       @include h5;
 
       margin-bottom: rem(16);
       color: $light;
-		}
+    }
 
-		&__modal-technology-text {
+    &__modal-object-text {
       @include text1;
 
       color: $light;
-		}
-
-		&__modal-objects {
-      @media #{$desktop} {
-        max-width: rem(630);
-      }
-		}
-
-		&__modal-objects-header {
-      @include h4;
-
-      margin-bottom: rem(44);
-      color: $light;
-		}
-
-		&__modal-object {
-      display: flex;
-      align-items: flex-start;
-      gap: rem(36);
-      margin-bottom: rem(32);
-
-      @media #{$desktop} {
-        margin-bottom: rem(36);
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-		}
-
-		&__modal-object-icon {
-      flex-shrink: 0;
-      width: rem(60);
-      height: rem(60);
-      color: $light-gray;
-		}
-
-		&__modal-object-info {
-      flex-grow: 1;
-		}
-
-		&__modal-object-title {
-      @include h5;
-
-      margin-bottom: rem(16);
-      color: $light;
-		}
-
-		&__modal-object-text {
-      @include text1;
-
-      color: $light;
-		}
+    }
   }
 </style>

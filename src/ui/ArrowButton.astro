@@ -1,22 +1,11 @@
 ---
 import BaseIcon from '../ui/BaseIcon.astro';
 
-const {
-  tag = 'button',
-  class: className,
-  href,
-  type,
-  text,
-  disabled,
-  ...attrs
-} = Astro.props;
+const { tag = 'button', class: className, href, type, text, disabled, ...attrs } = Astro.props;
 
 const ButtonTag = href ? 'a' : tag;
 
-const classes = [
-  'arrow-button',
-  className,
-];
+const classes = ['arrow-button', className];
 
 const buttonAttributes = {
   class: classes.join(' '),

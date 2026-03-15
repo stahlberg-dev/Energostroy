@@ -2,10 +2,7 @@
 import { BASE } from '../scripts/helpers/constants.js';
 import SliderButton from '../ui/SliderButton.astro';
 
-const {
-  class: className,
-  ...attrs
-} = Astro.props;
+const { class: className, ...attrs } = Astro.props;
 
 const classes = ['capital-structures-section', 'js-tabs-container', className];
 
@@ -135,7 +132,7 @@ const tabList = [
           ],
         },
       },
-    }
+    },
   },
   {
     tabName: 'masonry-works',
@@ -368,7 +365,7 @@ const tabList = [
           ],
         },
       },
-    }
+    },
   },
   {
     tabName: 'wood-plastic-structures',
@@ -463,7 +460,7 @@ const tabList = [
           ],
         },
       },
-    }
+    },
   },
 ];
 ---
@@ -475,20 +472,22 @@ const tabList = [
 >
   <div class="capital-structures-section__top">
     <h2 class="capital-structures-section__title">
-      Строительно-монтажные работы:<br>Капитальные объекты
+      Строительно-монтажные работы:<br />Капитальные объекты
     </h2>
 
     <div class="capital-structures-section__tabs-container">
       <div class="capital-structures-section__tabs">
-        {tabList.map((item, index) => (
-          <button
-            class:list={['capital-structures-section__tab', { 'active': index === 0 }]}
-            type="button"
-            data-tab={item.tabName}
-          >
-            {item.tabText}
-          </button>
-        ))}
+        {
+          tabList.map((item, index) => (
+            <button
+              class:list={['capital-structures-section__tab', { active: index === 0 }]}
+              type="button"
+              data-tab={item.tabName}
+            >
+              {item.tabText}
+            </button>
+          ))
+        }
       </div>
     </div>
   </div>
@@ -497,20 +496,16 @@ const tabList = [
     {
       tabList.map((item, index) => (
         <div
-          class:list={['capital-structures-section__tab-content', { 'visible': index === 0 }]}
+          class:list={['capital-structures-section__tab-content', { visible: index === 0 }]}
           data-tab-content={item.tabName}
         >
           <div class="capital-structures-section__tab-content-top">
             <div class="capital-structures-section__tab-content-top-inner">
               <div class="capital-structures-section__tab-content-info">
-                <h3 class="capital-structures-section__tab-content-title">
-                  {item.tabText}
-                </h3>
-                <p class="capital-structures-section__tab-content-text">
-                  {item.tabContent.text}
-                </p>
+                <h3 class="capital-structures-section__tab-content-title">{item.tabText}</h3>
+                <p class="capital-structures-section__tab-content-text">{item.tabContent.text}</p>
                 <div class="capital-structures-section__tab-content-descriptions">
-                  {item.tabContent.descriptions.map((description) => (
+                  {item.tabContent.descriptions.map(description => (
                     <div class="capital-structures-section__tab-content-description">
                       <h4 class="capital-structures-section__tab-content-description-title">
                         {description.title}
@@ -553,30 +548,24 @@ const tabList = [
               <div class="capital-structures-section__stages-slider-wrapper swiper-wrapper">
                 {item.tabContent.stages.map((stage, stageIndex) => (
                   <div class="capital-structures-section__stages-slide swiper-slide">
-                    <div class="capital-structures-section__stage-slide-top">
-                      {stageIndex + 1}
-                    </div>
-                    
-                    <div class="capital-structures-section__stage-title">
-                      {stage.title}
-                    </div>
+                    <div class="capital-structures-section__stage-slide-top">{stageIndex + 1}</div>
 
-                    <p class="capital-structures-section__stage-text">
-                      {stage.text}
-                    </p>
+                    <div class="capital-structures-section__stage-title">{stage.title}</div>
+
+                    <p class="capital-structures-section__stage-text">{stage.text}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        
+
           <div class="capital-structures-section__tab-content-bottom">
             <div class="capital-structures-section__tab-content-bottom-left">
               <h4 class="capital-structures-section__tab-content-bottom-left-title">
                 {item.tabContent.bottom.title}
               </h4>
 
-              {item.tabContent.bottom.subjects.map((subject) => (
+              {item.tabContent.bottom.subjects.map(subject => (
                 <div class="capital-structures-section__tab-content-subject">
                   <img
                     class="capital-structures-section__tab-content-subject-icon"
@@ -601,10 +590,8 @@ const tabList = [
                 {item.tabContent.bottom.info.title}
               </div>
 
-              {item.tabContent.bottom.info.paragraphs.map((paragraph) => (
-                <p class="capital-structures-section__tab-content-bottom-right-text">
-                  {paragraph}
-                </p>
+              {item.tabContent.bottom.info.paragraphs.map(paragraph => (
+                <p class="capital-structures-section__tab-content-bottom-right-text">{paragraph}</p>
               ))}
             </div>
           </div>
@@ -616,12 +603,12 @@ const tabList = [
 
 <script>
   import { Swiper } from 'swiper';
-  import { FreeMode, Navigation} from 'swiper/modules';
+  import { FreeMode, Navigation } from 'swiper/modules';
 
   function tabSwitcher() {
     const tabContainers = document.querySelectorAll('.js-tabs-container');
 
-    tabContainers.forEach((tabContainer) => {
+    tabContainers.forEach(tabContainer => {
       const tabs = tabContainer.querySelectorAll('[data-tab]');
       const tabsContentWrapper = tabContainer.querySelector('.js-tabs-content-wrapper');
 
@@ -629,20 +616,27 @@ const tabList = [
         return;
       }
 
+      const initVisibleTabContent = tabsContentWrapper.querySelector('.visible');
+      if (initVisibleTabContent) {
+        tabsContentWrapper.style.height = `${initVisibleTabContent.offsetHeight}px`;
+      }
+
       const tabContents = tabsContentWrapper.querySelectorAll('[data-tab-content]');
 
-      tabs.forEach((tab) => {
+      tabs.forEach(tab => {
         tab.addEventListener('click', () => {
-          tabs.forEach((item) => {
+          tabs.forEach(item => {
             item.classList.remove('active');
           });
 
-          tabContents.forEach((content) => {
+          tabContents.forEach(content => {
             content.classList.remove('visible');
           });
 
           const currentTabName = tab.getAttribute('data-tab');
-          const currentTabContent = tabsContentWrapper.querySelector(`[data-tab-content="${currentTabName}"]`);
+          const currentTabContent = tabsContentWrapper.querySelector(
+            `[data-tab-content="${currentTabName}"]`
+          );
 
           tab.classList.add('active');
 
@@ -651,6 +645,15 @@ const tabList = [
           }
 
           currentTabContent.classList.add('visible');
+          tabsContentWrapper.style.height = `${currentTabContent.offsetHeight}px`;
+        });
+
+        window.addEventListener('resize', () => {
+          const visibleTabContent = tabsContentWrapper.querySelector('.visible');
+
+          if (visibleTabContent) {
+            tabsContentWrapper.style.height = `${visibleTabContent.offsetHeight}px`;
+          }
         });
       });
     });
@@ -670,12 +673,11 @@ const tabList = [
         return;
       }
 
-      const checkNavigation = function() {
+      const checkNavigation = function () {
         if (this.isEnd && this.isBeginning) {
           prevButton.classList.add('hidden');
           nextButton.classList.add('hidden');
-        } 
-        else {
+        } else {
           prevButton.classList.remove('hidden');
           nextButton.classList.remove('hidden');
         }
@@ -721,57 +723,57 @@ const tabList = [
       padding: rem(80) 0;
     }
 
-		&__top {
+    &__top {
       @include base-container;
-		}
+    }
 
-		&__title {
+    &__title {
       margin-bottom: rem(52);
       color: $dark;
 
       @media #{$desktop} {
         margin-bottom: rem(80);
       }
-		}
+    }
 
-		&__tabs-container {
+    &__tabs-container {
       position: relative;
 
       &::after {
-        content: '';
         position: absolute;
-        bottom: 0;
         right: 0;
+        bottom: 0;
         width: 100%;
         height: 2px;
         background-color: $primary;
+        content: '';
       }
-		}
+    }
 
-		&__tabs {
+    &__tabs {
       position: relative;
+      z-index: 1;
       display: flex;
       gap: rem(16);
-      z-index: 1;
       overflow-x: auto;
       scrollbar-width: none;
 
       &::-webkit-scrollbar {
         display: none;
       }
-		}
+    }
 
-		&__tab {
+    &__tab {
       @include resetbtn;
       @include text2;
 
       flex-shrink: 0;
       padding: rem(8) rem(12);
       color: $dark-gray;
-      cursor: pointer;
       transition:
         background-color $default-transition,
         color $default-transition;
+      cursor: pointer;
 
       @media #{$desktop} {
         padding: rem(12) rem(16);
@@ -779,65 +781,74 @@ const tabList = [
 
       @media #{$is-hover} {
         &:hover {
-          background-color: $primary-50;
           color: $light;
+          background-color: $primary-50;
         }
       }
 
       &:active,
       &:focus-visible {
-        background-color: $primary-50;
         color: $light;
+        background-color: $primary-50;
       }
 
       &.active {
-        background-color: $primary;
         color: $light;
+        background-color: $primary;
         pointer-events: none;
       }
-		}
+    }
 
     &__bottom {
       position: relative;
-      overflow: hidden;
       transition: height $default-transition;
+      overflow: hidden;
     }
 
-		&__tab-content {
-      display: none;
+    &__tab-content {
+      //display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity $default-transition;
 
       &.visible {
-        display: block;
+        //display: block;
+        opacity: 1;
+        pointer-events: auto;
       }
     }
 
-		&__tab-content-top {
+    &__tab-content-top {
       @include base-container;
     }
-    
+
     &__tab-content-top-inner {
       display: flex;
       flex-direction: column;
       gap: rem(32);
       margin-bottom: rem(52);
       padding-top: rem(52);
-  
+
       @media #{$tablet} {
         flex-direction: row;
-        justify-content: space-between;
         align-items: flex-start;
-        gap: rem(20);
+        justify-content: space-between;
         margin-right: calc(-1 * var(--container-padding));
+        gap: rem(20);
       }
-  
+
       @media #{$desktop} {
-        margin-bottom: rem(80);
         margin-right: 0;
+        margin-bottom: rem(80);
         padding-top: 0;
       }
     }
 
-		&__tab-content-info {
+    &__tab-content-info {
       @media #{$tablet} {
         flex-grow: 1;
       }
@@ -845,15 +856,15 @@ const tabList = [
       @media #{$desktop} {
         padding-top: rem(52);
       }
-		}
+    }
 
-		&__tab-content-title {
+    &__tab-content-title {
       margin-bottom: rem(32);
-      text-transform: uppercase;
       color: $dark;
-		}
+      text-transform: uppercase;
+    }
 
-		&__tab-content-text {
+    &__tab-content-text {
       @include text1;
 
       margin-bottom: rem(32);
@@ -864,12 +875,12 @@ const tabList = [
       }
 
       @media #{$desktop} {
-        margin-bottom: rem(66);
         max-width: rem(580);
+        margin-bottom: rem(66);
       }
-		}
+    }
 
-		&__tab-content-descriptions {
+    &__tab-content-descriptions {
       display: flex;
       flex-wrap: wrap;
       gap: rem(24);
@@ -883,9 +894,9 @@ const tabList = [
         row-gap: rem(36);
         column-gap: rem(80);
       }
-		}
+    }
 
-		&__tab-content-description {
+    &__tab-content-description {
       flex-shrink: 0;
       flex-basis: 100%;
 
@@ -897,37 +908,37 @@ const tabList = [
         row-gap: rem(36);
         flex-basis: calc(50% - #{rem(40)});
       }
-		}
+    }
 
-		&__tab-content-description-title {
+    &__tab-content-description-title {
       @include h5;
 
       margin-bottom: rem(12);
       color: $primary;
-		}
+    }
 
-		&__tab-content-description-text {
+    &__tab-content-description-text {
       @include text3;
 
       color: $dark-gray;
-		}
+    }
 
-		&__tab-image-wrapper {
+    &__tab-image-wrapper {
       position: relative;
 
       @media #{$tablet} {
         flex-shrink: 0;
         width: rem(502);
         height: rem(607);
-        overflow: hidden ;
+        overflow: hidden;
       }
 
       @media #{$desktop} {
         width: rem(690);
       }
-		}
+    }
 
-		&__tab-image {
+    &__tab-image {
       display: block;
       width: 100%;
       max-width: none;
@@ -944,9 +955,9 @@ const tabList = [
         position: static;
         width: 100%;
       }
-		}
+    }
 
-		&__stages {
+    &__stages {
       @include large-container;
 
       padding: rem(32) 0 rem(32) var(--container-padding);
@@ -955,9 +966,9 @@ const tabList = [
       @media #{$tablet} {
         padding: rem(36) 0 rem(36) var(--container-padding);
       }
-		}
+    }
 
-		&__stages-header {
+    &__stages-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -971,37 +982,37 @@ const tabList = [
       @media #{$desktop} {
         margin-bottom: rem(60);
       }
-		}
+    }
 
-		&__stages-title {
+    &__stages-title {
       color: $light;
-		}
+    }
 
-		&__stages-controls {
+    &__stages-controls {
       display: none;
 
       @media #{$tablet} {
         display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: rem(16);
         flex-shrink: 0;
+        align-items: center;
+        justify-content: flex-end;
         padding-right: var(--container-padding);
+        gap: rem(16);
       }
-		}
+    }
 
-		&__stages-prev-button,
+    &__stages-prev-button,
     &__stages-next-button {
       flex-shrink: 0;
 
       &.hidden {
         display: none;
       }
-		}
+    }
 
-		&__stages-slide {
-      height: auto;
+    &__stages-slide {
       width: rem(264);
+      height: auto;
       padding-right: rem(20);
 
       @media #{$tablet} {
@@ -1012,31 +1023,31 @@ const tabList = [
         width: rem(446);
         padding-right: rem(60);
       }
-		}
+    }
 
-		&__stage-slide-top {
+    &__stage-slide-top {
       @include h3;
 
       margin-bottom: rem(32);
-      border-bottom: 1px solid $light;
       padding-bottom: rem(7);
+      border-bottom: 1px solid $light;
       color: $light;
-		}
+    }
 
-		&__stage-title {
+    &__stage-title {
       @include text2;
 
       margin-bottom: rem(12);
       color: $light;
-		}
+    }
 
-		&__stage-text {
+    &__stage-text {
       @include text1;
 
       color: $light;
-		}
+    }
 
-		&__tab-content-bottom {
+    &__tab-content-bottom {
       @include base-container;
 
       display: flex;
@@ -1054,7 +1065,7 @@ const tabList = [
         gap: rem(168);
         margin-top: rem(80);
       }
-		}
+    }
 
     &__tab-content-bottom-left {
       @media #{$tablet} {
@@ -1062,24 +1073,24 @@ const tabList = [
         flex-basis: rem(482);
       }
 
-      @media #{$desktop}{
+      @media #{$desktop} {
         flex-shrink: 0;
         flex-basis: rem(690);
       }
     }
 
-		&__tab-content-bottom-left-title {
+    &__tab-content-bottom-left-title {
       margin-bottom: rem(32);
 
       @media #{$desktop} {
         margin-bottom: rem(44);
       }
-		}
+    }
 
-		&__tab-content-subject {
+    &__tab-content-subject {
       display: flex;
-      margin-bottom: rem(32);
       align-items: flex-start;
+      margin-bottom: rem(32);
       gap: rem(36);
 
       @media #{$desktop} {
@@ -1089,27 +1100,27 @@ const tabList = [
       &:last-child {
         margin-bottom: 0;
       }
-		}
+    }
 
-		&__tab-content-subject-icon {
+    &__tab-content-subject-icon {
       flex-shrink: 0;
       width: rem(60);
       height: rem(60);
-		}
+    }
 
-		&__tab-content-subject-title {
+    &__tab-content-subject-title {
       @include h5;
 
       margin-bottom: rem(16);
-		}
+    }
 
-		&__tab-content-subject-text {
+    &__tab-content-subject-text {
       @include text1;
-		}
+    }
 
-		&__tab-content-bottom-right {
-      border-left: 2px solid $primary;
+    &__tab-content-bottom-right {
       padding: rem(16);
+      border-left: 2px solid $primary;
 
       @media #{$tablet} {
         flex-grow: 1;
@@ -1119,9 +1130,9 @@ const tabList = [
       @media #{$desktop} {
         padding: rem(16) rem(36) rem(16) rem(34);
       }
-		}
+    }
 
-		&__tab-content-bottom-right-title {
+    &__tab-content-bottom-right-title {
       @include h4;
 
       margin-bottom: rem(32);
@@ -1130,9 +1141,9 @@ const tabList = [
       @media #{$desktop} {
         margin-bottom: rem(44);
       }
-		}
+    }
 
-		&__tab-content-bottom-right-text {
+    &__tab-content-bottom-right-text {
       @include text1;
 
       margin-bottom: rem(16);
@@ -1144,6 +1155,6 @@ const tabList = [
       &:last-child {
         margin-bottom: 0;
       }
-		}
+    }
   }
 </style>

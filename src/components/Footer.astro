@@ -30,7 +30,7 @@ const classes = ['footer', className];
       </div>
 
       <div class="footer__bottom-right">
-        Сделано в 
+        Сделано в
         <a
           class="footer__artw-link"
           href="https://www.artw.ru/"
@@ -60,58 +60,58 @@ const classes = ['footer', className];
 <style lang="scss" is:global>
   .footer {
     $element: &;
-    
+
     background-color: $light-gray;
 
     &__container {
-      @include base-container;    
-    }
-    
-    &__top {
-      border-bottom: 1px solid $dark-gray;
-      padding: rem(32) 0;
+      @include base-container;
     }
 
-		&__logo {
+    &__top {
+      padding: rem(32) 0;
+      border-bottom: 1px solid $dark-gray;
+    }
+
+    &__logo {
       @include reseta;
 
       display: block;
-      margin: 0 auto;
       width: rem(282);
+      margin: 0 auto;
 
       @media #{$desktop} {
         width: rem(436);
       }
-		}
+    }
 
-		&__logo-image {
+    &__logo-image {
       display: block;
       width: 100%;
-		}
+    }
 
-		&__bottom {
+    &__bottom {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: rem(32);
+      justify-content: space-between;
       padding: rem(24) 0 rem(32);
-		}
+      gap: rem(32);
+    }
 
-		&__bottom-left {
+    &__bottom-left {
       @include text3;
-		}
+    }
 
-		&__bottom-right {
+    &__bottom-right {
       @include text3;
 
       flex-shrink: 0;
-		}
+    }
 
-		&__artw-link {
+    &__artw-link {
       @include reseta;
+      color: $primary;
 
       text-decoration: underline;
-      color: $primary;
       transition: color $default-transition;
 
       @media #{$is-hover} {
@@ -124,6 +124,6 @@ const classes = ['footer', className];
       &:focus-visible {
         color: $dark;
       }
-		}
+    }
   }
 </style>
