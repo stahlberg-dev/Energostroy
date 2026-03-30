@@ -1,6 +1,45 @@
 @use "../functions" as *;
 @use "../variables/" as *;
 
+@mixin h0-base {
+  font-family: $ff-default;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+@mixin h0-mobile {
+  @include h0-base;
+
+  font-size: rem(80);
+  line-height: rem(86);
+}
+
+@mixin h0-tablet {
+  @include h0-base;
+
+  font-size: rem(120);
+  line-height: rem(120);
+}
+
+@mixin h0-desktop {
+  @include h0-base;
+
+  font-size: rem(166);
+  line-height: rem(166);
+}
+
+@mixin h0 {
+  @include h0-mobile;
+
+  @media #{$tablet} {
+    @include h0-tablet;
+  }
+
+  @media #{$desktop} {
+    @include h0-desktop;
+  }
+}
+
 @mixin h1-base {
   font-family: $ff-accent;
   font-weight: 500;

@@ -10,30 +10,35 @@ const classes = ['title-section', className];
   class:list={classes}
   {...attrs}
 >
+  <picture class="title-section__image-wrapper">
+    <source
+      srcset={`${BASE}images/title-section/title-screen-desktop.webp`}
+      media="(min-width: 1200px)"
+    />
+
+    <source
+      srcset={`${BASE}images/title-section/title-screen-tablet.webp`}
+      media="(min-width: 768px) and (max-width: 1199.98px)"
+    />
+
+    <img
+      class="title-section__image"
+      src={`${BASE}images/title-section/title-screen-mobile.webp`}
+      alt="фото"
+      loading="lazy"
+    />
+  </picture>
+
   <div class="title-section__container">
-    <picture class="title-section__image-wrapper">
-      <source
-        srcset={`${BASE}images/title-section/title-screen-desktop.webp`}
-        media="(min-width: 1200px)"
-      />
-
-      <source
-        srcset={`${BASE}images/title-section/title-screen-tablet.webp`}
-        media="(min-width: 768px) and (max-width: 1199.98px)"
-      />
-
-      <img
-        class="title-section__image"
-        src={`${BASE}images/title-section/title-screen-mobile.webp`}
-        alt="фото"
-        loading="lazy"
-      />
-    </picture>
-
     <div class="title-section__info">
-      <h1 class="title-section__title">
-        Системный&nbsp;интегратор процессов&nbsp;полного&nbsp;цикла
-      </h1>
+      <div class="title-section__top">
+        <div class="title-section__pretitle">
+          Системный&nbsp;интегратор процессов&nbsp;полного&nbsp;цикла
+        </div>
+        <h1 class="title-section__title">
+          Энергия в&nbsp;деле
+        </h1>
+      </div>
 
       <div class="title-section__info-bottom">
         <div class="title-section__expirience">20+&nbsp;лет работы</div>
@@ -51,21 +56,25 @@ const classes = ['title-section', className];
   .title-section {
     $element: &;
 
+    position: relative;
     background-color: $dark;
 
-    &__container {
-      @include base-container;
+    height: rem(815);
 
-      position: relative;
-      height: rem(815);
+    @media #{$tablet} {
+      height: rem(768);
+    }
 
-      @media #{$tablet} {
-        height: rem(768);
-      }
+    @media #{$desktop} {
+      height: rem(900);
+    }
 
-      @media #{$desktop} {
-        height: rem(900);
-      }
+    @media #{$desktop-md} {
+      height: interpolation(900, 1080, 1440, 1920);
+    }
+
+    @media #{$desktop-lg} {
+      height: rem(1080);
     }
 
     &__image-wrapper {
@@ -75,6 +84,12 @@ const classes = ['title-section', className];
       display: block;
       width: 100%;
       height: 100%;
+
+      @media #{$desktop-lg} {
+        left: 50%;
+        transform: translateX(-50%);
+        width: rem(1920);
+      }
     }
 
     &__image {
@@ -84,6 +99,12 @@ const classes = ['title-section', className];
       object-fit: cover;
     }
 
+    &__container {
+      @include base-container;
+
+      height: 100%;
+    }
+
     &__info {
       position: relative;
       z-index: 1;
@@ -91,19 +112,30 @@ const classes = ['title-section', className];
       flex-direction: column;
       justify-content: space-between;
       height: 100%;
-      padding: rem(132) 0 rem(60);
-      gap: rem(60);
+      padding: rem(222) 0 rem(60);
+      gap: rem(32);
 
       @media #{$tablet} {
-        padding: rem(218) 0 rem(40);
+        padding: rem(216) 0 rem(40);
       }
 
       @media #{$desktop} {
-        padding: rem(224) 0 rem(120);
+        padding: rem(230) 0 rem(120);
       }
     }
 
-    &__title {
+    &__top {
+      display: flex;
+      flex-direction: column;
+      gap: rem(32);
+      width: 100%;
+
+      @media #{$tablet} {
+        gap: rem(40);
+      }
+    }
+
+    &__pretitle {
       @include h4;
 
       color: $light;
@@ -113,8 +145,18 @@ const classes = ['title-section', className];
       }
 
       @media #{$desktop} {
-        max-width: rem(400);
         margin-left: rem(20);
+        max-width: rem(400);
+      }
+    }
+
+    &__title {
+      width: 100%;
+      color: $light;
+
+      @media #{$tablet} {
+        text-align: center;
+        white-space: nowrap;
       }
     }
 
