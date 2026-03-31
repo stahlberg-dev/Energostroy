@@ -1,0 +1,1 @@
+const i={TABLET:1199.98,MOBILE:767.98},t={TABLET:768,DESKTOP:1200},d=()=>({desktop:window.matchMedia(`(min-width: ${t.DESKTOP}px)`),tablet:window.matchMedia(`(min-width: ${t.TABLET}px) and (max-width: ${i.TABLET}px)`),mobile:window.matchMedia(`(max-width: ${i.MOBILE}px)`)});export{d as g};
